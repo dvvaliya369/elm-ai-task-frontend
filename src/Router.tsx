@@ -1,0 +1,41 @@
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { PublicRoute } from "./layouts";
+import AuthInitializer from "./layouts/AuthInitializer.tsx";
+import Home from "./pages/home/index.tsx";
+import Login from "./pages/login/index.tsx";
+import NotFound from "./pages/NotFound/index.tsx";
+import Signup from "./pages/singup/index.tsx";
+
+const Router: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <AuthInitializer>
+        <Routes>
+          <Route path="/" element={<Home />} />
+
+          <Route
+            path="/log-in"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <PublicRoute>
+                <Signup />
+              </PublicRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthInitializer>
+    </BrowserRouter>
+  );
+};
+
+export default Router;
