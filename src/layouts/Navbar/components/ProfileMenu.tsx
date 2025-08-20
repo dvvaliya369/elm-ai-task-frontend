@@ -152,7 +152,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </React.Fragment>
         )}
 
-        <MenuItem onClick={onClose}>
+        <MenuItem onClick={() => onNavigation("/profile")}>
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>

@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound/index.tsx";
 import Signup from "./pages/singup/index.tsx";
 import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
+import Profile from "./pages/profile/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -24,6 +25,22 @@ const Router: React.FC = () => {
             }
           />
           <Route path="/posts/:postId" element={<PostDetail />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile/:profileId"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/log-in"
