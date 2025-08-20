@@ -7,6 +7,8 @@ import {
   getPostById,
   deleteComment,
   createPost,
+  updatePost,
+  deletePost,
 } from "../service/post.service";
 
 interface PostState {
@@ -28,6 +30,8 @@ interface PostState {
   singlePostError: string | null;
   deleteCommentLoading: Record<string, boolean>;
   createPostLoading: boolean;
+  updatePostLoading: boolean;
+  deletePostLoading: Record<string, boolean>;
 }
 
 const initialState: PostState = {
@@ -43,6 +47,8 @@ const initialState: PostState = {
   singlePostError: null,
   deleteCommentLoading: {},
   createPostLoading: false,
+  updatePostLoading: false,
+  deletePostLoading: {},
 };
 
 const postSlice = createSlice({
@@ -225,6 +231,43 @@ const postSlice = createSlice({
       })
       .addCase(createPost.rejected, (state, action) => {
         state.createPostLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updatePost.pending, (state) => {
+        state.updatePostLoading = true;
+        state.error = null;
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        state.updatePostLoading = false;
+        const updatedPost = action.payload.data;
+        const index = state.posts.findIndex(post => post._id === updatedPost._id);
+        if (index !== -1) {
+          state.posts[index] = updatedPost;
+        }
+        if (state.singlePost && state.singlePost._id === updatedPost._id) {
+          state.singlePost = updatedPost;
+        }
+      })
+      .addCase(updatePost.rejected, (state, action) => {
+        state.updatePostLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(deletePost.pending, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.deletePostLoading[postId] = true;
+        state.error = null;
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        const postId = action.payload.postId;
+        state.deletePostLoading[postId] = false;
+        state.posts = state.posts.filter(post => post._id !== postId);
+        if (state.singlePost && state.singlePost._id === postId) {
+          state.singlePost = null;
+        }
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.deletePostLoading[postId] = false;
         state.error = action.payload as string;
       });
   },

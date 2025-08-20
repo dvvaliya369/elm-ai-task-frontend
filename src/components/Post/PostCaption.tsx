@@ -1,5 +1,5 @@
-import React, { memo, useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import React, { memo, useState } from "react";
+import { Box, Typography, Button } from "@mui/material";
 
 interface PostCaptionProps {
   username: string;
@@ -15,11 +15,18 @@ const PostCaption: React.FC<PostCaptionProps> = ({
   onViewComments,
 }) => {
   const [showFullCaption, setShowFullCaption] = useState(false);
-  
+
   const shouldTruncate = caption && caption.length > 150;
-  const displayCaption = shouldTruncate && !showFullCaption 
-    ? `${caption.substring(0, 150)}...` 
-    : caption;
+  const displayCaption =
+    shouldTruncate && !showFullCaption
+      ? `${caption.substring(0, 150)}...`
+      : caption;
+
+  const handleCaptionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setShowFullCaption(!showFullCaption);
+  };
 
   return (
     <Box sx={{ px: 2, pb: 1 }}>
@@ -32,14 +39,14 @@ const PostCaption: React.FC<PostCaptionProps> = ({
           {shouldTruncate && !showFullCaption && (
             <Button
               size="small"
-              onClick={() => setShowFullCaption(true)}
+              onClick={handleCaptionClick}
               sx={{
                 p: 0,
                 ml: 0.5,
-                minWidth: 'auto',
-                color: 'text.secondary',
-                textTransform: 'none',
-                fontSize: 'inherit',
+                minWidth: "auto",
+                color: "text.secondary",
+                textTransform: "none",
+                fontSize: "inherit",
               }}
             >
               more
@@ -47,17 +54,17 @@ const PostCaption: React.FC<PostCaptionProps> = ({
           )}
         </Typography>
       )}
-      
+
       {commentsCount > 0 && (
         <Button
           onClick={onViewComments}
           sx={{
             p: 0,
-            minWidth: 'auto',
-            color: 'text.secondary',
-            textTransform: 'none',
-            fontSize: '0.875rem',
-            justifyContent: 'flex-start',
+            minWidth: "auto",
+            color: "text.secondary",
+            textTransform: "none",
+            fontSize: "0.875rem",
+            justifyContent: "flex-start",
           }}
         >
           View all {commentsCount} comments

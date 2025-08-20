@@ -1,12 +1,12 @@
-import React, { memo } from 'react';
-import { Card } from '@mui/material';
-import PostHeader from './PostHeader';
-import PostMedia from './PostMedia';
-import PostActions from './PostActions';
-import PostCaption from './PostCaption';
-import CommentInput from './CommentInput';
-import type { IPost } from '../../interface';
-import { useLike } from '../../hooks/useLike';
+import React, { memo } from "react";
+import { Card } from "@mui/material";
+import PostHeader from "./PostHeader";
+import PostMedia from "./PostMedia";
+import PostActions from "./PostActions";
+import PostCaption from "./PostCaption";
+import CommentInput from "./CommentInput";
+import type { IPost } from "../../interface";
+import { useLike } from "../../hooks/useLike";
 
 interface PostCardProps {
   post: IPost;
@@ -37,20 +37,17 @@ const PostCard: React.FC<PostCardProps> = ({
       onClick={handleCardClick}
       sx={{
         maxWidth: 470,
-        width: '100%',
-        mx: 'auto',
+        width: "100%",
+        mx: "auto",
         mb: 3,
         borderRadius: 2,
-        boxShadow: 'none',
-        border: '1px solid',
-        borderColor: 'divider',
-        cursor: onCardClick ? 'pointer' : 'default',
+        boxShadow: "none",
+        border: "1px solid",
+        borderColor: "divider",
+        cursor: onCardClick ? "pointer" : "default",
       }}
     >
-      <PostHeader
-        user={post.user}
-        createdAt={post.createdAt}
-      />
+      <PostHeader user={post.user} createdAt={post.createdAt} post={post} />
 
       {post.media && <PostMedia media={post.media} />}
 
@@ -66,7 +63,11 @@ const PostCard: React.FC<PostCardProps> = ({
       )}
 
       <PostCaption
-        username={post.user.fullName || `${post.user.firstName || ''} ${post.user.lastName || ''}`.trim() || 'Unknown User'}
+        username={
+          post.user.fullName ||
+          `${post.user.firstName || ""} ${post.user.lastName || ""}`.trim() ||
+          "Unknown User"
+        }
         caption={post.caption}
         commentsCount={post.commentsCount}
         onViewComments={handleViewComments}

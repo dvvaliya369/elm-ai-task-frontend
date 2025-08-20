@@ -24,7 +24,15 @@ const Router: React.FC = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/posts/:postId" element={<PostDetail />} />
+          <Route
+            path="/posts/update/:postId"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+            <Route path="/posts/:postId" element={<PostDetail />} />
           <Route
             path="/profile"
             element={

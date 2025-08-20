@@ -45,7 +45,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         borderColor: "divider",
       }}
     >
-      <PostHeader user={post.user} createdAt={post.createdAt} />
+      <PostHeader user={post.user} createdAt={post.createdAt} post={post}/>
 
       {post.media?.url && <PostMedia media={post.media} />}
 

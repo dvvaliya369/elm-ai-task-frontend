@@ -94,6 +94,28 @@ interface CreatePostResponse {
   data: IPost;
 }
 
+interface UpdatePostParams {
+  postId: string;
+  caption?: string;
+  media?: File;
+  isRemoveMedia?: boolean;
+}
+
+interface UpdatePostResponse {
+  success: boolean;
+  message: string;
+  data: IPost;
+}
+
+interface DeletePostParams {
+  postId: string;
+}
+
+interface DeletePostResponse {
+  success: boolean;
+  message: string;
+}
+
 export const addComment = createAsyncThunk(
   "posts/addComment",
   async (params: IAddCommentParams, { rejectWithValue, getState }) => {
@@ -255,6 +277,62 @@ export const createPost = createAsyncThunk(
     } catch (error: unknown) {
       const axiosError = error as { response?: { data?: { message?: string } } };
       const message = axiosError.response?.data?.message || "Failed to create post";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  "posts/updatePost",
+  async (params: UpdatePostParams, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+
+      if (params.caption) {
+        formData.append('caption', params.caption);
+      }
+
+      if (params.media) {
+        formData.append('file', params.media);
+      }
+
+      if (params.isRemoveMedia) {
+        formData.append('isRemoveMedia', 'true');
+      }
+
+      const res = await api.put<UpdatePostResponse>(`/post/update/${params.postId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to update post");
+      }
+
+      return res.data;
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || "Failed to update post";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (params: DeletePostParams, { rejectWithValue }) => {
+    try {
+      const res = await api.delete<DeletePostResponse>(`/post/delete/${params.postId}`);
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to delete post");
+      }
+
+      return { postId: params.postId, message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || "Failed to delete post";
       return rejectWithValue(message);
     }
   }

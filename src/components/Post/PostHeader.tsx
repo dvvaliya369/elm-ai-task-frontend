@@ -1,14 +1,16 @@
 import React, { memo } from "react";
 import { Box, Avatar, Typography } from "@mui/material";
-import type { IUser } from "../../interface";
+import type { IPost, IUser } from "../../interface";
 import { formatTime } from "../../utils/formatTime";
+import PostMenu from "./PostMenu";
 
 interface PostHeaderProps {
   user: IUser;
   createdAt: string;
+  post: IPost;
 }
 
-const PostHeader: React.FC<PostHeaderProps> = ({ user, createdAt }) => {
+const PostHeader: React.FC<PostHeaderProps> = ({ user, createdAt, post }) => {
 
   const getDisplayName = () => {
     if (user?.fullName) return user.fullName;
@@ -58,6 +60,8 @@ const PostHeader: React.FC<PostHeaderProps> = ({ user, createdAt }) => {
           {formatTime(createdAt)}
         </Typography>
       </Box>
+
+      <PostMenu post={post} />
     </Box>
   );
 };
