@@ -25,10 +25,22 @@ const authSlice = createSlice({
     initializeAuth: (state) => {
       const accessToken = localStorage.getItem("accessToken");
       const refreshToken = localStorage.getItem("refreshToken");
+      const userData = localStorage.getItem("userData");
 
-      if (accessToken && refreshToken) {
-        state.isAuthenticated = true;
+      if (accessToken && refreshToken && userData) {
+        try {
+          state.user = JSON.parse(userData);
+          state.isAuthenticated = true;
+        } catch {
+          // If userData is corrupted, clear everything
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          localStorage.removeItem("userData");
+          state.user = null;
+          state.isAuthenticated = false;
+        }
       } else {
+        state.user = null;
         state.isAuthenticated = false;
       }
       state.isInitialized = true;
@@ -39,6 +51,7 @@ const authSlice = createSlice({
       state.isInitialized = true;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userData");
     },
   },
   extraReducers: (builder) => {
@@ -55,6 +68,7 @@ const authSlice = createSlice({
 
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
+        localStorage.setItem("userData", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
