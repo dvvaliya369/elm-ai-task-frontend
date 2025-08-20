@@ -1,10 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useSelector as useReduxSelector, useDispatch as useReduxDispatch } from "react-redux";
+import {
+  useDispatch as useReduxDispatch,
+  useSelector as useReduxSelector,
+} from "react-redux";
 import authReducer from "./authSlice";
+import postReducer from "./postSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    posts: postReducer,
   },
 });
 

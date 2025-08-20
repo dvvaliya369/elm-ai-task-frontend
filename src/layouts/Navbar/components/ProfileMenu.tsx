@@ -60,7 +60,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
     }}
   >
     {isAuthenticated ? (
-      <>
+      <React.Fragment>
         <Box sx={{ px: 2, py: 1, minWidth: 200 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Avatar
@@ -82,7 +82,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
         <Divider />
 
         {isMobile && (
-          <>
+          <React.Fragment>
             <MenuItem
               onClick={() => onNavigation("/")}
               sx={{
@@ -149,7 +149,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
               </MenuItem>
             )}
             <Divider sx={{ my: 1 }} />
-          </>
+          </React.Fragment>
         )}
 
         <MenuItem onClick={onClose}>
@@ -164,11 +164,11 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </ListItemIcon>
           <ListItemText>Logout</ListItemText>
         </MenuItem>
-      </>
+      </React.Fragment>
     ) : (
-      <>
+      <React.Fragment>
         {isMobile && (
-          <>
+          <React.Fragment>
             <MenuItem onClick={() => onNavigation("/")}>
               <ListItemIcon>
                 <HomeIcon />
@@ -182,7 +182,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
               <ListItemText>Search</ListItemText>
             </MenuItem>
             <Divider />
-          </>
+          </React.Fragment>
         )}
 
         <Box sx={{ px: 2, py: 1.5 }}>
@@ -225,7 +225,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
             Sign Up
           </Button>
         </Box>
-      </>
+      </React.Fragment>
     )}
   </Menu>
 );
