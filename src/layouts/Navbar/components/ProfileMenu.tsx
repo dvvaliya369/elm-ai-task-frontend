@@ -127,7 +127,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
             </MenuItem>
             {isAuthenticated && (
               <MenuItem
-                onClick={onClose}
+                onClick={() => onNavigation("/posts/create")}
                 sx={{
                   py: 1.5,
                   "&:hover": { bgcolor: "rgba(25, 118, 210, 0.08)" },

@@ -83,6 +83,17 @@ interface AddCommentResponse {
   commentId?: string;
 }
 
+interface CreatePostParams {
+  caption?: string;
+  media?: File;
+}
+
+interface CreatePostResponse {
+  success: boolean;
+  message: string;
+  data: IPost;
+}
+
 export const addComment = createAsyncThunk(
   "posts/addComment",
   async (params: IAddCommentParams, { rejectWithValue, getState }) => {
@@ -96,7 +107,22 @@ export const addComment = createAsyncThunk(
       }
 
       // Get current user from state
-      const state = getState() as { auth: { user: any } };
+      const state = getState() as {
+        auth: {
+          user: {
+            _id: string;
+            fullName?: string;
+            firstName?: string;
+            lastName?: string;
+            email?: string;
+            profilePhoto?: {
+              photo_id?: string;
+              photo_url?: string;
+              photo_data?: string;
+            };
+          } | null;
+        }
+      };
       const currentUser = state.auth.user;
 
       return {
@@ -196,6 +222,39 @@ export const deleteComment = createAsyncThunk(
     } catch (error: unknown) {
       const axiosError = error as { response?: { data?: { message?: string } } };
       const message = axiosError.response?.data?.message || "Failed to delete comment";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const createPost = createAsyncThunk(
+  "posts/createPost",
+  async (params: CreatePostParams, { rejectWithValue }) => {
+    try {
+      const formData = new FormData();
+
+      if (params.caption) {
+        formData.append('caption', params.caption);
+      }
+
+      if (params.media) {
+        formData.append('file', params.media);
+      }
+
+      const res = await api.post<CreatePostResponse>('/post/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to create post");
+      }
+
+      return res.data;
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || "Failed to create post";
       return rejectWithValue(message);
     }
   }

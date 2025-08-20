@@ -6,6 +6,7 @@ import {
   toggleLike,
   getPostById,
   deleteComment,
+  createPost,
 } from "../service/post.service";
 
 interface PostState {
@@ -26,6 +27,7 @@ interface PostState {
   singlePostLoading: boolean;
   singlePostError: string | null;
   deleteCommentLoading: Record<string, boolean>;
+  createPostLoading: boolean;
 }
 
 const initialState: PostState = {
@@ -40,6 +42,7 @@ const initialState: PostState = {
   singlePostLoading: false,
   singlePostError: null,
   deleteCommentLoading: {},
+  createPostLoading: false,
 };
 
 const postSlice = createSlice({
@@ -112,17 +115,29 @@ const postSlice = createSlice({
           state.singlePost.commentsCount += 1;
           state.singlePost.isCommentedByUser = true;
           if (state.singlePost.comments && currentUser && commentId) {
-            const userName = currentUser.fullName ||
-              `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() ||
+            const user = currentUser as {
+              _id: string;
+              fullName?: string;
+              firstName?: string;
+              lastName?: string;
+              profilePhoto?: {
+                photo_id?: string;
+                photo_url?: string;
+                photo_data?: string;
+              };
+            };
+
+            const userName = user.fullName ||
+              `${user.firstName || ''} ${user.lastName || ''}`.trim() ||
               'Current User';
 
             const newComment = {
               _id: commentId,
               user: {
-                _id: currentUser._id,
-                firstName: currentUser.firstName || currentUser.fullName?.split(' ')[0] || 'User',
-                lastName: currentUser.lastName || currentUser.fullName?.split(' ')[1] || '',
-                profilePhoto: currentUser.profilePhoto,
+                _id: user._id,
+                firstName: user.firstName || user.fullName?.split(' ')[0] || 'User',
+                lastName: user.lastName || user.fullName?.split(' ')[1] || '',
+                profilePhoto: user.profilePhoto,
               },
               name: userName,
               comment: commentText,
@@ -199,6 +214,18 @@ const postSlice = createSlice({
       .addCase(deleteComment.rejected, (state, action) => {
         const commentId = action.meta.arg.commentId;
         state.deleteCommentLoading[commentId] = false;
+      })
+      .addCase(createPost.pending, (state) => {
+        state.createPostLoading = true;
+        state.error = null;
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.createPostLoading = false;
+        state.posts.unshift(action.payload.data);
+      })
+      .addCase(createPost.rejected, (state, action) => {
+        state.createPostLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

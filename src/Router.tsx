@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { PublicRoute } from "./layouts";
+import { PublicRoute, ProtectedRoute } from "./layouts";
 import AuthInitializer from "./layouts/AuthInitializer.tsx";
 import Home from "./pages/home/index.tsx";
 import Login from "./pages/login/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
 import Signup from "./pages/singup/index.tsx";
 import PostDetail from "./pages/post/index.tsx";
+import CreatePost from "./pages/create/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -14,6 +15,14 @@ const Router: React.FC = () => {
       <AuthInitializer>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/posts/create"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/posts/:postId" element={<PostDetail />} />
 
           <Route

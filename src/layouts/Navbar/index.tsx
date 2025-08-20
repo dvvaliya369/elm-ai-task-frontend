@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "../../store/index";
 import {
   HomeOutlined as HomeIcon,
-  SearchOutlined as SearchIcon,
+  // SearchOutlined as SearchIcon,
   AddBoxOutlined as AddIcon,
   PersonOutlined as PersonIcon,
 } from "@mui/icons-material";
@@ -86,12 +86,14 @@ const Navbar: React.FC = () => {
                   onClick={() => handleNavigation("/")}
                   isActive={location.pathname === "/"}
                 />
-                <NavButton icon={<SearchIcon />} label="Search" />
+                {/* <NavButton icon={<SearchIcon />} label="Search" /> */}
                 {isAuthenticated && (
-                  <NavButton icon={<AddIcon />} label="Create" />
-                )}
-                {isAuthenticated && (
-                  <NavButton icon={<PersonIcon />} label="Profile" />
+                  <NavButton
+                    icon={<AddIcon />}
+                    label="Create"
+                    onClick={() => handleNavigation("/posts/create")}
+                    isActive={location.pathname === "/posts/create"}
+                  />
                 )}
               </Box>
 
@@ -160,11 +162,14 @@ const Navbar: React.FC = () => {
                 onClick={() => handleNavigation("/")}
                 isActive={location.pathname === "/"}
               />
-              <IconNavButton icon={<SearchIcon />} />
+              {/* <IconNavButton icon={<SearchIcon />} /> */}
               {isAuthenticated && (
-                <IconNavButton icon={<AddIcon />} />
+                <IconNavButton
+                  icon={<AddIcon />}
+                  onClick={() => handleNavigation("/posts/create")}
+                  isActive={location.pathname === "/posts/create"}
+                />
               )}
-              {isAuthenticated && <IconNavButton icon={<PersonIcon />} />}
 
               {isAuthenticated ? (
                 <IconButton onClick={handleProfileClick} sx={{ p: 0, ml: 1 }}>
