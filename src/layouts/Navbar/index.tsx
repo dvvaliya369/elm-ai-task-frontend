@@ -23,6 +23,7 @@ import IconNavButton from "./components/IconNavButton";
 import ProfileMenu from "./components/ProfileMenu";
 import { useNavbarHandlers } from "./hooks/useNavbarHandlers";
 import { useProfileMenu } from "./hooks/useProfileMenu";
+import { navbarStyles } from "./styles";
 
 const Navbar: React.FC = () => {
   const theme = useTheme();
@@ -61,25 +62,14 @@ const Navbar: React.FC = () => {
       <AppBar
         position="sticky"
         elevation={0}
-        sx={{
-          bgcolor: "background.paper",
-          borderBottom: "1px solid",
-          borderColor: "divider",
-        }}
+        sx={navbarStyles.appBar}
       >
-        <Toolbar
-          sx={{
-            justifyContent: "space-between",
-            py: 1,
-            px: { xs: 2, sm: 3, md: 8, lg: 15 },
-            minHeight: "64px",
-          }}
-        >
+        <Toolbar sx={navbarStyles.toolbar}>
           <Logo />
 
           {!isMobile && !isTablet && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Box sx={navbarStyles.desktopNavContainer}>
+              <Box sx={navbarStyles.navButtonsContainer}>
                 <NavButton
                   icon={<HomeIcon />}
                   label="Home"
@@ -98,34 +88,21 @@ const Navbar: React.FC = () => {
               </Box>
 
               {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={{ p: 0 }}>
+                <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
                   <Avatar
                     alt={user?.fullName || "User"}
-                    sx={{ width: 32, height: 32, bgcolor: "primary.main" }}
+                    sx={navbarStyles.profileAvatar}
                   >
                     {user?.fullName?.[0] || "U"}
                   </Avatar>
                 </IconButton>
               ) : (
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={navbarStyles.authButtonsContainer}>
                   <Button
                     size="small"
                     variant="text"
                     onClick={handleLogin}
-                    sx={{
-                      color: "text.primary",
-                      fontFamily:
-                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 500,
-                      px: 1.5,
-                      py: 0.5,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      fontSize: "0.875rem",
-                      "&:hover": {
-                        bgcolor: "rgba(0, 0, 0, 0.04)",
-                      },
-                    }}
+                    sx={navbarStyles.loginButton}
                   >
                     Sign In
                   </Button>
@@ -133,20 +110,7 @@ const Navbar: React.FC = () => {
                     size="small"
                     variant="contained"
                     onClick={handleSignup}
-                    sx={{
-                      fontFamily:
-                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 500,
-                      px: 2,
-                      py: 0.5,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      fontSize: "0.875rem",
-                      boxShadow: "none",
-                      "&:hover": {
-                        boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
-                      },
-                    }}
+                    sx={navbarStyles.signupButton}
                   >
                     Sign Up
                   </Button>
@@ -156,7 +120,7 @@ const Navbar: React.FC = () => {
           )}
 
           {isTablet && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Box sx={navbarStyles.tabletNavContainer}>
               <IconNavButton
                 icon={<HomeIcon />}
                 onClick={() => handleNavigation("/")}
@@ -172,35 +136,21 @@ const Navbar: React.FC = () => {
               )}
 
               {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={{ p: 0, ml: 1 }}>
+                <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
                   <Avatar
                     alt={user?.fullName || "User"}
-                    sx={{ width: 32, height: 32, bgcolor: "primary.main" }}
+                    sx={navbarStyles.profileAvatar}
                   >
                     {user?.fullName?.[0] || "U"}
                   </Avatar>
                 </IconButton>
               ) : (
-                <Box sx={{ display: "flex", gap: 1, ml: 1 }}>
+                <Box sx={navbarStyles.tabletAuthContainer}>
                   <Button
                     size="small"
                     variant="text"
                     onClick={handleLogin}
-                    sx={{
-                      color: "text.primary",
-                      fontFamily:
-                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 500,
-                      px: 1.25,
-                      py: 0.25,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      fontSize: "0.8125rem",
-                      minHeight: "auto",
-                      "&:hover": {
-                        bgcolor: "rgba(0, 0, 0, 0.04)",
-                      },
-                    }}
+                    sx={navbarStyles.tabletLoginButton}
                   >
                     Sign In
                   </Button>
@@ -208,21 +158,7 @@ const Navbar: React.FC = () => {
                     size="small"
                     variant="contained"
                     onClick={handleSignup}
-                    sx={{
-                      fontFamily:
-                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 500,
-                      px: 1.5,
-                      py: 0.25,
-                      borderRadius: 1.5,
-                      textTransform: "none",
-                      fontSize: "0.8125rem",
-                      minHeight: "auto",
-                      boxShadow: "none",
-                      "&:hover": {
-                        boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
-                      },
-                    }}
+                    sx={navbarStyles.tabletSignupButton}
                   >
                     Sign Up
                   </Button>
@@ -232,16 +168,16 @@ const Navbar: React.FC = () => {
           )}
 
           {isMobile && (
-            <IconButton onClick={handleProfileClick} sx={{ p: 0 }}>
+            <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
               {isAuthenticated ? (
                 <Avatar
                   alt={user?.fullName || "User"}
-                  sx={{ width: 32, height: 32, bgcolor: "primary.main" }}
+                  sx={navbarStyles.mobileProfileAvatar}
                 >
                   {user?.fullName?.[0] || "U"}
                 </Avatar>
               ) : (
-                <PersonIcon sx={{ color: "text.secondary" }} />
+                <PersonIcon sx={navbarStyles.mobilePersonIcon} />
               )}
             </IconButton>
           )}

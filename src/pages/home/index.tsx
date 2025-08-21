@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Box, Typography, CircularProgress, Grid } from "@mui/material";
 import { Navbar } from "../../layouts";
 import { PostCard, PostSkeleton } from "../../components/Post";
 import { usePosts } from "../../hooks/usePosts";
+import { homeStyles } from "./styles";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -72,16 +73,7 @@ const Home = () => {
     return (
       <Box>
         <Navbar />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: 400,
-            px: 2,
-          }}
-        >
+        <Box sx={homeStyles.errorContainer}>
           <Typography variant="h6" color="error" gutterBottom>
             Failed to load posts
           </Typography>
@@ -96,66 +88,54 @@ const Home = () => {
   return (
     <Box>
       <Navbar />
-      <Box
-        sx={{
-          maxWidth: 500,
-          width: '100%',
-          mx: 'auto',
-          px: { xs: 1, sm: 2 },
-          py: 2,
-        }}
-      >
-        {loading && posts.length === 0 ? (
-          Array.from({ length: 3 }).map((_, index) => (
-            <PostSkeleton key={index} />
-          ))
-        ) : (
-          <>
-            {posts.map((post) => (
-              <PostCard
-                key={post._id}
-                post={post}
-                onViewComments={handleViewComments}
-                onCardClick={handleViewComments}
-              />
-            ))}
+      <Box sx={homeStyles.mainContainer}>
+        <Grid container spacing={0} justifyContent="center">
+          {loading && posts.length === 0 ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <Grid size={12} key={index}>
+                <PostSkeleton />
+              </Grid>
+            ))
+          ) : (
+            <>
+              {posts.map((post) => (
+                <Grid size={12} key={post._id}>
+                  <PostCard
+                    post={post}
+                    onViewComments={handleViewComments}
+                    onCardClick={handleViewComments}
+                  />
+                </Grid>
+              ))}
 
-            {pagination?.hasNextPage && (
-              <Box
-                ref={loadMoreTriggerRef}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  py: 3,
-                }}
-              >
-                {loading && (
-                  <CircularProgress size={24} />
-                )}
-              </Box>
-            )}
+              {pagination?.hasNextPage && (
+                <Grid size={12}>
+                  <Box
+                    ref={loadMoreTriggerRef}
+                    sx={homeStyles.loadMoreContainer}
+                  >
+                    {loading && (
+                      <CircularProgress size={24} />
+                    )}
+                  </Box>
+                </Grid>
+              )}
 
-            {posts.length === 0 && !loading && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minHeight: 300,
-                  textAlign: 'center',
-                }}
-              >
-                <Typography variant="h6" color="text.secondary" gutterBottom>
-                  No posts found
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Be the first to share something!
-                </Typography>
-              </Box>
-            )}
-          </>
-        )}
+              {posts.length === 0 && !loading && (
+                <Grid size={12}>
+                  <Box sx={homeStyles.emptyStateContainer}>
+                    <Typography variant="h6" color="text.secondary" gutterBottom>
+                      No posts found
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Be the first to share something!
+                    </Typography>
+                  </Box>
+                </Grid>
+              )}
+            </>
+          )}
+        </Grid>
       </Box>
     </Box>
   );

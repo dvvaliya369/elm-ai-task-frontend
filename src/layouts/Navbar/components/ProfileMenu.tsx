@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import type { IUser } from "../../../interface";
+import { navbarComponentStyles } from "./styles";
 
 interface ProfileMenuProps {
   anchorEl: HTMLElement | null;
@@ -50,22 +51,15 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
     onClose={onClose}
     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
     transformOrigin={{ vertical: "top", horizontal: "right" }}
-    sx={{
-      mt: 1,
-      "& .MuiPaper-root": {
-        minWidth: 220,
-        borderRadius: 2,
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-      },
-    }}
+    sx={navbarComponentStyles.profileMenu}
   >
     {isAuthenticated ? (
       <React.Fragment>
-        <Box sx={{ px: 2, py: 1, minWidth: 200 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box sx={navbarComponentStyles.profileHeader}>
+          <Box sx={navbarComponentStyles.profileInfo}>
             <Avatar
               alt={user?.fullName || "User"}
-              sx={{ width: 40, height: 40, bgcolor: "primary.main" }}
+              sx={navbarComponentStyles.profileAvatar}
             >
               {user?.fullName?.[0] || "U"}
             </Avatar>
@@ -85,70 +79,40 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           <React.Fragment>
             <MenuItem
               onClick={() => onNavigation("/")}
-              sx={{
-                py: 1.5,
-                "&:hover": { bgcolor: "rgba(25, 118, 210, 0.08)" },
-              }}
+              sx={navbarComponentStyles.menuItem}
             >
-              <ListItemIcon sx={{ minWidth: 40 }}>
-                <HomeIcon sx={{ fontSize: 20 }} />
+              <ListItemIcon sx={navbarComponentStyles.menuItemIcon}>
+                <HomeIcon sx={navbarComponentStyles.menuItemIconSmall} />
               </ListItemIcon>
               <ListItemText
                 primary="Home"
-                sx={{
-                  "& .MuiListItemText-primary": {
-                    fontFamily:
-                      '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 500,
-                  },
-                }}
+                sx={navbarComponentStyles.menuItemText}
               />
             </MenuItem>
-            <MenuItem
-              onClick={onClose}
-              sx={{
-                py: 1.5,
-                "&:hover": { bgcolor: "rgba(25, 118, 210, 0.08)" },
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 40 }}>
-                <SearchIcon sx={{ fontSize: 20 }} />
+            <MenuItem onClick={onClose} sx={navbarComponentStyles.menuItem}>
+              <ListItemIcon sx={navbarComponentStyles.menuItemIcon}>
+                <SearchIcon sx={navbarComponentStyles.menuItemIconSmall} />
               </ListItemIcon>
               <ListItemText
                 primary="Search"
-                sx={{
-                  "& .MuiListItemText-primary": {
-                    fontFamily:
-                      '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 500,
-                  },
-                }}
+                sx={navbarComponentStyles.menuItemText}
               />
             </MenuItem>
             {isAuthenticated && (
               <MenuItem
                 onClick={() => onNavigation("/posts/create")}
-                sx={{
-                  py: 1.5,
-                  "&:hover": { bgcolor: "rgba(25, 118, 210, 0.08)" },
-                }}
+                sx={navbarComponentStyles.menuItem}
               >
-                <ListItemIcon sx={{ minWidth: 40 }}>
-                  <AddIcon sx={{ fontSize: 20 }} />
+                <ListItemIcon sx={navbarComponentStyles.menuItemIcon}>
+                  <AddIcon sx={navbarComponentStyles.menuItemIconSmall} />
                 </ListItemIcon>
                 <ListItemText
                   primary="Create"
-                  sx={{
-                    "& .MuiListItemText-primary": {
-                      fontFamily:
-                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                      fontWeight: 500,
-                    },
-                  }}
+                  sx={navbarComponentStyles.menuItemText}
                 />
               </MenuItem>
             )}
-            <Divider sx={{ my: 1 }} />
+            <Divider sx={navbarComponentStyles.menuDivider} />
           </React.Fragment>
         )}
 
@@ -158,9 +122,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </ListItemIcon>
           <ListItemText>Profile</ListItemText>
         </MenuItem>
-        <MenuItem onClick={onLogout} sx={{ color: "error.main" }}>
+        <MenuItem onClick={onLogout} sx={navbarComponentStyles.logoutMenuItem}>
           <ListItemIcon>
-            <LogoutIcon sx={{ color: "error.main" }} />
+            <LogoutIcon sx={navbarComponentStyles.logoutIcon} />
           </ListItemIcon>
           <ListItemText>Logout</ListItemText>
         </MenuItem>
@@ -185,24 +149,12 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </React.Fragment>
         )}
 
-        <Box sx={{ px: 2, py: 1.5 }}>
+        <Box sx={navbarComponentStyles.authButtonContainer}>
           <Button
             fullWidth
             variant="text"
             onClick={onLogin}
-            sx={{
-              color: "text.primary",
-              fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              fontWeight: 500,
-              py: 1,
-              borderRadius: 1.5,
-              textTransform: "none",
-              justifyContent: "flex-start",
-              mb: 1,
-              "&:hover": {
-                bgcolor: "rgba(0, 0, 0, 0.04)",
-              },
-            }}
+            sx={navbarComponentStyles.loginButton}
           >
             Sign In
           </Button>
@@ -210,17 +162,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
             fullWidth
             variant="contained"
             onClick={onSignup}
-            sx={{
-              fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-              fontWeight: 500,
-              py: 1,
-              borderRadius: 1.5,
-              textTransform: "none",
-              boxShadow: "none",
-              "&:hover": {
-                boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
-              },
-            }}
+            sx={navbarComponentStyles.signupButton}
           >
             Sign Up
           </Button>

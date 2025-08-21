@@ -1,9 +1,10 @@
-import React, { memo, useState } from 'react';
-import { Box, TextField, IconButton, CircularProgress } from '@mui/material';
-import { Send as SendIcon } from '@mui/icons-material';
-import { useSelector, useDispatch } from '../../store';
-import { addComment } from '../../service/post.service';
-import { useToast } from '../../hooks/useToast';
+import React, { memo, useState } from "react";
+import { Box, TextField, IconButton, CircularProgress } from "@mui/material";
+import { Send as SendIcon } from "@mui/icons-material";
+import { useSelector, useDispatch } from "../../store";
+import { addComment } from "../../service/post.service";
+import { useToast } from "../../hooks/useToast";
+import { commentInputStyles } from "./styles";
 
 interface CommentInputProps {
   postId: string;
@@ -14,7 +15,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
   postId,
   placeholder = "Add a comment...",
 }) => {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const { commentLoading } = useSelector((state) => state.posts);
@@ -29,26 +30,28 @@ const CommentInput: React.FC<CommentInputProps> = ({
     if (!comment.trim()) return;
 
     if (!isAuthenticated) {
-      showError('Please log in to add a comment');
+      showError("Please log in to add a comment");
       return;
     }
 
     try {
-      const result = await dispatch(addComment({ postId, comment: comment.trim() }));
+      const result = await dispatch(
+        addComment({ postId, comment: comment.trim() })
+      );
 
       if (addComment.fulfilled.match(result)) {
-        setComment('');
-        showSuccess('Comment added successfully');
+        setComment("");
+        showSuccess("Comment added successfully");
       } else if (addComment.rejected.match(result)) {
-        showError(result.payload as string || 'Failed to add comment');
+        showError((result.payload as string) || "Failed to add comment");
       }
     } catch {
-      showError('Failed to add comment');
+      showError("Failed to add comment");
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
@@ -59,16 +62,8 @@ const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   return (
-    <Box
-      onClick={handleContainerClick}
-      sx={{
-        px: 2,
-        py: 1,
-        borderTop: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Box onClick={handleContainerClick} sx={commentInputStyles.container}>
+      <Box sx={commentInputStyles.inputRow}>
         <TextField
           fullWidth
           variant="standard"
@@ -78,21 +73,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
           onKeyDown={handleKeyPress}
           multiline
           maxRows={3}
-          sx={{
-            '& .MuiInput-underline:before': {
-              borderBottom: 'none',
-            },
-            '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-              borderBottom: 'none',
-            },
-            '& .MuiInput-underline:after': {
-              borderBottom: 'none',
-            },
-            '& .MuiInputBase-input': {
-              fontSize: '0.875rem',
-              padding: '2px 0',
-            },
-          }}
+          sx={commentInputStyles.textField}
         />
 
         {comment.trim() && (
@@ -100,16 +81,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
             onClick={handleSubmit}
             disabled={isLoading}
             size="small"
-            sx={{
-              color: 'primary.main',
-              '&:hover': {
-                backgroundColor: 'primary.light',
-                color: 'primary.dark',
-              },
-              '&:disabled': {
-                color: 'grey.400',
-              },
-            }}
+            sx={commentInputStyles.sendButton}
           >
             {isLoading ? (
               <CircularProgress size={20} />

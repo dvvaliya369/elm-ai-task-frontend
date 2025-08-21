@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "../../store";
 import { deletePost } from "../../service/post.service";
 import { useToast } from "../../hooks/useToast";
 import type { IPost } from "../../interface";
+import { postMenuStyles } from "./styles";
 
 interface PostMenuProps {
   post: IPost;
@@ -111,12 +112,7 @@ const PostMenu: React.FC<PostMenuProps> = ({ post }) => {
       <IconButton
         onClick={handleMenuOpen}
         size="small"
-        sx={{
-          color: "text.secondary",
-          "&:hover": {
-            color: "text.primary",
-          },
-        }}
+        sx={postMenuStyles.menuButton}
       >
         <MoreVertIcon />
       </IconButton>
@@ -142,9 +138,12 @@ const PostMenu: React.FC<PostMenuProps> = ({ post }) => {
           </ListItemIcon>
           <ListItemText>Edit Post</ListItemText>
         </MenuItem>
-        <MenuItem onClick={handleDeleteClick} sx={{ color: "error.main" }}>
+        <MenuItem
+          onClick={handleDeleteClick}
+          sx={postMenuStyles.deleteMenuItem}
+        >
           <ListItemIcon>
-            <DeleteIcon fontSize="small" sx={{ color: "error.main" }} />
+            <DeleteIcon fontSize="small" sx={postMenuStyles.deleteIcon} />
           </ListItemIcon>
           <ListItemText>Delete Post</ListItemText>
         </MenuItem>

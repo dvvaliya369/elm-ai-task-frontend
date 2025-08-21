@@ -20,6 +20,7 @@ import {
 import Navbar from "../../layouts/Navbar";
 import { useProfile } from "../../hooks/useProfile";
 import { getUserDisplayName } from "../../utils/user";
+import { profileStyles } from "./styles";
 
 const Profile: React.FC = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -87,22 +88,16 @@ const Profile: React.FC = () => {
     return (
       <>
         <Navbar />
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Card sx={{ p: 4, borderRadius: 3 }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+        <Container maxWidth="md" sx={profileStyles.loadingContainer}>
+          <Card sx={profileStyles.loadingCard}>
+            <Box sx={profileStyles.loadingProfile}>
               <Skeleton
                 variant="circular"
                 width={120}
                 height={120}
-                sx={{ mb: 2 }}
+                sx={profileStyles.loadingSkeleton}
               />
-              <Skeleton variant="text" width={200} height={32} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width={200} height={32} sx={profileStyles.loadingSkeletonName} />
               <Skeleton variant="text" width={150} height={24} />
             </Box>
           </Card>
@@ -115,8 +110,8 @@ const Profile: React.FC = () => {
     return (
       <>
         <Navbar />
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Card sx={{ p: 4, borderRadius: 3, textAlign: "center" }}>
+        <Container maxWidth="md" sx={profileStyles.notFoundContainer}>
+          <Card sx={profileStyles.notFoundCard}>
             <Typography variant="h6" color="text.secondary">
               Profile not found
             </Typography>
@@ -129,34 +124,14 @@ const Profile: React.FC = () => {
   return (
     <>
       <Navbar />
-      <Box sx={{ bgcolor: "grey.50", minHeight: "calc(100vh - 64px)" }}>
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Card
-            sx={{
-              p: 4,
-              borderRadius: 3,
-              boxShadow: "0 2px 12px rgba(0, 0, 0, 0.08)",
-              border: "1px solid",
-              borderColor: "divider",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ position: "relative", mb: 3 }}>
+      <Box sx={profileStyles.mainBackground}>
+        <Container maxWidth="md" sx={profileStyles.mainContainer}>
+          <Card sx={profileStyles.mainCard}>
+            <Box sx={profileStyles.profileHeader}>
+              <Box sx={profileStyles.avatarContainer}>
                 <Avatar
                   src={previewUrl || profile.profilePhoto?.photo_url}
-                  sx={{
-                    width: 120,
-                    height: 120,
-                    bgcolor: "primary.main",
-                    fontSize: "2rem",
-                    fontWeight: 600,
-                  }}
+                  sx={profileStyles.avatar}
                 >
                   {!previewUrl &&
                     !profile.profilePhoto?.photo_url &&
@@ -175,20 +150,9 @@ const Profile: React.FC = () => {
                     <label htmlFor="avatar-upload">
                       <IconButton
                         component="span"
-                        sx={{
-                          position: "absolute",
-                          bottom: 0,
-                          right: 0,
-                          bgcolor: "primary.main",
-                          color: "white",
-                          width: 36,
-                          height: 36,
-                          "&:hover": {
-                            bgcolor: "primary.dark",
-                          },
-                        }}
+                        sx={profileStyles.cameraButton}
                       >
-                        <CameraIcon sx={{ fontSize: 18 }} />
+                        <CameraIcon sx={profileStyles.cameraIcon} />
                       </IconButton>
                     </label>
                   </>
@@ -196,13 +160,13 @@ const Profile: React.FC = () => {
               </Box>
 
               {isEditing ? (
-                <Box sx={{ width: "100%", maxWidth: 400 }}>
+                <Box sx={profileStyles.editFormContainer}>
                   <TextField
                     fullWidth
                     label="First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    sx={{ mb: 2 }}
+                    sx={profileStyles.firstNameField}
                     variant="outlined"
                     size="small"
                   />
@@ -211,20 +175,18 @@ const Profile: React.FC = () => {
                     label="Last Name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    sx={{ mb: 3 }}
+                    sx={profileStyles.lastNameField}
                     variant="outlined"
                     size="small"
                   />
 
-                  <Box
-                    sx={{ display: "flex", gap: 2, justifyContent: "center" }}
-                  >
+                  <Box sx={profileStyles.buttonContainer}>
                     <Button
                       variant="outlined"
                       onClick={handleEditToggle}
                       startIcon={<CloseIcon />}
                       disabled={updateLoading}
-                      sx={{ minWidth: 100 }}
+                      sx={profileStyles.cancelButton}
                     >
                       Cancel
                     </Button>
@@ -233,7 +195,7 @@ const Profile: React.FC = () => {
                       onClick={handleSave}
                       startIcon={<SaveIcon />}
                       disabled={updateLoading}
-                      sx={{ minWidth: 100 }}
+                      sx={profileStyles.saveButton}
                     >
                       {updateLoading ? "Saving..." : "Save"}
                     </Button>
@@ -244,14 +206,14 @@ const Profile: React.FC = () => {
                   <Typography
                     variant="h4"
                     fontWeight={600}
-                    sx={{ mb: 1, textAlign: "center" }}
+                    sx={profileStyles.profileName}
                   >
                     {displayName}
                   </Typography>
                   <Typography
                     variant="body1"
                     color="text.secondary"
-                    sx={{ mb: 3 }}
+                    sx={profileStyles.profileEmail}
                   >
                     {profile.email}
                   </Typography>
@@ -261,12 +223,7 @@ const Profile: React.FC = () => {
                       variant="outlined"
                       onClick={handleEditToggle}
                       startIcon={<EditIcon />}
-                      sx={{
-                        borderRadius: 2,
-                        textTransform: "none",
-                        fontWeight: 500,
-                        px: 3,
-                      }}
+                      sx={profileStyles.editButton}
                     >
                       Edit Profile
                     </Button>
@@ -275,13 +232,7 @@ const Profile: React.FC = () => {
               )}
             </Box>
 
-            <Box
-              sx={{
-                mt: 4,
-                pt: 3,
-                borderTop: "1px solid",
-                borderColor: "divider",
-              }}
+            <Box sx={profileStyles.postsSection}
             >
               <Typography
                 variant="body2"

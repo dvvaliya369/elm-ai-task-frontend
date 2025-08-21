@@ -3,6 +3,7 @@ import { Box, Avatar, Typography } from "@mui/material";
 import type { IPost, IUser } from "../../interface";
 import { formatTime } from "../../utils/formatTime";
 import PostMenu from "./PostMenu";
+import { postHeaderStyles } from "./styles";
 
 interface PostHeaderProps {
   user: IUser;
@@ -11,7 +12,6 @@ interface PostHeaderProps {
 }
 
 const PostHeader: React.FC<PostHeaderProps> = ({ user, createdAt, post }) => {
-
   const getDisplayName = () => {
     if (user?.fullName) return user.fullName;
     if (user?.firstName && user?.lastName) {
@@ -35,28 +35,25 @@ const PostHeader: React.FC<PostHeaderProps> = ({ user, createdAt, post }) => {
 
     return {
       children: initials,
-      sx: {
-        bgcolor: "primary.main",
-        color: "white",
-      },
+      sx: postHeaderStyles.avatarWithInitials,
     };
   };
 
   const displayName = getDisplayName();
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", p: 2, pb: 1 }}>
+    <Box sx={postHeaderStyles.container}>
       <Avatar
         {...getAvatarProps()}
         alt={displayName}
-        sx={{ width: 40, height: 40, mr: 2, ...getAvatarProps().sx }}
+        sx={{ ...postHeaderStyles.avatar, ...getAvatarProps().sx }}
       />
 
-      <Box sx={{ flex: 1 }}>
-        <Typography variant="subtitle2" fontWeight={600}>
+      <Box sx={postHeaderStyles.userInfo}>
+        <Typography variant="subtitle2" sx={postHeaderStyles.username}>
           {displayName}
         </Typography>
-        <Typography variant="caption" color="text.secondary">
+        <Typography variant="caption" sx={postHeaderStyles.timestamp}>
           {formatTime(createdAt)}
         </Typography>
       </Box>

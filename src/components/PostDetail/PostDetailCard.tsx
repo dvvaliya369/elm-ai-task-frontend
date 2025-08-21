@@ -7,6 +7,7 @@ import CommentInput from "../Post/CommentInput";
 import CommentList from "./CommentList";
 import { useLike } from "../../hooks/useLike";
 import type { IPost } from "../../interface";
+import { postDetailCardStyles } from "./styles";
 
 interface PostDetailCardProps {
   post: IPost;
@@ -36,16 +37,8 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   };
 
   return (
-    <Card
-      sx={{
-        width: "100%",
-        borderRadius: 2,
-        boxShadow: "none",
-        border: "1px solid",
-        borderColor: "divider",
-      }}
-    >
-      <PostHeader user={post.user} createdAt={post.createdAt} post={post}/>
+    <Card sx={postDetailCardStyles.card}>
+      <PostHeader user={post.user} createdAt={post.createdAt} post={post} />
 
       {post.media?.url && <PostMedia media={post.media} />}
 
@@ -59,9 +52,12 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
       />
 
       {post.caption && (
-        <Box sx={{ px: 2, pb: 1 }}>
+        <Box sx={postDetailCardStyles.captionContainer}>
           <Typography variant="body2">
-            <Typography component="span" fontWeight={600} sx={{ mr: 1 }}>
+            <Typography
+              component="span"
+              sx={postDetailCardStyles.captionUsername}
+            >
               {getUserDisplayName(post.user)}
             </Typography>
             {post.caption}

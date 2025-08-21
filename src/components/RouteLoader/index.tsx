@@ -1,16 +1,10 @@
 import React from 'react';
 import { Box, CircularProgress } from '@mui/material';
+import { routeLoaderStyles } from './styles';
 
 const RouteLoader: React.FC = () => {
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <Box sx={routeLoaderStyles.container}>
       <CircularProgress />
     </Box>
   );

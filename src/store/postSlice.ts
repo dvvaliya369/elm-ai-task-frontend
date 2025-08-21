@@ -32,6 +32,7 @@ interface PostState {
   createPostLoading: boolean;
   updatePostLoading: boolean;
   deletePostLoading: Record<string, boolean>;
+  isAppending: boolean;
 }
 
 const initialState: PostState = {
@@ -49,6 +50,7 @@ const initialState: PostState = {
   createPostLoading: false,
   updatePostLoading: false,
   deletePostLoading: {},
+  isAppending: false,
 };
 
 const postSlice = createSlice({
@@ -62,6 +64,10 @@ const postSlice = createSlice({
       state.error = null;
       state.commentLoading = {};
       state.likeLoading = {};
+      state.isAppending = false;
+    },
+    setAppending: (state, action) => {
+      state.isAppending = action.payload;
     },
     clearSinglePost: (state) => {
       state.singlePost = null;
@@ -72,11 +78,7 @@ const postSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    appendPosts: (state, action) => {
-      state.posts = [...state.posts, ...action.payload.posts];
-      state.pagination = action.payload.pagination;
-      state.filters = action.payload.filters;
-    },
+
     incrementCommentCount: (state, action) => {
       const postId = action.payload;
       const post = state.posts.find((p) => p._id === postId);
@@ -93,7 +95,12 @@ const postSlice = createSlice({
       })
       .addCase(getPosts.fulfilled, (state, action) => {
         state.loading = false;
-        state.posts = action.payload.posts;
+        if (state.isAppending) {
+          state.posts = [...state.posts, ...action.payload.posts];
+          state.isAppending = false;
+        } else {
+          state.posts = action.payload.posts;
+        }
         state.pagination = action.payload.pagination;
         state.filters = action.payload.filters;
         state.error = null;
@@ -276,8 +283,8 @@ const postSlice = createSlice({
 export const {
   clearPosts,
   clearError,
-  appendPosts,
   incrementCommentCount,
   clearSinglePost,
+  setAppending,
 } = postSlice.actions;
 export default postSlice.reducer;

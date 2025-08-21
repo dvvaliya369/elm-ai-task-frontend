@@ -2,6 +2,7 @@ import { memo, useState } from "react";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import type { AuthFormField } from "../AuthForm/authForm.interface";
+import { formFieldStyles } from "./styles";
 
 interface FormFieldProps extends AuthFormField {
   disabled?: boolean;
@@ -58,14 +59,7 @@ const FormField: React.FC<FormFieldProps> = ({
             }
           : undefined,
       }}
-      sx={{
-        "& .MuiOutlinedInput-root": {
-          borderRadius: 2,
-          "&:hover fieldset": {
-            borderColor: "primary.main",
-          },
-        },
-      }}
+      sx={formFieldStyles.textField}
     />
   );
 };

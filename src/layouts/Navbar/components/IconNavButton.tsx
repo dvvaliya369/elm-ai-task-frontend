@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
-import { IconButton } from '@mui/material';
+import React, { memo } from "react";
+import { IconButton } from "@mui/material";
+import { navbarComponentStyles } from "./styles";
 
 interface IconNavButtonProps {
   icon: React.ReactNode;
@@ -7,19 +8,14 @@ interface IconNavButtonProps {
   isActive?: boolean;
 }
 
-const IconNavButton: React.FC<IconNavButtonProps> = ({ icon, onClick, isActive }) => (
+const IconNavButton: React.FC<IconNavButtonProps> = ({
+  icon,
+  onClick,
+  isActive,
+}) => (
   <IconButton
     onClick={onClick}
-    sx={{
-      color: isActive ? 'primary.main' : 'text.secondary',
-      bgcolor: isActive ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
-      p: 1.5,
-      borderRadius: 2,
-      '&:hover': {
-        bgcolor: 'rgba(25, 118, 210, 0.08)',
-        color: 'primary.main',
-      },
-    }}
+    sx={navbarComponentStyles.iconNavButton(isActive || false)}
   >
     {icon}
   </IconButton>

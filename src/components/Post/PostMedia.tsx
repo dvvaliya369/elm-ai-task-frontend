@@ -1,17 +1,18 @@
-import React, { memo, useState } from 'react';
-import { Box, Skeleton } from '@mui/material';
-import type { IMedia } from '../../interface';
+import React, { memo, useState } from "react";
+import { Box, Skeleton } from "@mui/material";
+import type { IMedia } from "../../interface";
+import { postMediaStyles } from "./styles";
 
 interface PostMediaProps {
   media: IMedia;
+  handleCardClick?: (e: React.MouseEvent) => void;
 }
 
-const PostMedia: React.FC<PostMediaProps> = ({ media }) => {
+const PostMedia: React.FC<PostMediaProps> = ({ media, handleCardClick }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  // Check if media URL is valid
-  const hasValidUrl = media?.url && media.url.trim() !== '';
+  const hasValidUrl = media?.url && media.url.trim() !== "";
 
   React.useEffect(() => {
     if (!hasValidUrl) {
@@ -20,13 +21,12 @@ const PostMedia: React.FC<PostMediaProps> = ({ media }) => {
       return;
     }
 
-    // Set a timeout to prevent infinite loading
     const timeout = setTimeout(() => {
       if (loading) {
         setLoading(false);
         setError(true);
       }
-    }, 10000); // 10 seconds timeout
+    }, 10000);
 
     return () => clearTimeout(timeout);
   }, [hasValidUrl, loading]);
@@ -42,53 +42,39 @@ const PostMedia: React.FC<PostMediaProps> = ({ media }) => {
 
   if (error || !hasValidUrl) {
     return (
-      <Box
-        sx={{
-          width: '100%',
-          height: 300,
-          bgcolor: 'grey.100',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'text.secondary',
-        }}
-      >
-        {!hasValidUrl ? 'No media available' : 'Failed to load media'}
+      <Box sx={postMediaStyles.errorContainer}>
+        {!hasValidUrl ? "No media available" : "Failed to load media"}
       </Box>
     );
   }
 
   const handleMediaClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    handleCardClick?.(e);
   };
 
   return (
-    <Box
-      onClick={handleMediaClick}
-      sx={{ position: 'relative', width: '100%' }}
-    >
+    <Box onClick={handleMediaClick} sx={postMediaStyles.mediaContainer}>
       {loading && (
         <Skeleton
           variant="rectangular"
           width="100%"
           height={300}
-          sx={{ position: 'absolute', top: 0, left: 0 }}
+          sx={postMediaStyles.skeleton}
         />
       )}
 
-      {media.mediaType === 'image' ? (
+      {media.mediaType === "image" ? (
         <img
           src={media.url}
           alt="Post media"
           onLoad={handleLoad}
           onError={handleError}
           style={{
-            width: '100%',
-            height: 'auto',
-            maxHeight: '600px',
-            objectFit: 'cover',
-            display: loading ? 'none' : 'block',
-            borderRadius: 0,
+            ...postMediaStyles.image,
+            ...(loading
+              ? postMediaStyles.mediaHidden
+              : postMediaStyles.mediaVisible),
           }}
         />
       ) : (
@@ -98,12 +84,10 @@ const PostMedia: React.FC<PostMediaProps> = ({ media }) => {
           onLoadedData={handleLoad}
           onError={handleError}
           style={{
-            width: '100%',
-            height: 'auto',
-            maxHeight: '600px',
-            objectFit: 'cover',
-            display: loading ? 'none' : 'block',
-            borderRadius: 0,
+            ...postMediaStyles.video,
+            ...(loading
+              ? postMediaStyles.mediaHidden
+              : postMediaStyles.mediaVisible),
           }}
         />
       )}

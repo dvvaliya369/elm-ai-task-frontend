@@ -1,5 +1,6 @@
 import React, { memo, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
+import { postCaptionStyles } from "./styles";
 
 interface PostCaptionProps {
   username: string;
@@ -29,10 +30,10 @@ const PostCaption: React.FC<PostCaptionProps> = ({
   };
 
   return (
-    <Box sx={{ px: 2, pb: 1 }}>
+    <Box sx={postCaptionStyles.container}>
       {caption && (
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          <Typography component="span" fontWeight={600} sx={{ mr: 1 }}>
+        <Typography variant="body2" sx={postCaptionStyles.caption}>
+          <Typography component="span" sx={postCaptionStyles.username}>
             {username}
           </Typography>
           {displayCaption}
@@ -40,14 +41,7 @@ const PostCaption: React.FC<PostCaptionProps> = ({
             <Button
               size="small"
               onClick={handleCaptionClick}
-              sx={{
-                p: 0,
-                ml: 0.5,
-                minWidth: "auto",
-                color: "text.secondary",
-                textTransform: "none",
-                fontSize: "inherit",
-              }}
+              sx={postCaptionStyles.moreButton}
             >
               more
             </Button>
@@ -58,14 +52,7 @@ const PostCaption: React.FC<PostCaptionProps> = ({
       {commentsCount > 0 && (
         <Button
           onClick={onViewComments}
-          sx={{
-            p: 0,
-            minWidth: "auto",
-            color: "text.secondary",
-            textTransform: "none",
-            fontSize: "0.875rem",
-            justifyContent: "flex-start",
-          }}
+          sx={postCaptionStyles.viewCommentsButton}
         >
           View all {commentsCount} comments
         </Button>

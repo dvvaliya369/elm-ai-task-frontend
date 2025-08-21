@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
-import { Box, Divider } from '@mui/material';
-import CommentItem from './CommentItem';
-import type { IComment } from '../../interface';
+import React, { memo } from "react";
+import { Box, Divider } from "@mui/material";
+import CommentItem from "./CommentItem";
+import type { IComment } from "../../interface";
+import { commentListStyles } from "./styles";
 
 interface CommentListProps {
   comments: IComment[];
@@ -9,19 +10,19 @@ interface CommentListProps {
 }
 
 const CommentList: React.FC<CommentListProps> = ({ comments, postId }) => {
-  const sortedComments = [...comments].sort((a, b) =>
-    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  const sortedComments = [...comments].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
   return (
     <Box>
       <Divider />
-      <Box sx={{ px: 2, py: 1 }}>
+      <Box sx={commentListStyles.container}>
         {sortedComments.map((comment, index) => (
           <React.Fragment key={comment._id}>
             <CommentItem comment={comment} postId={postId} />
             {index < sortedComments.length - 1 && (
-              <Box sx={{ my: 1 }}>
+              <Box sx={commentListStyles.commentSeparator}>
                 <Divider variant="middle" />
               </Box>
             )}

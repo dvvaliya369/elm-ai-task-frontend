@@ -7,6 +7,7 @@ import PostCaption from "./PostCaption";
 import CommentInput from "./CommentInput";
 import type { IPost } from "../../interface";
 import { useLike } from "../../hooks/useLike";
+import { postCardStyles } from "./styles";
 
 interface PostCardProps {
   post: IPost;
@@ -36,20 +37,15 @@ const PostCard: React.FC<PostCardProps> = ({
     <Card
       onClick={handleCardClick}
       sx={{
-        maxWidth: 470,
-        width: "100%",
-        mx: "auto",
-        mb: 3,
-        borderRadius: 2,
-        boxShadow: "none",
-        border: "1px solid",
-        borderColor: "divider",
-        cursor: onCardClick ? "pointer" : "default",
+        ...postCardStyles.card,
+        ...(onCardClick
+          ? postCardStyles.cardClickable
+          : postCardStyles.cardDefault),
       }}
     >
       <PostHeader user={post.user} createdAt={post.createdAt} post={post} />
 
-      {post.media && <PostMedia media={post.media} />}
+      {post.media && <PostMedia media={post.media} handleCardClick={handleCardClick} />}
 
       {post.media && (
         <PostActions

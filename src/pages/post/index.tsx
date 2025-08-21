@@ -7,6 +7,7 @@ import { PostDetailCard, PostDetailSkeleton } from "../../components/PostDetail"
 import { useSelector, useDispatch } from "../../store";
 import { getPostById } from "../../service/post.service";
 import { clearSinglePost } from "../../store/postSlice";
+import { postStyles } from "./styles";
 
 const PostDetail = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -32,16 +33,7 @@ const PostDetail = () => {
     return (
       <Box>
         <Navbar />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: 400,
-            px: 2,
-          }}
-        >
+        <Box sx={postStyles.errorContainer}>
           <Typography variant="h6" color="error" gutterBottom>
             Failed to load post
           </Typography>
@@ -56,17 +48,9 @@ const PostDetail = () => {
   return (
     <Box>
       <Navbar />
-      <Box
-        sx={{
-          maxWidth: 600,
-          width: '100%',
-          mx: 'auto',
-          px: { xs: 1, sm: 2 },
-          py: 2,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <IconButton onClick={handleBack} sx={{ mr: 1 }}>
+      <Box sx={postStyles.mainContainer}>
+        <Box sx={postStyles.headerContainer}>
+          <IconButton onClick={handleBack} sx={postStyles.backButton}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" fontWeight={600}>

@@ -1,24 +1,14 @@
-import React, { memo } from 'react';
-import { Box } from '@mui/material';
-import elmLogo from '../../../assets/elm-logo.png';
+import React, { memo } from "react";
+import { Box } from "@mui/material";
+import elmLogo from "../../../assets/elm-logo.png";
+import { navbarComponentStyles } from "./styles";
 
 const Logo: React.FC = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
+  <Box sx={navbarComponentStyles.logoContainer}>
     <img
       src={elmLogo}
       alt="Elm Logo"
-      style={{
-        height: '32px',
-        width: 'auto',
-        objectFit: 'contain',
-        maxWidth: '120px',
-      }}
+      style={navbarComponentStyles.logoContainerImage}
     />
   </Box>
 );
