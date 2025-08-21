@@ -28,6 +28,12 @@ interface PostsResponse {
   };
 }
 
+interface UserPostsResponse {
+  success: boolean;
+  message: string;
+  data: IPost[];
+}
+
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (params: IGetPostsParams = {}, { rejectWithValue }) => {
@@ -57,7 +63,9 @@ export const getPosts = createAsyncThunk(
         queryParams.append("sortBy", params.sortBy);
       }
 
-      const res = await api.get<PostsResponse>(`/post/list?${queryParams.toString()}`);
+      const res = await api.get<PostsResponse>(
+        `/post/list?${queryParams.toString()}`
+      );
 
       if (!res.data.success || !res.data.data) {
         return rejectWithValue(res.data.message || "Failed to fetch posts");
@@ -65,8 +73,11 @@ export const getPosts = createAsyncThunk(
 
       return res.data.data;
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to fetch posts";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to fetch posts";
       return rejectWithValue(message);
     }
   }
@@ -120,9 +131,12 @@ export const addComment = createAsyncThunk(
   "posts/addComment",
   async (params: IAddCommentParams, { rejectWithValue, getState }) => {
     try {
-      const res = await api.put<AddCommentResponse>(`/post/comment/${params.postId}`, {
-        comment: params.comment,
-      });
+      const res = await api.put<AddCommentResponse>(
+        `/post/comment/${params.postId}`,
+        {
+          comment: params.comment,
+        }
+      );
 
       if (!res.data.success) {
         return rejectWithValue(res.data.message || "Failed to add comment");
@@ -143,7 +157,7 @@ export const addComment = createAsyncThunk(
               photo_data?: string;
             };
           } | null;
-        }
+        };
       };
       const currentUser = state.auth.user;
 
@@ -151,11 +165,14 @@ export const addComment = createAsyncThunk(
         postId: params.postId,
         message: res.data.message,
         commentId: res.data.commentId,
-        currentUser: currentUser
+        currentUser: currentUser,
       };
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to add comment";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to add comment";
       return rejectWithValue(message);
     }
   }
@@ -174,7 +191,9 @@ export const toggleLike = createAsyncThunk(
   "posts/toggleLike",
   async (params: IToggleLikeParams, { rejectWithValue }) => {
     try {
-      const res = await api.put<ToggleLikeResponse>(`/post/like/${params.postId}`);
+      const res = await api.put<ToggleLikeResponse>(
+        `/post/like/${params.postId}`
+      );
 
       if (!res.data.success) {
         return rejectWithValue(res.data.message || "Failed to toggle like");
@@ -182,8 +201,11 @@ export const toggleLike = createAsyncThunk(
 
       return { postId: params.postId, message: res.data.message };
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to toggle like";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to toggle like";
       return rejectWithValue(message);
     }
   }
@@ -211,8 +233,11 @@ export const getPostById = createAsyncThunk(
 
       return res.data.data;
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to fetch post";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to fetch post";
       return rejectWithValue(message);
     }
   }
@@ -232,18 +257,28 @@ export const deleteComment = createAsyncThunk(
   "posts/deleteComment",
   async (params: IDeleteCommentParams, { rejectWithValue }) => {
     try {
-      const res = await api.delete<DeleteCommentResponse>(`/post/comment/${params.postId}`, {
-        data: { commentId: params.commentId }
-      });
+      const res = await api.delete<DeleteCommentResponse>(
+        `/post/comment/${params.postId}`,
+        {
+          data: { commentId: params.commentId },
+        }
+      );
 
       if (!res.data.success) {
         return rejectWithValue(res.data.message || "Failed to delete comment");
       }
 
-      return { postId: params.postId, commentId: params.commentId, message: res.data.message };
+      return {
+        postId: params.postId,
+        commentId: params.commentId,
+        message: res.data.message,
+      };
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to delete comment";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to delete comment";
       return rejectWithValue(message);
     }
   }
@@ -256,16 +291,16 @@ export const createPost = createAsyncThunk(
       const formData = new FormData();
 
       if (params.caption) {
-        formData.append('caption', params.caption);
+        formData.append("caption", params.caption);
       }
 
       if (params.media) {
-        formData.append('file', params.media);
+        formData.append("file", params.media);
       }
 
-      const res = await api.post<CreatePostResponse>('/post/create', formData, {
+      const res = await api.post<CreatePostResponse>("/post/create", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -275,8 +310,11 @@ export const createPost = createAsyncThunk(
 
       return res.data;
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to create post";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to create post";
       return rejectWithValue(message);
     }
   }
@@ -289,22 +327,26 @@ export const updatePost = createAsyncThunk(
       const formData = new FormData();
 
       if (params.caption) {
-        formData.append('caption', params.caption);
+        formData.append("caption", params.caption);
       }
 
       if (params.media) {
-        formData.append('file', params.media);
+        formData.append("file", params.media);
       }
 
       if (params.isRemoveMedia) {
-        formData.append('isRemoveMedia', 'true');
+        formData.append("isRemoveMedia", "true");
       }
 
-      const res = await api.put<UpdatePostResponse>(`/post/update/${params.postId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await api.put<UpdatePostResponse>(
+        `/post/update/${params.postId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (!res.data.success) {
         return rejectWithValue(res.data.message || "Failed to update post");
@@ -312,8 +354,11 @@ export const updatePost = createAsyncThunk(
 
       return res.data;
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to update post";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to update post";
       return rejectWithValue(message);
     }
   }
@@ -323,7 +368,9 @@ export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (params: DeletePostParams, { rejectWithValue }) => {
     try {
-      const res = await api.delete<DeletePostResponse>(`/post/delete/${params.postId}`);
+      const res = await api.delete<DeletePostResponse>(
+        `/post/delete/${params.postId}`
+      );
 
       if (!res.data.success) {
         return rejectWithValue(res.data.message || "Failed to delete post");
@@ -331,8 +378,35 @@ export const deletePost = createAsyncThunk(
 
       return { postId: params.postId, message: res.data.message };
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
-      const message = axiosError.response?.data?.message || "Failed to delete post";
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to delete post";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const getUserPosts = createAsyncThunk(
+  "posts/getUserPosts",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.get<UserPostsResponse>(`/post/user/${userId}`);
+
+      if (!res.data.success || !res.data.data) {
+        return rejectWithValue(
+          res.data.message || "Failed to fetch user posts"
+        );
+      }
+
+      return res.data.data;
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to fetch user posts";
       return rejectWithValue(message);
     }
   }

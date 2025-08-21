@@ -3,7 +3,7 @@ import {
   HomeOutlined as HomeIcon,
   LogoutOutlined as LogoutIcon,
   PersonOutlined as PersonIcon,
-  SearchOutlined as SearchIcon,
+  GridViewOutlined as PostsIcon,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -89,15 +89,6 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
                 sx={navbarComponentStyles.menuItemText}
               />
             </MenuItem>
-            <MenuItem onClick={onClose} sx={navbarComponentStyles.menuItem}>
-              <ListItemIcon sx={navbarComponentStyles.menuItemIcon}>
-                <SearchIcon sx={navbarComponentStyles.menuItemIconSmall} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Search"
-                sx={navbarComponentStyles.menuItemText}
-              />
-            </MenuItem>
             {isAuthenticated && (
               <MenuItem
                 onClick={() => onNavigation("/posts/create")}
@@ -122,6 +113,12 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </ListItemIcon>
           <ListItemText>Profile</ListItemText>
         </MenuItem>
+        <MenuItem onClick={() => onNavigation("/my-posts")}>
+          <ListItemIcon>
+            <PostsIcon />
+          </ListItemIcon>
+          <ListItemText>My Posts</ListItemText>
+        </MenuItem>
         <MenuItem onClick={onLogout} sx={navbarComponentStyles.logoutMenuItem}>
           <ListItemIcon>
             <LogoutIcon sx={navbarComponentStyles.logoutIcon} />
@@ -138,12 +135,6 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
                 <HomeIcon />
               </ListItemIcon>
               <ListItemText>Home</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={onClose}>
-              <ListItemIcon>
-                <SearchIcon />
-              </ListItemIcon>
-              <ListItemText>Search</ListItemText>
             </MenuItem>
             <Divider />
           </React.Fragment>

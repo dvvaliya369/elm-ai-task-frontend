@@ -83,6 +83,7 @@ const PostMenu: React.FC<PostMenuProps> = ({ post }) => {
       if (deletePost.fulfilled.match(result)) {
         showSuccess("Post deleted successfully!");
         setDeleteDialogOpen(false);
+        navigate("/");
       } else {
         showError((result.payload as string) || "Failed to delete post");
       }

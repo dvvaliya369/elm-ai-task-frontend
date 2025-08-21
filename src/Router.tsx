@@ -9,6 +9,7 @@ import Signup from "./pages/singup/index.tsx";
 import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
 import Profile from "./pages/profile/index.tsx";
+import MyPostsPage from "./pages/my-posts/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -32,7 +33,7 @@ const Router: React.FC = () => {
               </ProtectedRoute>
             }
           />
-            <Route path="/posts/:postId" element={<PostDetail />} />
+          <Route path="/posts/:postId" element={<PostDetail />} />
           <Route
             path="/profile"
             element={
@@ -46,6 +47,14 @@ const Router: React.FC = () => {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-posts"
+            element={
+              <ProtectedRoute>
+                <MyPostsPage />
               </ProtectedRoute>
             }
           />

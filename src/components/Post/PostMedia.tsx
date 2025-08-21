@@ -9,7 +9,7 @@ interface PostMediaProps {
 }
 
 const PostMedia: React.FC<PostMediaProps> = ({ media, handleCardClick }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(media.mediaType === "image" ? true : false);
   const [error, setError] = useState(false);
 
   const hasValidUrl = media?.url && media.url.trim() !== "";
@@ -81,7 +81,7 @@ const PostMedia: React.FC<PostMediaProps> = ({ media, handleCardClick }) => {
         <video
           src={media.url}
           controls
-          onLoadedData={handleLoad}
+          onLoadedMetadata={handleLoad}
           onError={handleError}
           style={{
             ...postMediaStyles.video,

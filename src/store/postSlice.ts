@@ -9,10 +9,12 @@ import {
   createPost,
   updatePost,
   deletePost,
+  getUserPosts,
 } from "../service/post.service";
 
 interface PostState {
   posts: IPost[];
+  userPosts: IPost[];
   pagination: IPagination | null;
   filters: {
     search?: string;
@@ -22,6 +24,7 @@ interface PostState {
     minLikes: number;
   } | null;
   loading: boolean;
+  userPostsLoading: boolean;
   error: string | null;
   commentLoading: Record<string, boolean>;
   likeLoading: Record<string, boolean>;
@@ -37,9 +40,11 @@ interface PostState {
 
 const initialState: PostState = {
   posts: [],
+  userPosts: [],
   pagination: null,
   filters: null,
   loading: false,
+  userPostsLoading: false,
   error: null,
   commentLoading: {},
   likeLoading: {},
@@ -275,6 +280,18 @@ const postSlice = createSlice({
       .addCase(deletePost.rejected, (state, action) => {
         const postId = action.meta.arg.postId;
         state.deletePostLoading[postId] = false;
+        state.error = action.payload as string;
+      })
+      .addCase(getUserPosts.pending, (state) => {
+        state.userPostsLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        state.userPostsLoading = false;
+        state.userPosts = action.payload;
+      })
+      .addCase(getUserPosts.rejected, (state, action) => {
+        state.userPostsLoading = false;
         state.error = action.payload as string;
       });
   },
