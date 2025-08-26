@@ -14,6 +14,11 @@ export interface ISignupPayload {
   password: string;
 }
 
+export interface IChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+}
+
 interface AuthResponse {
   success: boolean;
   message: string;
@@ -22,6 +27,11 @@ interface AuthResponse {
     accessToken: string;
     refreshToken: string;
   };
+}
+
+interface ChangePasswordResponse {
+  success: boolean;
+  message: string;
 }
 
 export const loginUser = createAsyncThunk(
@@ -36,7 +46,9 @@ export const loginUser = createAsyncThunk(
 
       return res.data.data;
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
       const message = axiosError.response?.data?.message || "Login failed";
       return rejectWithValue(message);
     }
@@ -54,8 +66,34 @@ export const signupUser = createAsyncThunk(
       }
       return { message: res.data.message };
     } catch (error: unknown) {
-      const axiosError = error as { response?: { data?: { message?: string } } };
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
       const message = axiosError.response?.data?.message || "Signup failed";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (body: IChangePasswordPayload, { rejectWithValue }) => {
+    try {
+      const res = await api.put<ChangePasswordResponse>(
+        "/auth/change-password",
+        body
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Password change failed");
+      }
+      return { message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Password change failed";
       return rejectWithValue(message);
     }
   }

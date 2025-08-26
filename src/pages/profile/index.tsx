@@ -21,6 +21,7 @@ import Navbar from "../../layouts/Navbar";
 import { useProfile } from "../../hooks/useProfile";
 import { getUserDisplayName } from "../../utils/user";
 import { profileStyles } from "./styles";
+import ChangePassword from "../../components/ChangePassword";
 
 const Profile: React.FC = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -248,6 +249,8 @@ const Profile: React.FC = () => {
               </Typography>
             </Box>
           </Card>
+
+          {isOwnProfile && <ChangePassword />}
         </Container>
       </Box>
     </>

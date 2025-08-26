@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, signupUser } from "../service/auth.service";
+import { loginUser, signupUser, changePassword } from "../service/auth.service";
 import type { IUser } from "../interface";
 
 interface AuthState {
@@ -87,6 +87,20 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string ?? "Signup failed";
+      });
+
+    builder
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string ?? "Password change failed";
       });
   },
 });
