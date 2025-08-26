@@ -46,12 +46,12 @@ const authSlice = createSlice({
       state.isInitialized = true;
     },
     logout: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
-      state.isInitialized = true;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userData");
+      state.user = null;
+      state.isAuthenticated = false;
+      state.isInitialized = true;
     },
   },
   extraReducers: (builder) => {

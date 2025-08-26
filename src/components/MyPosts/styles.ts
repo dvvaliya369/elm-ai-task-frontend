@@ -1,6 +1,6 @@
 export const myPostsStyles = {
   container: {
-    maxWidth: 935,
+    maxWidth: 1000,
     mx: "auto",
     px: 2,
     py: 3,
@@ -12,8 +12,19 @@ export const myPostsStyles = {
     textAlign: "center",
   },
 
-  gridContainer: {
-    spacing: 1,
+  dataGridContainer: {
+    height: 600,
+    width: '100%',
+    '& .MuiDataGrid-cell': {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    '& .MuiDataGrid-row:hover': {
+      backgroundColor: 'action.hover',
+    },
+    '& .MuiDataGrid-columnHeader': {
+      fontWeight: 'bold',
+    },
   },
 
   loadingContainer: {

@@ -54,7 +54,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
     sx={navbarComponentStyles.profileMenu}
   >
     {isAuthenticated ? (
-      <React.Fragment>
+      <div>
         <Box sx={navbarComponentStyles.profileHeader}>
           <Box sx={navbarComponentStyles.profileInfo}>
             <Avatar
@@ -125,9 +125,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </ListItemIcon>
           <ListItemText>Logout</ListItemText>
         </MenuItem>
-      </React.Fragment>
+      </div>
     ) : (
-      <React.Fragment>
+      <div>
         {isMobile && (
           <React.Fragment>
             <MenuItem onClick={() => onNavigation("/")}>
@@ -158,7 +158,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
             Sign Up
           </Button>
         </Box>
-      </React.Fragment>
+      </div>
     )}
   </Menu>
 );

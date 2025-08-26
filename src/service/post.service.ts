@@ -31,7 +31,26 @@ interface PostsResponse {
 interface UserPostsResponse {
   success: boolean;
   message: string;
-  data: IPost[];
+  data: {
+    posts: IPost[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalPosts: number;
+      hasNextPage: boolean;
+      hasPrevPage: boolean;
+      limit: number;
+    };
+    filters: {
+      sortBy: string | null;
+      likesFilter: string | null;
+      likesValue: number | null;
+      commentsFilter: string | null;
+      commentsValue: number | null;
+      dateFrom: string | null;
+      dateTo: string | null;
+    };
+  };
 }
 
 export const getPosts = createAsyncThunk(
@@ -394,13 +413,13 @@ export const getUserPosts = createAsyncThunk(
     try {
       const res = await api.get<UserPostsResponse>(`/post/user/${userId}`);
 
-      if (!res.data.success || !res.data.data) {
+      if (!res.data.success || !res.data.data || !res.data.data.posts) {
         return rejectWithValue(
           res.data.message || "Failed to fetch user posts"
         );
       }
 
-      return res.data.data;
+      return res.data.data.posts;
     } catch (error: unknown) {
       const axiosError = error as {
         response?: { data?: { message?: string } };
