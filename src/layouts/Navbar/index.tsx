@@ -21,6 +21,7 @@ import Logo from "./components/Logo";
 import NavButton from "./components/NavButton";
 import IconNavButton from "./components/IconNavButton";
 import ProfileMenu from "./components/ProfileMenu";
+import { ThemeToggle } from "../../components";
 import { useNavbarHandlers } from "./hooks/useNavbarHandlers";
 import { useProfileMenu } from "./hooks/useProfileMenu";
 import { navbarStyles } from "./styles";
@@ -66,6 +67,11 @@ const Navbar: React.FC = () => {
       >
         <Toolbar sx={navbarStyles.toolbar}>
           <Logo />
+
+          {/* Theme Toggle - positioned after logo */}
+          <Box sx={{ marginLeft: 2 }}>
+            <ThemeToggle size="medium" />
+          </Box>
 
           {!isMobile && !isTablet && (
             <Box sx={navbarStyles.desktopNavContainer}>
