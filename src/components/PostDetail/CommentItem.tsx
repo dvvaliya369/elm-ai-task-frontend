@@ -13,6 +13,7 @@ import { useToast } from "../../hooks/useToast";
 import type { IComment } from "../../interface";
 import { formatTime } from "../../utils/formatTime";
 import { commentItemStyles } from "./styles";
+import CommentLikeButton from "./CommentLikeButton";
 
 interface CommentItemProps {
   comment: IComment;
@@ -80,6 +81,10 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, postId }) => {
         <Typography variant="body2" sx={commentItemStyles.comment}>
           {comment.comment}
         </Typography>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 0.5 }}>
+          <CommentLikeButton comment={comment} postId={postId} />
+        </Box>
       </Box>
 
       {canDelete && (

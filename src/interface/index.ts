@@ -33,6 +33,9 @@ export interface IComment {
   comment: string;
   createdAt: string;
   updatedAt: string;
+  likes?: string[] | ILike[];
+  likesCount: number;
+  isLikedByUser: boolean;
 }
 
 export interface ILike {
