@@ -10,6 +10,7 @@ import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import MyPostsPage from "./pages/my-posts/index.tsx";
+import ThemeTestPage from "./pages/theme-test/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Router: React.FC = () => {
       <AuthInitializer>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/theme-test" element={<ThemeTestPage />} />
           <Route
             path="/posts/create"
             element={
