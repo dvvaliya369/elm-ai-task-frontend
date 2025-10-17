@@ -3,9 +3,9 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
 import { createRoot } from "react-dom/client";
 
-import theme from "./theme/theme.ts";
 import { store } from "./store/index.ts";
 import { ToastProvider } from "./context/ToastContext.tsx";
+import { CustomThemeProvider } from "./context/ThemeContext.tsx";
 import Router from "./Router.tsx";
 import "./index.css";
 
@@ -19,10 +19,10 @@ createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastProvider>
-        <ThemeProvider theme={theme}>
+        <CustomThemeProvider>
           <CssBaseline />
           <Router />
-        </ThemeProvider>
+        </CustomThemeProvider>
       </ToastProvider>
     </Provider>
   </React.StrictMode>
