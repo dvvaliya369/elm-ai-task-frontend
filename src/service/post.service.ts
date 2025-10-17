@@ -407,6 +407,35 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const toggleCommentLike = createAsyncThunk(
+  "posts/toggleCommentLike",
+  async (params: { postId: string; commentId: string }, { rejectWithValue }) => {
+    try {
+      const res = await api.put<ToggleLikeResponse>(
+        `/post/comment/${params.postId}/like`,
+        { commentId: params.commentId }
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to toggle comment like");
+      }
+
+      return { 
+        postId: params.postId, 
+        commentId: params.commentId, 
+        message: res.data.message 
+      };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to toggle comment like";
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export const getUserPosts = createAsyncThunk(
   "posts/getUserPosts",
   async (userId: string, { rejectWithValue }) => {

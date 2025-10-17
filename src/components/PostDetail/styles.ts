@@ -64,6 +64,29 @@ export const commentItemStyles = {
   comment: {
     wordBreak: 'break-word',
   },
+  actionsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 1,
+    mt: 0.5,
+  },
+  likeButton: {
+    color: 'text.secondary',
+    '&.liked': {
+      color: 'primary.main',
+    },
+    '&:hover': {
+      color: 'primary.main',
+    },
+    fontSize: '0.75rem',
+    minWidth: 'auto',
+    px: 1,
+    py: 0.5,
+  },
+  likesCount: {
+    color: 'text.secondary',
+    fontSize: '0.75rem',
+  },
   deleteButton: {
     color: 'text.secondary',
     '&:hover': {
