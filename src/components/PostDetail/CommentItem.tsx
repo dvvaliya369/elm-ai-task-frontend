@@ -6,10 +6,15 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
+import { 
+  Delete as DeleteIcon,
+  FavoriteOutlined,
+  Favorite
+} from "@mui/icons-material";
 import { useSelector, useDispatch } from "../../store";
 import { deleteComment } from "../../service/post.service";
 import { useToast } from "../../hooks/useToast";
+import { useCommentLike } from "../../hooks/useCommentLike";
 import type { IComment } from "../../interface";
 import { formatTime } from "../../utils/formatTime";
 import { commentItemStyles } from "./styles";
@@ -26,9 +31,15 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, postId }) => {
     deleteCommentLoading: state.posts.deleteCommentLoading,
   }));
   const { showError, showSuccess } = useToast();
+  const { handleCommentLike, isCommentLikeLoading } = useCommentLike();
 
-  const isLoading = deleteCommentLoading[comment._id] || false;
+  const isDeleteLoading = deleteCommentLoading[comment._id] || false;
+  const isLikeLoading = isCommentLikeLoading(comment._id);
   const canDelete = user && user._id === comment?.user._id;
+
+  const handleLike = useCallback(async () => {
+    await handleCommentLike(postId, comment._id);
+  }, [handleCommentLike, postId, comment._id]);
 
   const handleDelete = useCallback(async () => {
     try {
@@ -80,22 +91,74 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, postId }) => {
         <Typography variant="body2" sx={commentItemStyles.comment}>
           {comment.comment}
         </Typography>
+        
+        <Box sx={commentItemStyles.actions}>
+          <IconButton
+            onClick={handleLike}
+            disabled={isLikeLoading}
+            size="small"
+            sx={{
+              color: comment.isLikedByUser ? 'error.main' : 'text.secondary',
+              padding: 0.5,
+            }}
+          >
+            {isLikeLoading ? (
+              <CircularProgress size={16} />
+            ) : comment.isLikedByUser ? (
+              <Favorite fontSize="small" />
+            ) : (
+              <FavoriteOutlined fontSize="small" />
+            )}
+          </IconButton>
+          
+          {comment.likesCount > 0 && (
+            <Typography 
+              variant="caption" 
+              sx={{ 
+                marginLeft: 0.5, 
+                color: 'text.secondary',
+                fontSize: '0.75rem'
+              }}
+            >
+              {comment.likesCount} {comment.likesCount === 1 ? 'like' : 'likes'}
+            </Typography>
+          )}
+        </Box>
       </Box>
 
-      {canDelete && (
+      <Box sx={commentItemStyles.rightActions}>
         <IconButton
-          onClick={handleDelete}
-          disabled={isLoading}
+          onClick={handleLike}
+          disabled={isLikeLoading}
           size="small"
-          sx={commentItemStyles.deleteButton}
+          sx={{
+            color: comment.isLikedByUser ? 'error.main' : 'text.secondary',
+          }}
         >
-          {isLoading ? (
+          {isLikeLoading ? (
             <CircularProgress size={16} />
+          ) : comment.isLikedByUser ? (
+            <Favorite fontSize="small" />
           ) : (
-            <DeleteIcon fontSize="small" />
+            <FavoriteOutlined fontSize="small" />
           )}
         </IconButton>
-      )}
+
+        {canDelete && (
+          <IconButton
+            onClick={handleDelete}
+            disabled={isDeleteLoading}
+            size="small"
+            sx={commentItemStyles.deleteButton}
+          >
+            {isDeleteLoading ? (
+              <CircularProgress size={16} />
+            ) : (
+              <DeleteIcon fontSize="small" />
+            )}
+          </IconButton>
+        )}
+      </Box>
     </Box>
   );
 };

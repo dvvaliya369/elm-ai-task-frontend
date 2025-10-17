@@ -64,6 +64,16 @@ export const commentItemStyles = {
   comment: {
     wordBreak: 'break-word',
   },
+  actions: {
+    display: 'flex',
+    alignItems: 'center',
+    mt: 0.5,
+  },
+  rightActions: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 0.5,
+  },
   deleteButton: {
     color: 'text.secondary',
     '&:hover': {
