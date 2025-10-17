@@ -19,6 +19,13 @@ export interface IMedia {
   mediaType: "image" | "video";
 }
 
+export interface ICommentLike {
+  _id: string;
+  user: string;
+  name: string;
+  createdAt: string;
+}
+
 export interface IComment {
   _id: string;
   user: {
@@ -33,6 +40,9 @@ export interface IComment {
   comment: string;
   createdAt: string;
   updatedAt: string;
+  likes: string[] | ICommentLike[];
+  likesCount: number;
+  isLikedByUser: boolean;
 }
 
 export interface ILike {
