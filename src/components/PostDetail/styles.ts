@@ -63,6 +63,25 @@ export const commentItemStyles = {
   },
   comment: {
     wordBreak: 'break-word',
+    mb: 0.5,
+  },
+  likeSection: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 0.5,
+    mt: 0.5,
+  },
+  likeButton: {
+    padding: '2px',
+    minWidth: 'auto',
+    height: 'auto',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 0, 0, 0.04)',
+    },
+  },
+  likeCount: {
+    color: 'text.secondary',
+    fontSize: '0.75rem',
   },
   deleteButton: {
     color: 'text.secondary',

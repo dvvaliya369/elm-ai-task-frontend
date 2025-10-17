@@ -10,6 +10,7 @@ import {
   updatePost,
   deletePost,
   getUserPosts,
+  toggleCommentLike,
 } from "../service/post.service";
 
 interface PostState {
@@ -28,6 +29,7 @@ interface PostState {
   error: string | null;
   commentLoading: Record<string, boolean>;
   likeLoading: Record<string, boolean>;
+  commentLikeLoading: Record<string, boolean>;
   singlePost: IPost | null;
   singlePostLoading: boolean;
   singlePostError: string | null;
@@ -48,6 +50,7 @@ const initialState: PostState = {
   error: null,
   commentLoading: {},
   likeLoading: {},
+  commentLikeLoading: {},
   singlePost: null,
   singlePostLoading: false,
   singlePostError: null,
@@ -293,6 +296,32 @@ const postSlice = createSlice({
       .addCase(getUserPosts.rejected, (state, action) => {
         state.userPostsLoading = false;
         state.error = action.payload as string;
+      })
+      .addCase(toggleCommentLike.pending, (state, action) => {
+        const commentId = action.meta.arg.commentId;
+        state.commentLikeLoading[commentId] = true;
+      })
+      .addCase(toggleCommentLike.fulfilled, (state, action) => {
+        const { commentId, postId } = action.payload;
+        state.commentLikeLoading[commentId] = false;
+        
+        // Update comment like status in single post view
+        if (state.singlePost && state.singlePost._id === postId && state.singlePost.comments) {
+          const comment = state.singlePost.comments.find(c => c._id === commentId);
+          if (comment) {
+            if (comment.isLikedByUser) {
+              comment.isLikedByUser = false;
+              comment.likesCount = Math.max(0, (comment.likesCount || 0) - 1);
+            } else {
+              comment.isLikedByUser = true;
+              comment.likesCount = (comment.likesCount || 0) + 1;
+            }
+          }
+        }
+      })
+      .addCase(toggleCommentLike.rejected, (state, action) => {
+        const commentId = action.meta.arg.commentId;
+        state.commentLikeLoading[commentId] = false;
       });
   },
 });

@@ -430,3 +430,44 @@ export const getUserPosts = createAsyncThunk(
     }
   }
 );
+
+export interface IToggleCommentLikeParams {
+  postId: string;
+  commentId: string;
+}
+
+interface ToggleCommentLikeResponse {
+  success: boolean;
+  message: string;
+}
+
+export const toggleCommentLike = createAsyncThunk(
+  "posts/toggleCommentLike",
+  async (params: IToggleCommentLikeParams, { rejectWithValue }) => {
+    try {
+      const res = await api.put<ToggleCommentLikeResponse>(
+        `/post/comment/like/${params.postId}`,
+        {
+          commentId: params.commentId,
+        }
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to toggle comment like");
+      }
+
+      return { 
+        postId: params.postId, 
+        commentId: params.commentId, 
+        message: res.data.message 
+      };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to toggle comment like";
+      return rejectWithValue(message);
+    }
+  }
+);

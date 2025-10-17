@@ -6,10 +6,15 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
+import { 
+  Delete as DeleteIcon,
+  Favorite as FavoriteIcon,
+  FavoriteBorder as FavoriteBorderIcon 
+} from "@mui/icons-material";
 import { useSelector, useDispatch } from "../../store";
 import { deleteComment } from "../../service/post.service";
 import { useToast } from "../../hooks/useToast";
+import { useCommentLike } from "../../hooks/useCommentLike";
 import type { IComment } from "../../interface";
 import { formatTime } from "../../utils/formatTime";
 import { commentItemStyles } from "./styles";
@@ -26,9 +31,13 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, postId }) => {
     deleteCommentLoading: state.posts.deleteCommentLoading,
   }));
   const { showError, showSuccess } = useToast();
+  const { handleCommentLike, isCommentLikeLoading } = useCommentLike();
 
   const isLoading = deleteCommentLoading[comment._id] || false;
+  const isLikeLoading = isCommentLikeLoading(comment._id);
   const canDelete = user && user._id === comment?.user._id;
+  const likesCount = comment.likesCount || 0;
+  const isLiked = comment.isLikedByUser || false;
 
   const handleDelete = useCallback(async () => {
     try {
@@ -80,6 +89,36 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, postId }) => {
         <Typography variant="body2" sx={commentItemStyles.comment}>
           {comment.comment}
         </Typography>
+        
+        {/* Comment Like Section */}
+        <Box sx={commentItemStyles.likeSection}>
+          <IconButton
+            onClick={() => handleCommentLike(postId, comment._id)}
+            disabled={isLikeLoading}
+            size="small"
+            sx={commentItemStyles.likeButton}
+          >
+            {isLikeLoading ? (
+              <CircularProgress size={14} />
+            ) : isLiked ? (
+              <FavoriteIcon 
+                fontSize="small" 
+                sx={{ color: 'red', fontSize: '14px' }} 
+              />
+            ) : (
+              <FavoriteBorderIcon 
+                fontSize="small" 
+                sx={{ fontSize: '14px' }} 
+              />
+            )}
+          </IconButton>
+          
+          {likesCount > 0 && (
+            <Typography variant="caption" sx={commentItemStyles.likeCount}>
+              {likesCount} {likesCount === 1 ? 'like' : 'likes'}
+            </Typography>
+          )}
+        </Box>
       </Box>
 
       {canDelete && (
