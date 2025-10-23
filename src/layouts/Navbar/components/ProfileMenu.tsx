@@ -4,6 +4,7 @@ import {
   LogoutOutlined as LogoutIcon,
   PersonOutlined as PersonIcon,
   GridViewOutlined as PostsIcon,
+  Brightness4 as ThemeIcon,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -18,6 +19,7 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import type { IUser } from "../../../interface";
+import { ThemeToggle } from "../../../components/ThemeToggle";
 import { navbarComponentStyles } from "./styles";
 
 interface ProfileMenuProps {
@@ -119,6 +121,15 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
           </ListItemIcon>
           <ListItemText>My Posts</ListItemText>
         </MenuItem>
+        <MenuItem sx={{ padding: "8px 16px" }}>
+          <ListItemIcon>
+            <ThemeIcon />
+          </ListItemIcon>
+          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+            <ListItemText primary="Theme" />
+            <ThemeToggle variant="switch" size="small" />
+          </Box>
+        </MenuItem>
         <MenuItem onClick={onLogout} sx={navbarComponentStyles.logoutMenuItem}>
           <ListItemIcon>
             <LogoutIcon sx={navbarComponentStyles.logoutIcon} />
@@ -139,6 +150,17 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({
             <Divider />
           </React.Fragment>
         )}
+
+        <MenuItem sx={{ padding: "8px 16px" }}>
+          <ListItemIcon>
+            <ThemeIcon />
+          </ListItemIcon>
+          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+            <ListItemText primary="Theme" />
+            <ThemeToggle variant="switch" size="small" />
+          </Box>
+        </MenuItem>
+        <Divider />
 
         <Box sx={navbarComponentStyles.authButtonContainer}>
           <Button

@@ -1,11 +1,10 @@
 import React from "react";
-import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
 import { createRoot } from "react-dom/client";
 
-import theme from "./theme/theme.ts";
 import { store } from "./store/index.ts";
 import { ToastProvider } from "./context/ToastContext.tsx";
+import { ThemeWrapper } from "./components/ThemeWrapper.tsx";
 import Router from "./Router.tsx";
 import "./index.css";
 
@@ -18,12 +17,11 @@ import "@fontsource/roboto/700.css";
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+      <ThemeWrapper>
+        <ToastProvider>
           <Router />
-        </ThemeProvider>
-      </ToastProvider>
+        </ToastProvider>
+      </ThemeWrapper>
     </Provider>
   </React.StrictMode>
 );
