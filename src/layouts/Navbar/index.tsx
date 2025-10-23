@@ -24,6 +24,7 @@ import ProfileMenu from "./components/ProfileMenu";
 import { useNavbarHandlers } from "./hooks/useNavbarHandlers";
 import { useProfileMenu } from "./hooks/useProfileMenu";
 import { navbarStyles } from "./styles";
+import ThemeToggler from "../../components/ThemeToggler";
 
 const Navbar: React.FC = () => {
   const theme = useTheme();
@@ -85,6 +86,7 @@ const Navbar: React.FC = () => {
                     isActive={location.pathname === "/posts/create"}
                   />
                 )}
+                <ThemeToggler />
               </Box>
 
               {isAuthenticated ? (
@@ -134,6 +136,7 @@ const Navbar: React.FC = () => {
                   isActive={location.pathname === "/posts/create"}
                 />
               )}
+              <ThemeToggler />
 
               {isAuthenticated ? (
                 <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
@@ -168,18 +171,21 @@ const Navbar: React.FC = () => {
           )}
 
           {isMobile && (
-            <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
-              {isAuthenticated ? (
-                <Avatar
-                  alt={user?.fullName || "User"}
-                  sx={navbarStyles.mobileProfileAvatar}
-                >
-                  {user?.fullName?.[0] || "U"}
-                </Avatar>
-              ) : (
-                <PersonIcon sx={navbarStyles.mobilePersonIcon} />
-              )}
-            </IconButton>
+            <Box sx={navbarStyles.mobileNavContainer}>
+              <ThemeToggler />
+              <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
+                {isAuthenticated ? (
+                  <Avatar
+                    alt={user?.fullName || "User"}
+                    sx={navbarStyles.mobileProfileAvatar}
+                  >
+                    {user?.fullName?.[0] || "U"}
+                  </Avatar>
+                ) : (
+                  <PersonIcon sx={navbarStyles.mobilePersonIcon} />
+                )}
+              </IconButton>
+            </Box>
           )}
         </Toolbar>
       </AppBar>

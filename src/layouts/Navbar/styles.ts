@@ -115,6 +115,12 @@ export const navbarStyles = {
     },
   },
 
+  mobileNavContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: 1,
+  },
+
   mobileProfileButton: {
     p: 0,
   },
