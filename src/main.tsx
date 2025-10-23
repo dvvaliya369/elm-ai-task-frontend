@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import theme from "./theme/theme.ts";
 import { store } from "./store/index.ts";
 import { ToastProvider } from "./context/ToastContext.tsx";
+import { NotificationProvider } from "./context/NotificationContext.tsx";
 import Router from "./Router.tsx";
 import "./index.css";
 
@@ -19,10 +20,12 @@ createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router />
-        </ThemeProvider>
+        <NotificationProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router />
+          </ThemeProvider>
+        </NotificationProvider>
       </ToastProvider>
     </Provider>
   </React.StrictMode>

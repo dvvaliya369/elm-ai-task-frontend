@@ -10,6 +10,7 @@ import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import MyPostsPage from "./pages/my-posts/index.tsx";
+import NotificationsDemo from "./pages/notifications/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -58,6 +59,7 @@ const Router: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/notifications" element={<NotificationsDemo />} />
 
           <Route
             path="/log-in"
