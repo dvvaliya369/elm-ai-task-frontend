@@ -10,6 +10,7 @@ import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import MyPostsPage from "./pages/my-posts/index.tsx";
+import CommentsDetailPage from "./pages/comments-detail/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -55,6 +56,14 @@ const Router: React.FC = () => {
             element={
               <ProtectedRoute>
                 <MyPostsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts/:postId/comments"
+            element={
+              <ProtectedRoute>
+                <CommentsDetailPage />
               </ProtectedRoute>
             }
           />

@@ -122,6 +122,20 @@ export const postActionsStyles = {
     fontWeight: 600,
     mb: 0.5,
   },
+  viewCommentsButton: {
+    p: 0,
+    minWidth: "auto",
+    color: "text.secondary",
+    textTransform: "none",
+    fontSize: "0.875rem",
+    fontWeight: 400,
+    justifyContent: "flex-start",
+    "&:hover": {
+      color: "primary.main",
+      backgroundColor: "transparent",
+      textDecoration: "underline",
+    },
+  },
 };
 
 // PostCaption styles

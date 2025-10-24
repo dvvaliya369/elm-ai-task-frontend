@@ -49,6 +49,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {post.media && (
         <PostActions
+          postId={post._id}
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
           isLiked={post.isLikedByUser}
@@ -71,6 +72,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
       {!post.media && (
         <PostActions
+          postId={post._id}
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
           isLiked={post.isLikedByUser}

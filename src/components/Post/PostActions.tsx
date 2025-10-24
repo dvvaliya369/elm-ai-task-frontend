@@ -1,5 +1,6 @@
 import React, { memo } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import {
   FavoriteBorder as LikeIcon,
   Favorite as LikedIcon,
@@ -9,6 +10,7 @@ import {
 import { postActionsStyles } from "./styles";
 
 interface PostActionsProps {
+  postId: string;
   likesCount: number;
   commentsCount: number;
   isLiked?: boolean;
@@ -18,12 +20,16 @@ interface PostActionsProps {
 }
 
 const PostActions: React.FC<PostActionsProps> = ({
+  postId,
   likesCount,
+  commentsCount,
   isLiked = false,
   isCommented = false,
   onLike,
   onComment,
 }) => {
+  const navigate = useNavigate();
+
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onLike?.();
@@ -32,6 +38,11 @@ const PostActions: React.FC<PostActionsProps> = ({
   const handleCommentClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onComment?.();
+  };
+
+  const handleViewAllComments = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/posts/${postId}/comments`);
   };
 
   return (
@@ -66,6 +77,16 @@ const PostActions: React.FC<PostActionsProps> = ({
         <Typography variant="subtitle2" sx={postActionsStyles.likesCount}>
           {likesCount} {likesCount === 1 ? "like" : "likes"}
         </Typography>
+      )}
+
+      {commentsCount > 0 && (
+        <Button
+          onClick={handleViewAllComments}
+          size="small"
+          sx={postActionsStyles.viewCommentsButton}
+        >
+          View all {commentsCount} comments
+        </Button>
       )}
     </Box>
   );
