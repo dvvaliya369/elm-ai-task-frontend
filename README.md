@@ -5,12 +5,46 @@ A modern social media application built with React, TypeScript, and Material-UI.
 ## 🚀 Features
 
 - **User Authentication**: Login/Signup with JWT token management
+- **Password Reset**: Complete forgot password flow with email verification
 - **Post Management**: Create, edit, delete posts with media support
 - **Social Interactions**: Like and comment on posts
 - **Personal Dashboard**: View your own posts in a grid layout
 - **Responsive Design**: Mobile-first approach with Material-UI
 - **Real-time Updates**: Optimistic UI updates for better UX
 - **Protected Routes**: Secure navigation with authentication guards
+
+## 🔐 Authentication Features
+
+### Login System
+- **Modern Design**: Gradient backgrounds with glassmorphism effects
+- **Social Login**: Google, GitHub, and Twitter integration placeholders
+- **Form Validation**: Real-time email and password validation
+- **Remember Me**: Persistent login functionality
+- **Responsive**: Mobile-optimized design
+
+### Password Reset System
+- **Two-Step Process**: Email request → Password reset form
+- **Email Validation**: Comprehensive email format checking
+- **Password Strength**: Real-time password strength indicator with requirements:
+  - Minimum 8 characters
+  - One uppercase letter
+  - One lowercase letter
+  - One number
+  - One special character
+- **Visual Feedback**: Progress bars and validation checkmarks
+- **Security**: Token-based reset flow (frontend implementation)
+
+### Available Authentication Components
+
+#### React/TypeScript Components:
+- `standalone-login.tsx` - Main login component with Material-UI
+- `reset-password-request.tsx` - Email input for password reset
+- `reset-password-form.tsx` - New password form with validation
+- `authentication-demo.tsx` - Complete demo flow with navigation
+
+#### Standalone HTML:
+- `modern-login.html` - Standalone login page
+- `reset-password.html` - Complete reset flow in single HTML file
 
 ## 🛠️ Tech Stack
 

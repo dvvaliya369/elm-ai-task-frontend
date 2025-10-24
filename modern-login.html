@@ -545,7 +545,15 @@
         }
 
         function handleForgotPassword() {
-            showMessage('Forgot password functionality would redirect to reset page');
+            // In a real app, you would navigate to the reset password page
+            // window.location.href = 'reset-password.html';
+            showMessage("Redirecting to password reset page...");
+            
+            // Simulate navigation after a short delay
+            setTimeout(() => {
+                console.log("Navigate to: reset-password.html");
+                // This is where you'd implement actual navigation
+            }, 1000);
         }
 
         function handleSignup() {

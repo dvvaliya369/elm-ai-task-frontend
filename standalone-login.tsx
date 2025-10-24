@@ -127,7 +127,15 @@ const StandaloneLoginPage = () => {
   }, []);
 
   const handleForgotPassword = useCallback(() => {
-    setSuccessMessage("Forgot password functionality would redirect to reset page");
+    // In a real app, you would navigate to the reset password page
+    // Example: navigate('/reset-password') or window.location.href = '/reset-password'
+    setSuccessMessage("Redirecting to password reset page...");
+    
+    // Simulate navigation after a short delay
+    setTimeout(() => {
+      console.log("Navigate to: /reset-password");
+      // This is where you'd implement actual navigation
+    }, 1000);
   }, []);
 
   const handleSignupClick = useCallback(() => {
