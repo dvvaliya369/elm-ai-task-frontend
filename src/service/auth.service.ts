@@ -19,6 +19,15 @@ export interface IChangePasswordPayload {
   newPassword: string;
 }
 
+export interface IForgotPasswordPayload {
+  email: string;
+}
+
+export interface IResetPasswordPayload {
+  token: string;
+  newPassword: string;
+}
+
 interface AuthResponse {
   success: boolean;
   message: string;
@@ -30,6 +39,16 @@ interface AuthResponse {
 }
 
 interface ChangePasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+interface ResetPasswordResponse {
   success: boolean;
   message: string;
 }
@@ -94,6 +113,54 @@ export const changePassword = createAsyncThunk(
       };
       const message =
         axiosError.response?.data?.message || "Password change failed";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (body: IForgotPasswordPayload, { rejectWithValue }) => {
+    try {
+      const res = await api.post<ForgotPasswordResponse>(
+        "/auth/forgot-password",
+        body
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Request failed");
+      }
+      return { message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Request failed";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (body: IResetPasswordPayload, { rejectWithValue }) => {
+    try {
+      const res = await api.post<ResetPasswordResponse>(
+        "/auth/reset-password",
+        body
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Password reset failed");
+      }
+      return { message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Password reset failed";
       return rejectWithValue(message);
     }
   }

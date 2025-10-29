@@ -23,6 +23,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   footerLinkText,
   onFooterLinkClick,
   isLoading = false,
+  forgotPasswordLink,
 }) => {
   return (
     <Container component="main" maxWidth="sm">
@@ -74,6 +75,20 @@ const AuthForm: React.FC<AuthFormProps> = ({
                   ))
                 )}
               </Stack>
+
+              {forgotPasswordLink && (
+                <Box sx={authFormStyles.forgotPasswordContainer}>
+                  <Link
+                    component="button"
+                    type="button"
+                    variant="body2"
+                    onClick={forgotPasswordLink.onClick}
+                    sx={authFormStyles.forgotPasswordLink}
+                  >
+                    {forgotPasswordLink.text}
+                  </Link>
+                </Box>
+              )}
 
               <Button
                 type="submit"

@@ -29,6 +29,16 @@ export const validateName = (name: string, fieldName: string): string => {
   return '';
 };
 
+export const validateConfirmPassword = (password: string, confirmPassword: string): string => {
+  if (!confirmPassword) {
+    return 'Please confirm your password';
+  }
+  if (password !== confirmPassword) {
+    return 'Passwords do not match';
+  }
+  return '';
+};
+
 export const validateForm = (fields: Record<string, string>): Record<string, string> => {
   const errors: Record<string, string> = {};
 
@@ -46,6 +56,10 @@ export const validateForm = (fields: Record<string, string>): Record<string, str
 
   if (fields.lastName !== undefined) {
     errors.lastName = validateName(fields.lastName, 'Last name');
+  }
+
+  if (fields.confirmPassword !== undefined && fields.password !== undefined) {
+    errors.confirmPassword = validateConfirmPassword(fields.password, fields.confirmPassword);
   }
 
   Object.keys(errors).forEach(key => {

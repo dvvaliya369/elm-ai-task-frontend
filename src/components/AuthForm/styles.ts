@@ -74,4 +74,18 @@ export const authFormStyles = {
       textDecoration: "underline",
     },
   },
+  forgotPasswordContainer: {
+    textAlign: "right",
+    mt: 1,
+    mb: 1,
+  },
+  forgotPasswordLink: {
+    textDecoration: "none",
+    color: "primary.main",
+    fontSize: "0.875rem",
+    fontWeight: 500,
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
 };

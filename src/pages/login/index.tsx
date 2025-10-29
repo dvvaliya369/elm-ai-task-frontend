@@ -70,6 +70,10 @@ const Login = () => {
     navigate("/sign-up");
   }, [navigate]);
 
+  const handleForgotPasswordClick = useCallback(() => {
+    navigate("/forgot-password");
+  }, [navigate]);
+
   const fields: AuthFormField[] = [
     {
       name: "email",
@@ -102,6 +106,10 @@ const Login = () => {
       footerLinkText="Sign up"
       onFooterLinkClick={handleSignupClick}
       isLoading={loading}
+      forgotPasswordLink={{
+        text: "Forgot Password?",
+        onClick: handleForgotPasswordClick,
+      }}
     />
   );
 };

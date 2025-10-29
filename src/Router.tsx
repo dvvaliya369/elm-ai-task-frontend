@@ -10,6 +10,8 @@ import PostDetail from "./pages/post/index.tsx";
 import CreatePost from "./pages/create/index.tsx";
 import Profile from "./pages/profile/index.tsx";
 import MyPostsPage from "./pages/my-posts/index.tsx";
+import ForgotPassword from "./pages/forgot-password/index.tsx";
+import ResetPassword from "./pages/reset-password/index.tsx";
 
 const Router: React.FC = () => {
   return (
@@ -72,6 +74,22 @@ const Router: React.FC = () => {
             element={
               <PublicRoute>
                 <Signup />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/reset-password/:token"
+            element={
+              <PublicRoute>
+                <ResetPassword />
               </PublicRoute>
             }
           />

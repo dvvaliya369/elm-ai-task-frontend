@@ -18,4 +18,8 @@ export interface AuthFormProps {
   footerLinkText: string;
   onFooterLinkClick: () => void;
   isLoading?: boolean;
+  forgotPasswordLink?: {
+    text: string;
+    onClick: () => void;
+  };
 }
