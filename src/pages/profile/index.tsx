@@ -22,6 +22,7 @@ import { useProfile } from "../../hooks/useProfile";
 import { getUserDisplayName } from "../../utils/user";
 import { profileStyles } from "./styles";
 import ChangePassword from "../../components/ChangePassword";
+import { ImageCropperDialog } from "../../components/ImageCropper";
 
 const Profile: React.FC = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -33,6 +34,9 @@ const Profile: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  const [originalFileName, setOriginalFileName] = useState<string>("");
 
   const isOwnProfile = !profileId;
   const displayName = getUserDisplayName(profile);
@@ -48,13 +52,45 @@ const Profile: React.FC = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (file) {
-        setSelectedFile(file);
         const url = URL.createObjectURL(file);
-        setPreviewUrl(url);
+        setImageToCrop(url);
+        setOriginalFileName(file.name);
+        setCropperOpen(true);
       }
+      // Reset the input value to allow selecting the same file again
+      event.target.value = "";
     },
     []
   );
+
+  const handleCropComplete = useCallback((croppedImageFile: File) => {
+    setSelectedFile(croppedImageFile);
+    const url = URL.createObjectURL(croppedImageFile);
+    
+    // Clean up previous preview URL
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    
+    setPreviewUrl(url);
+    setCropperOpen(false);
+    
+    // Clean up the temporary image URL
+    if (imageToCrop) {
+      URL.revokeObjectURL(imageToCrop);
+      setImageToCrop(null);
+    }
+  }, [previewUrl, imageToCrop]);
+
+  const handleCropperClose = useCallback(() => {
+    setCropperOpen(false);
+    
+    // Clean up the image to crop URL
+    if (imageToCrop) {
+      URL.revokeObjectURL(imageToCrop);
+      setImageToCrop(null);
+    }
+  }, [imageToCrop]);
 
   const handleEditToggle = useCallback(() => {
     if (isEditing) {
@@ -64,10 +100,15 @@ const Profile: React.FC = () => {
         URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
       }
+      if (imageToCrop) {
+        URL.revokeObjectURL(imageToCrop);
+        setImageToCrop(null);
+      }
+      setCropperOpen(false);
     } else {
       setIsEditing(true);
     }
-  }, [isEditing, previewUrl]);
+  }, [isEditing, previewUrl, imageToCrop]);
 
   const handleSave = useCallback(async () => {
     const success = await handleUpdateProfile(
@@ -253,6 +294,17 @@ const Profile: React.FC = () => {
           {isOwnProfile && <ChangePassword />}
         </Container>
       </Box>
+
+      {/* Image Cropper Dialog */}
+      {imageToCrop && (
+        <ImageCropperDialog
+          open={cropperOpen}
+          imageSrc={imageToCrop}
+          onClose={handleCropperClose}
+          onCropComplete={handleCropComplete}
+          fileName={originalFileName || "profile-picture.jpg"}
+        />
+      )}
     </>
   );
 };
