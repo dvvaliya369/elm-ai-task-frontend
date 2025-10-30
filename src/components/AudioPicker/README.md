@@ -1,16 +1,16 @@
-# ImagePicker Component
+# AudioPicker Component
 
-A reusable React component for selecting and previewing images with drag-and-drop support.
+A reusable React component for selecting and previewing audio files with drag-and-drop support.
 
 ## Features
 
-- ✅ Single or multiple image selection
+- ✅ Single or multiple audio file selection
 - ✅ Drag and drop support
-- ✅ Image preview with remove functionality
+- ✅ Audio preview with playback controls
 - ✅ File type validation
 - ✅ File size validation
 - ✅ Maximum file count limit
-- ✅ Responsive grid layout
+- ✅ Audio duration display
 - ✅ Material-UI integration
 - ✅ TypeScript support
 
@@ -19,7 +19,7 @@ A reusable React component for selecting and previewing images with drag-and-dro
 ### Basic Example
 
 ```tsx
-import { ImagePicker } from './components';
+import { AudioPicker } from './components';
 
 function MyComponent() {
   const handleFilesChange = (files: File[]) => {
@@ -27,32 +27,32 @@ function MyComponent() {
   };
 
   return (
-    <ImagePicker
+    <AudioPicker
       onFilesChange={handleFilesChange}
-      helperText="Select up to 5 images (max 5MB each)"
+      helperText="Select up to 5 audio files (max 10MB each)"
     />
   );
 }
 ```
 
-### Multiple Images
+### Multiple Audio Files
 
 ```tsx
-<ImagePicker
+<AudioPicker
   multiple
   maxFiles={10}
-  maxSizeInMB={10}
+  maxSizeInMB={20}
   onFilesChange={handleFilesChange}
 />
 ```
 
-### With Initial Images
+### With Initial Audio Files
 
 ```tsx
-<ImagePicker
-  initialImages={[
-    'https://example.com/image1.jpg',
-    'https://example.com/image2.jpg'
+<AudioPicker
+  initialAudios={[
+    'https://example.com/audio1.mp3',
+    'https://example.com/audio2.wav'
   ]}
   onFilesChange={handleFilesChange}
 />
@@ -61,8 +61,8 @@ function MyComponent() {
 ### With Custom Formats
 
 ```tsx
-<ImagePicker
-  acceptedFormats={['image/jpeg', 'image/png']}
+<AudioPicker
+  acceptedFormats={['audio/mpeg', 'audio/wav']}
   onFilesChange={handleFilesChange}
 />
 ```
@@ -70,9 +70,9 @@ function MyComponent() {
 ### With Error Handling
 
 ```tsx
-<ImagePicker
+<AudioPicker
   error={hasError}
-  errorText="Please select at least one image"
+  errorText="Please select at least one audio file"
   onFilesChange={handleFilesChange}
 />
 ```
@@ -84,9 +84,9 @@ function MyComponent() {
 | `onFilesChange` | `(files: File[]) => void` | **Required** | Callback when files are selected or removed |
 | `multiple` | `boolean` | `false` | Allow multiple file selection |
 | `maxFiles` | `number` | `5` | Maximum number of files allowed |
-| `maxSizeInMB` | `number` | `5` | Maximum file size in megabytes |
-| `acceptedFormats` | `string[]` | `['image/jpeg', 'image/png', 'image/gif', 'image/webp']` | Accepted MIME types |
-| `initialImages` | `string[]` | `[]` | Initial image URLs to display |
+| `maxSizeInMB` | `number` | `10` | Maximum file size in megabytes |
+| `acceptedFormats` | `string[]` | `['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/webm', 'audio/aac', 'audio/m4a']` | Accepted MIME types |
+| `initialAudios` | `string[]` | `[]` | Initial audio URLs to display |
 | `disabled` | `boolean` | `false` | Disable the picker |
 | `helperText` | `string` | `undefined` | Helper text to display |
 | `error` | `boolean` | `false` | Show error state |
@@ -101,5 +101,16 @@ The component uses Material-UI's `sx` prop for styling. You can customize the ap
 The component is fully typed with TypeScript. Import types as needed:
 
 ```tsx
-import { ImagePickerProps, ImageFile } from './components/ImagePicker/types';
+import { AudioPickerProps, AudioFile } from './components/AudioPicker/types';
 ```
+
+## Features
+
+### Audio Playback
+Each selected audio file displays a native HTML5 audio player with standard controls (play, pause, volume, seek).
+
+### Duration Display
+The component automatically extracts and displays the duration of each audio file.
+
+### File Information
+Shows file name, size, and duration for each selected audio file.

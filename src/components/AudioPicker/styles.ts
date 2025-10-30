@@ -1,7 +1,7 @@
 import { SxProps, Theme } from "@mui/material";
 import { CSSProperties } from "react";
 
-export const imagePickerStyles: Record<string, SxProps<Theme> | CSSProperties> = {
+export const audioPickerStyles: Record<string, SxProps<Theme> | CSSProperties> = {
   container: {
     width: "100%",
     display: "flex",
@@ -9,8 +9,8 @@ export const imagePickerStyles: Record<string, SxProps<Theme> | CSSProperties> =
     gap: 2,
   },
   previewGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
+    display: "flex",
+    flexDirection: "column",
     gap: 2,
     width: "100%",
   },
@@ -87,46 +87,55 @@ export const imagePickerStyles: Record<string, SxProps<Theme> | CSSProperties> =
   },
 };
 
-export const imagePreviewStyles: Record<string, SxProps<Theme> | CSSProperties> = {
+export const audioPreviewStyles: Record<string, SxProps<Theme> | CSSProperties> = {
   container: {
     position: "relative",
     width: "100%",
-    paddingTop: "100%",
     borderRadius: 2,
     overflow: "hidden",
     backgroundColor: "background.default",
     border: "1px solid",
     borderColor: "divider",
-    transition: "transform 0.2s ease",
+    padding: 2,
+    display: "flex",
+    alignItems: "center",
+    gap: 2,
+    transition: "all 0.2s ease",
     "&:hover": {
-      transform: "scale(1.05)",
-      "& .remove-button": {
-        opacity: 1,
-      },
+      borderColor: "primary.main",
+      backgroundColor: "action.hover",
     },
   },
-  removeButton: {
-    position: "absolute",
-    top: 4,
-    right: 4,
-    zIndex: 2,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    color: "white",
-    opacity: 0,
-    transition: "opacity 0.2s ease",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-    },
+  audioIcon: {
+    fontSize: 40,
+    color: "primary.main",
   },
-  removeIcon: {
-    fontSize: 18,
+  infoContainer: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    gap: 0.5,
+    minWidth: 0,
   },
-  image: {
-    position: "absolute",
-    top: 0,
-    left: 0,
+  fileName: {
+    fontWeight: 600,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  fileInfo: {
+    color: "text.secondary",
+    fontSize: "0.875rem",
+  },
+  audioPlayer: {
     width: "100%",
-    height: "100%",
-    objectFit: "cover",
+    marginTop: 1,
   } as CSSProperties,
+  removeButton: {
+    color: "error.main",
+    "&:hover": {
+      backgroundColor: "error.light",
+      color: "error.dark",
+    },
+  },
 };

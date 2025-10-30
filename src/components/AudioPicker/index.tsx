@@ -6,40 +6,40 @@ import {
   Alert,
 } from "@mui/material";
 import {
-  ImageOutlined as ImageIcon,
+  AudioFileOutlined as AudioIcon,
   CloudUploadOutlined as UploadIcon,
 } from "@mui/icons-material";
-import { ImagePickerProps, ImageFile } from "./types";
-import ImagePreview from "./ImagePreview";
-import { imagePickerStyles } from "./styles";
+import { AudioPickerProps, AudioFile } from "./types";
+import AudioPreview from "./AudioPreview";
+import { audioPickerStyles } from "./styles";
 
-const ImagePicker: React.FC<ImagePickerProps> = ({
+const AudioPicker: React.FC<AudioPickerProps> = ({
   multiple = false,
   maxFiles = 5,
-  maxSizeInMB = 5,
-  acceptedFormats = ["image/jpeg", "image/png", "image/gif", "image/webp"],
+  maxSizeInMB = 10,
+  acceptedFormats = ["audio/mpeg", "audio/mp3", "audio/wav", "audio/ogg", "audio/webm", "audio/aac", "audio/m4a"],
   onFilesChange,
-  initialImages = [],
+  initialAudios = [],
   disabled = false,
   helperText,
   error = false,
   errorText,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<ImageFile[]>([]);
+  const [audios, setAudios] = useState<AudioFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
   React.useEffect(() => {
-    if (initialImages.length > 0) {
-      const initialImageFiles: ImageFile[] = initialImages.map((url, index) => ({
+    if (initialAudios.length > 0) {
+      const initialAudioFiles: AudioFile[] = initialAudios.map((url, index) => ({
         file: new File([], `initial-${index}`),
         preview: url,
         id: `initial-${index}-${Date.now()}`,
       }));
-      setImages(initialImageFiles);
+      setAudios(initialAudioFiles);
     }
-  }, [initialImages]);
+  }, [initialAudios]);
 
   const validateFile = useCallback(
     (file: File): string | null => {
@@ -59,23 +59,38 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
     [acceptedFormats, maxSizeInMB]
   );
 
+  const getAudioDuration = (file: File): Promise<number> => {
+    return new Promise((resolve) => {
+      const audio = document.createElement("audio");
+      audio.preload = "metadata";
+      audio.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(audio.src);
+        resolve(audio.duration);
+      };
+      audio.onerror = () => {
+        resolve(0);
+      };
+      audio.src = URL.createObjectURL(file);
+    });
+  };
+
   const processFiles = useCallback(
-    (files: FileList | null) => {
+    async (files: FileList | null) => {
       if (!files || files.length === 0) return;
 
       setValidationError(null);
 
       const fileArray = Array.from(files);
-      const remainingSlots = maxFiles - images.length;
+      const remainingSlots = maxFiles - audios.length;
 
       if (fileArray.length > remainingSlots) {
         setValidationError(
-          `You can only upload ${remainingSlots} more image(s). Maximum ${maxFiles} images allowed.`
+          `You can only upload ${remainingSlots} more audio file(s). Maximum ${maxFiles} files allowed.`
         );
         return;
       }
 
-      const newImages: ImageFile[] = [];
+      const newAudios: AudioFile[] = [];
       let hasError = false;
 
       for (const file of fileArray) {
@@ -87,20 +102,23 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
         }
 
         const preview = URL.createObjectURL(file);
-        newImages.push({
+        const duration = await getAudioDuration(file);
+        
+        newAudios.push({
           file,
           preview,
           id: `${file.name}-${Date.now()}-${Math.random()}`,
+          duration,
         });
       }
 
-      if (!hasError && newImages.length > 0) {
-        const updatedImages = [...images, ...newImages];
-        setImages(updatedImages);
-        onFilesChange(updatedImages.map((img) => img.file));
+      if (!hasError && newAudios.length > 0) {
+        const updatedAudios = [...audios, ...newAudios];
+        setAudios(updatedAudios);
+        onFilesChange(updatedAudios.map((audio) => audio.file));
       }
     },
-    [images, maxFiles, validateFile, onFilesChange]
+    [audios, maxFiles, validateFile, onFilesChange]
   );
 
   const handleFileSelect = useCallback(
@@ -113,19 +131,19 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
     [processFiles]
   );
 
-  const handleRemoveImage = useCallback(
+  const handleRemoveAudio = useCallback(
     (id: string) => {
-      const imageToRemove = images.find((img) => img.id === id);
-      if (imageToRemove && !imageToRemove.preview.startsWith("http")) {
-        URL.revokeObjectURL(imageToRemove.preview);
+      const audioToRemove = audios.find((audio) => audio.id === id);
+      if (audioToRemove && !audioToRemove.preview.startsWith("http")) {
+        URL.revokeObjectURL(audioToRemove.preview);
       }
 
-      const updatedImages = images.filter((img) => img.id !== id);
-      setImages(updatedImages);
-      onFilesChange(updatedImages.map((img) => img.file));
+      const updatedAudios = audios.filter((audio) => audio.id !== id);
+      setAudios(updatedAudios);
+      onFilesChange(updatedAudios.map((audio) => audio.file));
       setValidationError(null);
     },
-    [images, onFilesChange]
+    [audios, onFilesChange]
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent) => {
@@ -165,26 +183,26 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
 
   React.useEffect(() => {
     return () => {
-      images.forEach((img) => {
-        if (!img.preview.startsWith("http")) {
-          URL.revokeObjectURL(img.preview);
+      audios.forEach((audio) => {
+        if (!audio.preview.startsWith("http")) {
+          URL.revokeObjectURL(audio.preview);
         }
       });
     };
-  }, [images]);
+  }, [audios]);
 
-  const showUploadArea = images.length < maxFiles;
+  const showUploadArea = audios.length < maxFiles;
   const displayError = error || validationError;
 
   return (
-    <Box sx={imagePickerStyles.container}>
-      {images.length > 0 && (
-        <Box sx={imagePickerStyles.previewGrid}>
-          {images.map((image) => (
-            <ImagePreview
-              key={image.id}
-              image={image}
-              onRemove={handleRemoveImage}
+    <Box sx={audioPickerStyles.container}>
+      {audios.length > 0 && (
+        <Box sx={audioPickerStyles.previewGrid}>
+          {audios.map((audio) => (
+            <AudioPreview
+              key={audio.id}
+              audio={audio}
+              onRemove={handleRemoveAudio}
               disabled={disabled}
             />
           ))}
@@ -198,17 +216,17 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           sx={{
-            ...imagePickerStyles.dropzone,
-            ...(isDragging && imagePickerStyles.dropzoneActive),
-            ...(disabled && imagePickerStyles.dropzoneDisabled),
-            ...(displayError && imagePickerStyles.dropzoneError),
+            ...audioPickerStyles.dropzone,
+            ...(isDragging && audioPickerStyles.dropzoneActive),
+            ...(disabled && audioPickerStyles.dropzoneDisabled),
+            ...(displayError && audioPickerStyles.dropzoneError),
           }}
         >
           <input
             ref={fileInputRef}
             accept={acceptedFormats.join(",")}
             style={{ display: "none" }}
-            id="image-picker-input"
+            id="audio-picker-input"
             type="file"
             multiple={multiple}
             onChange={handleFileSelect}
@@ -217,28 +235,28 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
 
           {isDragging ? (
             <>
-              <UploadIcon sx={imagePickerStyles.uploadIcon} />
-              <Typography variant="body1" sx={imagePickerStyles.dragText}>
-                Drop images here
+              <UploadIcon sx={audioPickerStyles.uploadIcon} />
+              <Typography variant="body1" sx={audioPickerStyles.dragText}>
+                Drop audio files here
               </Typography>
             </>
           ) : (
             <>
-              <ImageIcon sx={imagePickerStyles.icon} />
-              <Typography variant="body2" sx={imagePickerStyles.text}>
-                {images.length === 0
-                  ? "Drag and drop images here, or click to select"
-                  : `Add more images (${images.length}/${maxFiles})`}
+              <AudioIcon sx={audioPickerStyles.icon} />
+              <Typography variant="body2" sx={audioPickerStyles.text}>
+                {audios.length === 0
+                  ? "Drag and drop audio files here, or click to select"
+                  : `Add more audio files (${audios.length}/${maxFiles})`}
               </Typography>
               <Button
                 variant="outlined"
                 component="span"
                 onClick={handleButtonClick}
                 disabled={disabled}
-                startIcon={<ImageIcon />}
-                sx={imagePickerStyles.button}
+                startIcon={<AudioIcon />}
+                sx={audioPickerStyles.button}
               >
-                Select Images
+                Select Audio Files
               </Button>
             </>
           )}
@@ -246,25 +264,25 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
       )}
 
       {helperText && !displayError && (
-        <Typography variant="caption" sx={imagePickerStyles.helperText}>
+        <Typography variant="caption" sx={audioPickerStyles.helperText}>
           {helperText}
         </Typography>
       )}
 
       {displayError && (
-        <Alert severity="error" sx={imagePickerStyles.alert}>
+        <Alert severity="error" sx={audioPickerStyles.alert}>
           {errorText || validationError}
         </Alert>
       )}
 
-      {!displayError && images.length > 0 && (
-        <Typography variant="caption" sx={imagePickerStyles.infoText}>
-          {images.length} of {maxFiles} images selected • Max {maxSizeInMB}MB
-          per image
+      {!displayError && audios.length > 0 && (
+        <Typography variant="caption" sx={audioPickerStyles.infoText}>
+          {audios.length} of {maxFiles} audio files selected • Max {maxSizeInMB}MB
+          per file
         </Typography>
       )}
     </Box>
   );
 };
 
-export default ImagePicker;
+export default AudioPicker;
