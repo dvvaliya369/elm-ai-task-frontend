@@ -15,6 +15,7 @@ import {
 import {
   ImageOutlined as ImageIcon,
   CloseOutlined as CloseIcon,
+  CropOutlined as CropIcon,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "../../store";
@@ -23,6 +24,7 @@ import { useCreatePost } from "../../hooks/useCreatePost";
 import { useUpdatePost } from "../../hooks/useUpdatePost";
 import { getPostById } from "../../service/post.service";
 import Navbar from "../../layouts/Navbar";
+import { ImageCropper } from "../../components";
 import { createPostStyles } from "./styles";
 
 const CreatePost: React.FC = () => {
@@ -43,6 +45,8 @@ const CreatePost: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [originalMediaUrl, setOriginalMediaUrl] = useState<string | null>(null);
   const [isMediaRemoved, setIsMediaRemoved] = useState(false);
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [imageToEdit, setImageToEdit] = useState<File | null>(null);
 
   const isUpdateMode = Boolean(postId);
   const displayName = getUserDisplayName(user);
@@ -61,6 +65,32 @@ const CreatePost: React.FC = () => {
     },
     []
   );
+
+  const handleCropImage = useCallback(() => {
+    if (selectedFile && mediaType === "image") {
+      setImageToEdit(selectedFile);
+      setCropperOpen(true);
+    }
+  }, [selectedFile, mediaType]);
+
+  const handleCropComplete = useCallback((croppedFile: File) => {
+    // Clean up the old preview URL
+    if (previewUrl && !originalMediaUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    
+    // Set the new cropped file
+    setSelectedFile(croppedFile);
+    const newUrl = URL.createObjectURL(croppedFile);
+    setPreviewUrl(newUrl);
+    setCropperOpen(false);
+    setImageToEdit(null);
+  }, [previewUrl, originalMediaUrl]);
+
+  const handleCropperClose = useCallback(() => {
+    setCropperOpen(false);
+    setImageToEdit(null);
+  }, []);
 
   const handleRemoveFile = useCallback(() => {
     if (previewUrl && !originalMediaUrl) {
@@ -264,12 +294,36 @@ const CreatePost: React.FC = () => {
 
             {previewUrl ? (
               <Box sx={createPostStyles.previewContainer}>
-                <IconButton
-                  onClick={handleRemoveFile}
-                  sx={createPostStyles.closeButton}
-                >
-                  <CloseIcon sx={createPostStyles.closeIcon} />
-                </IconButton>
+                <Box sx={{ display: "flex", gap: 1, position: "absolute", top: 8, right: 8, zIndex: 1 }}>
+                  {mediaType === "image" && (
+                    <IconButton
+                      onClick={handleCropImage}
+                      sx={{
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        color: "white",
+                        "&:hover": {
+                          backgroundColor: "rgba(0, 0, 0, 0.8)",
+                        },
+                      }}
+                      size="small"
+                    >
+                      <CropIcon />
+                    </IconButton>
+                  )}
+                  <IconButton
+                    onClick={handleRemoveFile}
+                    sx={{
+                      backgroundColor: "rgba(0, 0, 0, 0.6)",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                      },
+                    }}
+                    size="small"
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
                 {mediaType === "image" ? (
                   <img
                     src={previewUrl}
@@ -346,6 +400,13 @@ const CreatePost: React.FC = () => {
           </Card>
         </Container>
       </Box>
+
+      <ImageCropper
+        open={cropperOpen}
+        onClose={handleCropperClose}
+        onCropComplete={handleCropComplete}
+        initialImage={imageToEdit || undefined}
+      />
     </>
   );
 };
