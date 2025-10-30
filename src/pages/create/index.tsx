@@ -24,6 +24,7 @@ import { useUpdatePost } from "../../hooks/useUpdatePost";
 import { getPostById } from "../../service/post.service";
 import Navbar from "../../layouts/Navbar";
 import { createPostStyles } from "./styles";
+import ImageCropper from "../../components/ImageCropper";
 
 const CreatePost: React.FC = () => {
   const theme = useTheme();
@@ -43,6 +44,8 @@ const CreatePost: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [originalMediaUrl, setOriginalMediaUrl] = useState<string | null>(null);
   const [isMediaRemoved, setIsMediaRemoved] = useState(false);
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [tempImageUrl, setTempImageUrl] = useState<string | null>(null);
 
   const isUpdateMode = Boolean(postId);
   const displayName = getUserDisplayName(user);
@@ -52,15 +55,51 @@ const CreatePost: React.FC = () => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (file) {
-        setSelectedFile(file);
         const url = URL.createObjectURL(file);
-        setPreviewUrl(url);
-        setMediaType(file.type.startsWith("image/") ? "image" : "video");
-        setIsMediaRemoved(false);
+        const fileMediaType = file.type.startsWith("image/") ? "image" : "video";
+
+        // Only open cropper for images, not videos
+        if (fileMediaType === "image") {
+          setTempImageUrl(url);
+          setCropperOpen(true);
+        } else {
+          setSelectedFile(file);
+          setPreviewUrl(url);
+          setMediaType(fileMediaType);
+          setIsMediaRemoved(false);
+        }
       }
+      // Reset the input value to allow selecting the same file again
+      event.target.value = "";
     },
     []
   );
+
+  const handleCropComplete = useCallback(
+    (croppedImageFile: File) => {
+      setSelectedFile(croppedImageFile);
+      const url = URL.createObjectURL(croppedImageFile);
+      setPreviewUrl(url);
+      setMediaType("image");
+      setIsMediaRemoved(false);
+      setCropperOpen(false);
+
+      // Clean up temp URL
+      if (tempImageUrl) {
+        URL.revokeObjectURL(tempImageUrl);
+        setTempImageUrl(null);
+      }
+    },
+    [tempImageUrl]
+  );
+
+  const handleCropCancel = useCallback(() => {
+    setCropperOpen(false);
+    if (tempImageUrl) {
+      URL.revokeObjectURL(tempImageUrl);
+      setTempImageUrl(null);
+    }
+  }, [tempImageUrl]);
 
   const handleRemoveFile = useCallback(() => {
     if (previewUrl && !originalMediaUrl) {
@@ -211,6 +250,12 @@ const CreatePost: React.FC = () => {
   return (
     <>
       <Navbar />
+      <ImageCropper
+        open={cropperOpen}
+        imageSrc={tempImageUrl || ""}
+        onCropComplete={handleCropComplete}
+        onCancel={handleCropCancel}
+      />
       <Box sx={createPostStyles.container}>
         <Container maxWidth="sm">
           <Card sx={createPostStyles.card}>
