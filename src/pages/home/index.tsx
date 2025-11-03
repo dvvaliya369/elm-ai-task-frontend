@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Typography, CircularProgress, Grid } from "@mui/material";
 import { Navbar } from "../../layouts";
 import { PostCard, PostSkeleton } from "../../components/Post";
+import { Timer } from "../../components/Timer";
 import { usePosts } from "../../hooks/usePosts";
 import { homeStyles } from "./styles";
 
@@ -73,6 +74,11 @@ const Home = () => {
     return (
       <Box>
         <Navbar />
+        <Box sx={homeStyles.mainContainer}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+            <Timer initialMinutes={5} initialSeconds={0} />
+          </Box>
+        </Box>
         <Box sx={homeStyles.errorContainer}>
           <Typography variant="h6" color="error" gutterBottom>
             Failed to load posts
@@ -89,6 +95,9 @@ const Home = () => {
     <Box>
       <Navbar />
       <Box sx={homeStyles.mainContainer}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <Timer initialMinutes={5} initialSeconds={0} />
+        </Box>
         <Grid container spacing={0} justifyContent="center">
           {loading && posts.length === 0 ? (
             Array.from({ length: 3 }).map((_, index) => (
