@@ -9,10 +9,12 @@ export const timerStyles: Record<string, SxProps<Theme>> = {
     gap: 2,
     minWidth: 280,
     maxWidth: 320,
+    backgroundColor: "#0d47a1",
+    color: "#ffffff",
   },
   title: {
     fontWeight: 600,
-    color: "primary.main",
+    color: "#ffffff",
   },
   progressContainer: {
     position: "relative",
@@ -21,7 +23,7 @@ export const timerStyles: Record<string, SxProps<Theme>> = {
     justifyContent: "center",
   },
   circularProgress: {
-    color: "primary.main",
+    color: "#64b5f6",
   },
   timeDisplay: {
     position: "absolute",
@@ -32,7 +34,7 @@ export const timerStyles: Record<string, SxProps<Theme>> = {
   timeText: {
     fontWeight: 700,
     fontFamily: "monospace",
-    color: "text.primary",
+    color: "#ffffff",
   },
   inputContainer: {
     display: "flex",
@@ -42,6 +44,24 @@ export const timerStyles: Record<string, SxProps<Theme>> = {
   },
   input: {
     width: 100,
+    "& .MuiInputLabel-root": {
+      color: "#bbdefb",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "#64b5f6",
+    },
+    "& .MuiOutlinedInput-root": {
+      color: "#ffffff",
+      "& fieldset": {
+        borderColor: "#64b5f6",
+      },
+      "&:hover fieldset": {
+        borderColor: "#90caf9",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#64b5f6",
+      },
+    },
   },
   controls: {
     display: "flex",

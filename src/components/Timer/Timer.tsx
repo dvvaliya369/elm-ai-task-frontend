@@ -168,13 +168,30 @@ const Timer: React.FC<TimerProps> = ({
       <Box sx={timerStyles.controls}>
         <IconButton
           onClick={handleStartPause}
-          color="primary"
           size="large"
           disabled={minutes === 0 && seconds === 0}
+          sx={{
+            color: "#ffffff",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+            },
+            "&.Mui-disabled": {
+              color: "rgba(255, 255, 255, 0.3)",
+            },
+          }}
         >
           {isRunning ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
-        <IconButton onClick={handleReset} color="secondary" size="large">
+        <IconButton
+          onClick={handleReset}
+          size="large"
+          sx={{
+            color: "#ffffff",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+            },
+          }}
+        >
           <RestartAltIcon />
         </IconButton>
       </Box>
