@@ -6,8 +6,14 @@ import { useThemeMode } from "../../context/ThemeContext";
 const ThemeToggle: React.FC = () => {
   const { mode, toggleTheme } = useThemeMode();
 
+  const getTooltipTitle = () => {
+    if (mode === "light") return "Switch to dark mode";
+    if (mode === "dark") return "Switch to dark blue mode";
+    return "Switch to light mode";
+  };
+
   return (
-    <Tooltip title={mode === "light" ? "Switch to dark mode" : "Switch to light mode"}>
+    <Tooltip title={getTooltipTitle()}>
       <IconButton onClick={toggleTheme} color="inherit" aria-label="toggle theme">
         {mode === "light" ? <Brightness4 /> : <Brightness7 />}
       </IconButton>

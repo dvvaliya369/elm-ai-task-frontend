@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 
-type ThemeMode = "light" | "dark";
+type ThemeMode = "light" | "dark" | "dark-blue";
 
 interface ThemeContextType {
   mode: ThemeMode;
@@ -32,7 +32,11 @@ export const ThemeModeProvider: React.FC<ThemeProviderProps> = ({ children }) =>
   }, [mode]);
 
   const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prevMode) => {
+      if (prevMode === "light") return "dark";
+      if (prevMode === "dark") return "dark-blue";
+      return "light";
+    });
   };
 
   const value = useMemo(() => ({ mode, toggleTheme }), [mode]);
