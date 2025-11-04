@@ -128,4 +128,57 @@ export const navbarStyles = {
   mobilePersonIcon: {
     color: "text.secondary",
   },
+
+  postButton: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 600,
+    px: 2.5,
+    py: 0.75,
+    borderRadius: 2,
+    textTransform: "none",
+    fontSize: "0.875rem",
+    boxShadow: "none",
+    bgcolor: "primary.main",
+    color: "white",
+    "&:hover": {
+      bgcolor: "primary.dark",
+      boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
+    },
+  },
+
+  tabletPostButton: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 600,
+    px: 2,
+    py: 0.5,
+    borderRadius: 2,
+    textTransform: "none",
+    fontSize: "0.8125rem",
+    minHeight: "auto",
+    boxShadow: "none",
+    bgcolor: "primary.main",
+    color: "white",
+    "&:hover": {
+      bgcolor: "primary.dark",
+      boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
+    },
+  },
+
+  mobilePostButton: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: 600,
+    px: 1.5,
+    py: 0.5,
+    borderRadius: 2,
+    textTransform: "none",
+    fontSize: "0.75rem",
+    minHeight: "auto",
+    boxShadow: "none",
+    bgcolor: "primary.main",
+    color: "white",
+    "&:hover": {
+      bgcolor: "primary.dark",
+      boxShadow: "0 2px 8px rgba(25, 118, 210, 0.24)",
+    },
+  },
 };

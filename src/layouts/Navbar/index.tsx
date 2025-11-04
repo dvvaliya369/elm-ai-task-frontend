@@ -88,14 +88,23 @@ const Navbar: React.FC = () => {
               </Box>
 
               {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
-                  <Avatar
-                    alt={user?.fullName || "User"}
-                    sx={navbarStyles.profileAvatar}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleNavigation("/posts/create")}
+                    sx={navbarStyles.postButton}
                   >
-                    {user?.fullName?.[0] || "U"}
-                  </Avatar>
-                </IconButton>
+                    Post
+                  </Button>
+                  <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
+                    <Avatar
+                      alt={user?.fullName || "User"}
+                      sx={navbarStyles.profileAvatar}
+                    >
+                      {user?.fullName?.[0] || "U"}
+                    </Avatar>
+                  </IconButton>
+                </Box>
               ) : (
                 <Box sx={navbarStyles.authButtonsContainer}>
                   <Button
@@ -136,14 +145,23 @@ const Navbar: React.FC = () => {
               )}
 
               {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
-                  <Avatar
-                    alt={user?.fullName || "User"}
-                    sx={navbarStyles.profileAvatar}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 1 }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleNavigation("/posts/create")}
+                    sx={navbarStyles.tabletPostButton}
                   >
-                    {user?.fullName?.[0] || "U"}
-                  </Avatar>
-                </IconButton>
+                    Post
+                  </Button>
+                  <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
+                    <Avatar
+                      alt={user?.fullName || "User"}
+                      sx={navbarStyles.profileAvatar}
+                    >
+                      {user?.fullName?.[0] || "U"}
+                    </Avatar>
+                  </IconButton>
+                </Box>
               ) : (
                 <Box sx={navbarStyles.tabletAuthContainer}>
                   <Button
@@ -168,18 +186,29 @@ const Navbar: React.FC = () => {
           )}
 
           {isMobile && (
-            <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
-              {isAuthenticated ? (
-                <Avatar
-                  alt={user?.fullName || "User"}
-                  sx={navbarStyles.mobileProfileAvatar}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              {isAuthenticated && (
+                <Button
+                  variant="contained"
+                  onClick={() => handleNavigation("/posts/create")}
+                  sx={navbarStyles.mobilePostButton}
                 >
-                  {user?.fullName?.[0] || "U"}
-                </Avatar>
-              ) : (
-                <PersonIcon sx={navbarStyles.mobilePersonIcon} />
+                  Post
+                </Button>
               )}
-            </IconButton>
+              <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
+                {isAuthenticated ? (
+                  <Avatar
+                    alt={user?.fullName || "User"}
+                    sx={navbarStyles.mobileProfileAvatar}
+                  >
+                    {user?.fullName?.[0] || "U"}
+                  </Avatar>
+                ) : (
+                  <PersonIcon sx={navbarStyles.mobilePersonIcon} />
+                )}
+              </IconButton>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
