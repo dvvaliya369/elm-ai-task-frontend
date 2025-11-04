@@ -21,6 +21,7 @@ import Logo from "./components/Logo";
 import NavButton from "./components/NavButton";
 import IconNavButton from "./components/IconNavButton";
 import ProfileMenu from "./components/ProfileMenu";
+import ThemeToggle from "../../components/ThemeToggle";
 import { useNavbarHandlers } from "./hooks/useNavbarHandlers";
 import { useProfileMenu } from "./hooks/useProfileMenu";
 import { navbarStyles } from "./styles";
@@ -87,35 +88,38 @@ const Navbar: React.FC = () => {
                 )}
               </Box>
 
-              {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
-                  <Avatar
-                    alt={user?.fullName || "User"}
-                    sx={navbarStyles.profileAvatar}
-                  >
-                    {user?.fullName?.[0] || "U"}
-                  </Avatar>
-                </IconButton>
-              ) : (
-                <Box sx={navbarStyles.authButtonsContainer}>
-                  <Button
-                    size="small"
-                    variant="text"
-                    onClick={handleLogin}
-                    sx={navbarStyles.loginButton}
-                  >
-                    Sign In
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    onClick={handleSignup}
-                    sx={navbarStyles.signupButton}
-                  >
-                    Sign Up
-                  </Button>
-                </Box>
-              )}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <ThemeToggle />
+                {isAuthenticated ? (
+                  <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
+                    <Avatar
+                      alt={user?.fullName || "User"}
+                      sx={navbarStyles.profileAvatar}
+                    >
+                      {user?.fullName?.[0] || "U"}
+                    </Avatar>
+                  </IconButton>
+                ) : (
+                  <Box sx={navbarStyles.authButtonsContainer}>
+                    <Button
+                      size="small"
+                      variant="text"
+                      onClick={handleLogin}
+                      sx={navbarStyles.loginButton}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={handleSignup}
+                      sx={navbarStyles.signupButton}
+                    >
+                      Sign Up
+                    </Button>
+                  </Box>
+                )}
+              </Box>
             </Box>
           )}
 
@@ -134,6 +138,8 @@ const Navbar: React.FC = () => {
                   isActive={location.pathname === "/posts/create"}
                 />
               )}
+
+              <ThemeToggle />
 
               {isAuthenticated ? (
                 <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
@@ -168,18 +174,21 @@ const Navbar: React.FC = () => {
           )}
 
           {isMobile && (
-            <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
-              {isAuthenticated ? (
-                <Avatar
-                  alt={user?.fullName || "User"}
-                  sx={navbarStyles.mobileProfileAvatar}
-                >
-                  {user?.fullName?.[0] || "U"}
-                </Avatar>
-              ) : (
-                <PersonIcon sx={navbarStyles.mobilePersonIcon} />
-              )}
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <ThemeToggle />
+              <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
+                {isAuthenticated ? (
+                  <Avatar
+                    alt={user?.fullName || "User"}
+                    sx={navbarStyles.mobileProfileAvatar}
+                  >
+                    {user?.fullName?.[0] || "U"}
+                  </Avatar>
+                ) : (
+                  <PersonIcon sx={navbarStyles.mobilePersonIcon} />
+                )}
+              </IconButton>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
