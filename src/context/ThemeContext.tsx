@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 
-type ThemeMode = "light" | "dark" | "dark-blue";
+type ThemeMode = "light" | "dark" | "dark-blue" | "deep-yellow";
 
 interface ThemeContextType {
   mode: ThemeMode;
@@ -35,6 +35,7 @@ export const ThemeModeProvider: React.FC<ThemeProviderProps> = ({ children }) =>
     setMode((prevMode) => {
       if (prevMode === "light") return "dark";
       if (prevMode === "dark") return "dark-blue";
+      if (prevMode === "dark-blue") return "deep-yellow";
       return "light";
     });
   };

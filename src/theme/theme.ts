@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-type ThemeMode = "light" | "dark" | "dark-blue";
+type ThemeMode = "light" | "dark" | "dark-blue" | "deep-yellow";
 
 export const createAppTheme = (mode: ThemeMode) => {
   const getPaletteConfig = () => {
@@ -33,6 +33,26 @@ export const createAppTheme = (mode: ThemeMode) => {
         text: {
           primary: "#e3f2fd",
           secondary: "#b3d9ff",
+        },
+      };
+    }
+    
+    if (mode === "deep-yellow") {
+      return {
+        mode: "light" as const,
+        primary: {
+          main: "#F5A623",
+        },
+        secondary: {
+          main: "#FF9800",
+        },
+        background: {
+          default: "#FFF9E6",
+          paper: "#FFF4D6",
+        },
+        text: {
+          primary: "#2C2416",
+          secondary: "#5C4A2F",
         },
       };
     }

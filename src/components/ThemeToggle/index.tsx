@@ -9,6 +9,7 @@ const ThemeToggle: React.FC = () => {
   const getTooltipTitle = () => {
     if (mode === "light") return "Switch to dark mode";
     if (mode === "dark") return "Switch to dark blue mode";
+    if (mode === "dark-blue") return "Switch to deep yellow mode";
     return "Switch to light mode";
   };
 
