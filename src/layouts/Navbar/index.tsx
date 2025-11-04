@@ -8,6 +8,7 @@ import {
   Button,
   IconButton,
   Avatar,
+  Tooltip,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "../../store/index";
@@ -16,7 +17,10 @@ import {
   // SearchOutlined as SearchIcon,
   AddBoxOutlined as AddIcon,
   PersonOutlined as PersonIcon,
+  Brightness4 as DarkModeIcon,
+  Brightness7 as LightModeIcon,
 } from "@mui/icons-material";
+import { useThemeMode } from "../../context/ThemeContext";
 import Logo from "./components/Logo";
 import NavButton from "./components/NavButton";
 import IconNavButton from "./components/IconNavButton";
@@ -29,6 +33,7 @@ const Navbar: React.FC = () => {
   const theme = useTheme();
   const location = useLocation();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { mode, toggleTheme } = useThemeMode();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const isTablet = useMediaQuery(theme.breakpoints.between("md", "lg"));
@@ -87,35 +92,43 @@ const Navbar: React.FC = () => {
                 )}
               </Box>
 
-              {isAuthenticated ? (
-                <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
-                  <Avatar
-                    alt={user?.fullName || "User"}
-                    sx={navbarStyles.profileAvatar}
-                  >
-                    {user?.fullName?.[0] || "U"}
-                  </Avatar>
-                </IconButton>
-              ) : (
-                <Box sx={navbarStyles.authButtonsContainer}>
-                  <Button
-                    size="small"
-                    variant="text"
-                    onClick={handleLogin}
-                    sx={navbarStyles.loginButton}
-                  >
-                    Sign In
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    onClick={handleSignup}
-                    sx={navbarStyles.signupButton}
-                  >
-                    Sign Up
-                  </Button>
-                </Box>
-              )}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Tooltip title={mode === "light" ? "Dark mode" : "Light mode"}>
+                  <IconButton onClick={toggleTheme} color="inherit">
+                    {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+                  </IconButton>
+                </Tooltip>
+
+                {isAuthenticated ? (
+                  <IconButton onClick={handleProfileClick} sx={navbarStyles.profileButton}>
+                    <Avatar
+                      alt={user?.fullName || "User"}
+                      sx={navbarStyles.profileAvatar}
+                    >
+                      {user?.fullName?.[0] || "U"}
+                    </Avatar>
+                  </IconButton>
+                ) : (
+                  <Box sx={navbarStyles.authButtonsContainer}>
+                    <Button
+                      size="small"
+                      variant="text"
+                      onClick={handleLogin}
+                      sx={navbarStyles.loginButton}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={handleSignup}
+                      sx={navbarStyles.signupButton}
+                    >
+                      Sign Up
+                    </Button>
+                  </Box>
+                )}
+              </Box>
             </Box>
           )}
 
@@ -134,6 +147,12 @@ const Navbar: React.FC = () => {
                   isActive={location.pathname === "/posts/create"}
                 />
               )}
+
+              <Tooltip title={mode === "light" ? "Dark mode" : "Light mode"}>
+                <IconButton onClick={toggleTheme} color="inherit">
+                  {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+                </IconButton>
+              </Tooltip>
 
               {isAuthenticated ? (
                 <IconButton onClick={handleProfileClick} sx={navbarStyles.tabletProfileButton}>
@@ -168,18 +187,26 @@ const Navbar: React.FC = () => {
           )}
 
           {isMobile && (
-            <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
-              {isAuthenticated ? (
-                <Avatar
-                  alt={user?.fullName || "User"}
-                  sx={navbarStyles.mobileProfileAvatar}
-                >
-                  {user?.fullName?.[0] || "U"}
-                </Avatar>
-              ) : (
-                <PersonIcon sx={navbarStyles.mobilePersonIcon} />
-              )}
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Tooltip title={mode === "light" ? "Dark mode" : "Light mode"}>
+                <IconButton onClick={toggleTheme} color="inherit" size="small">
+                  {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+                </IconButton>
+              </Tooltip>
+
+              <IconButton onClick={handleProfileClick} sx={navbarStyles.mobileProfileButton}>
+                {isAuthenticated ? (
+                  <Avatar
+                    alt={user?.fullName || "User"}
+                    sx={navbarStyles.mobileProfileAvatar}
+                  >
+                    {user?.fullName?.[0] || "U"}
+                  </Avatar>
+                ) : (
+                  <PersonIcon sx={navbarStyles.mobilePersonIcon} />
+                )}
+              </IconButton>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
