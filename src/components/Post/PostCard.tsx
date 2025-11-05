@@ -7,6 +7,7 @@ import PostCaption from "./PostCaption";
 import CommentInput from "./CommentInput";
 import type { IPost } from "../../interface";
 import { useLike } from "../../hooks/useLike";
+import { useRepost } from "../../hooks/useRepost";
 import { postCardStyles } from "./styles";
 
 interface PostCardProps {
@@ -21,8 +22,14 @@ const PostCard: React.FC<PostCardProps> = ({
   onCardClick,
 }) => {
   const { handleLike } = useLike();
+  const { handleRepost } = useRepost();
+  
   const onLike = () => {
     handleLike?.(post._id);
+  };
+
+  const onRepost = () => {
+    handleRepost?.(post._id);
   };
 
   const handleViewComments = () => {
@@ -51,10 +58,13 @@ const PostCard: React.FC<PostCardProps> = ({
         <PostActions
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
+          repostsCount={post.repostsCount}
           isLiked={post.isLikedByUser}
           isCommented={post.isCommentedByUser}
+          isReposted={post.isRepostedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onRepost={onRepost}
         />
       )}
 
@@ -73,10 +83,13 @@ const PostCard: React.FC<PostCardProps> = ({
         <PostActions
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
+          repostsCount={post.repostsCount}
           isLiked={post.isLikedByUser}
           isCommented={post.isCommentedByUser}
+          isReposted={post.isRepostedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onRepost={onRepost}
         />
       )}
 

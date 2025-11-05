@@ -6,6 +6,7 @@ import PostActions from "../Post/PostActions";
 import CommentInput from "../Post/CommentInput";
 import CommentList from "./CommentList";
 import { useLike } from "../../hooks/useLike";
+import { useRepost } from "../../hooks/useRepost";
 import type { IPost } from "../../interface";
 import { postDetailCardStyles } from "./styles";
 
@@ -15,10 +16,15 @@ interface PostDetailCardProps {
 
 const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   const { handleLike } = useLike();
+  const { handleRepost } = useRepost();
 
   const onLike = useCallback(() => {
     handleLike(post._id);
   }, [handleLike, post._id]);
+
+  const onRepost = useCallback(() => {
+    handleRepost(post._id);
+  }, [handleRepost, post._id]);
 
   const handleViewComments = useCallback(() => {
     // Already on detail page, do nothing
@@ -45,10 +51,13 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
       <PostActions
         likesCount={post.likesCount}
         commentsCount={post.commentsCount}
+        repostsCount={post.repostsCount}
         isLiked={post.isLikedByUser}
         isCommented={post.isCommentedByUser}
+        isReposted={post.isRepostedByUser}
         onLike={onLike}
         onComment={handleViewComments}
+        onRepost={onRepost}
       />
 
       {post.caption && (
