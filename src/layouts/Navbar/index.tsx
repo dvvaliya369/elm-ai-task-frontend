@@ -21,6 +21,7 @@ import Logo from "./components/Logo";
 import NavButton from "./components/NavButton";
 import IconNavButton from "./components/IconNavButton";
 import ProfileMenu from "./components/ProfileMenu";
+import ThemeToggle from "../../components/ThemeToggle";
 import { useNavbarHandlers } from "./hooks/useNavbarHandlers";
 import { useProfileMenu } from "./hooks/useProfileMenu";
 import { navbarStyles } from "./styles";
@@ -89,6 +90,7 @@ const Navbar: React.FC = () => {
 
               {isAuthenticated ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                  <ThemeToggle />
                   <Button
                     variant="contained"
                     onClick={() => handleNavigation("/posts/create")}
@@ -107,6 +109,7 @@ const Navbar: React.FC = () => {
                 </Box>
               ) : (
                 <Box sx={navbarStyles.authButtonsContainer}>
+                  <ThemeToggle />
                   <Button
                     size="small"
                     variant="text"
@@ -146,6 +149,7 @@ const Navbar: React.FC = () => {
 
               {isAuthenticated ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 1 }}>
+                  <ThemeToggle />
                   <Button
                     variant="contained"
                     onClick={() => handleNavigation("/posts/create")}
@@ -164,6 +168,7 @@ const Navbar: React.FC = () => {
                 </Box>
               ) : (
                 <Box sx={navbarStyles.tabletAuthContainer}>
+                  <ThemeToggle />
                   <Button
                     size="small"
                     variant="text"
@@ -187,6 +192,7 @@ const Navbar: React.FC = () => {
 
           {isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <ThemeToggle />
               {isAuthenticated && (
                 <Button
                   variant="contained"
