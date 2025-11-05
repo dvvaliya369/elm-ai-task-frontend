@@ -5,24 +5,31 @@ import {
   Favorite as LikedIcon,
   ChatBubbleOutline as CommentIcon,
   ModeComment as CommentedIcon,
+  Repeat as ReshareIcon,
 } from "@mui/icons-material";
 import { postActionsStyles } from "./styles";
 
 interface PostActionsProps {
   likesCount: number;
   commentsCount: number;
+  resharesCount: number;
   isLiked?: boolean;
   isCommented?: boolean;
+  isReshared?: boolean;
   onLike?: () => void;
   onComment?: () => void;
+  onReshare?: () => void;
 }
 
 const PostActions: React.FC<PostActionsProps> = ({
   likesCount,
+  resharesCount,
   isLiked = false,
   isCommented = false,
+  isReshared = false,
   onLike,
   onComment,
+  onReshare,
 }) => {
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -32,6 +39,11 @@ const PostActions: React.FC<PostActionsProps> = ({
   const handleCommentClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onComment?.();
+  };
+
+  const handleReshareClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onReshare?.();
   };
 
   return (
@@ -60,11 +72,31 @@ const PostActions: React.FC<PostActionsProps> = ({
             <CommentIcon sx={postActionsStyles.commentIcon} />
           )}
         </IconButton>
+
+        <IconButton
+          onClick={handleReshareClick}
+          size="small"
+          sx={postActionsStyles.iconButton}
+        >
+          <ReshareIcon
+            sx={
+              isReshared
+                ? postActionsStyles.resharedIcon
+                : postActionsStyles.reshareIcon
+            }
+          />
+        </IconButton>
       </Box>
 
       {likesCount > 0 && (
         <Typography variant="subtitle2" sx={postActionsStyles.likesCount}>
           {likesCount} {likesCount === 1 ? "like" : "likes"}
+        </Typography>
+      )}
+
+      {resharesCount > 0 && (
+        <Typography variant="subtitle2" sx={postActionsStyles.resharesCount}>
+          {resharesCount} {resharesCount === 1 ? "reshare" : "reshares"}
         </Typography>
       )}
     </Box>

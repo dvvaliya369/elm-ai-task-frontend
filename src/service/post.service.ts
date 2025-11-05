@@ -230,6 +230,39 @@ export const toggleLike = createAsyncThunk(
   }
 );
 
+export interface IToggleReshareParams {
+  postId: string;
+}
+
+interface ToggleReshareResponse {
+  success: boolean;
+  message: string;
+}
+
+export const toggleReshare = createAsyncThunk(
+  "posts/toggleReshare",
+  async (params: IToggleReshareParams, { rejectWithValue }) => {
+    try {
+      const res = await api.put<ToggleReshareResponse>(
+        `/post/reshare/${params.postId}`
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to toggle reshare");
+      }
+
+      return { postId: params.postId, message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to toggle reshare";
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export interface IGetPostByIdParams {
   postId: string;
 }

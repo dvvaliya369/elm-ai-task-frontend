@@ -7,6 +7,7 @@ import PostCaption from "./PostCaption";
 import CommentInput from "./CommentInput";
 import type { IPost } from "../../interface";
 import { useLike } from "../../hooks/useLike";
+import { useReshare } from "../../hooks/useReshare";
 import { postCardStyles } from "./styles";
 
 interface PostCardProps {
@@ -21,8 +22,14 @@ const PostCard: React.FC<PostCardProps> = ({
   onCardClick,
 }) => {
   const { handleLike } = useLike();
+  const { handleReshare } = useReshare();
+  
   const onLike = () => {
     handleLike?.(post._id);
+  };
+
+  const onReshare = () => {
+    handleReshare?.(post._id);
   };
 
   const handleViewComments = () => {
@@ -51,10 +58,13 @@ const PostCard: React.FC<PostCardProps> = ({
         <PostActions
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
+          resharesCount={post.resharesCount}
           isLiked={post.isLikedByUser}
           isCommented={post.isCommentedByUser}
+          isReshared={post.isResharedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onReshare={onReshare}
         />
       )}
 
@@ -73,10 +83,13 @@ const PostCard: React.FC<PostCardProps> = ({
         <PostActions
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
+          resharesCount={post.resharesCount}
           isLiked={post.isLikedByUser}
           isCommented={post.isCommentedByUser}
+          isReshared={post.isResharedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onReshare={onReshare}
         />
       )}
 

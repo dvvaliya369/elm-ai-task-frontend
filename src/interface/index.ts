@@ -53,8 +53,10 @@ export interface IPost {
   updatedAt: string;
   likesCount: number;
   commentsCount: number;
+  resharesCount: number;
   isLikedByUser: boolean;
   isCommentedByUser: boolean;
+  isResharedByUser: boolean;
 }
 
 export interface IPagination {

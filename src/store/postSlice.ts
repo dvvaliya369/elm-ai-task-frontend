@@ -4,6 +4,7 @@ import {
   getPosts,
   addComment,
   toggleLike,
+  toggleReshare,
   getPostById,
   deleteComment,
   createPost,
@@ -28,6 +29,7 @@ interface PostState {
   error: string | null;
   commentLoading: Record<string, boolean>;
   likeLoading: Record<string, boolean>;
+  reshareLoading: Record<string, boolean>;
   singlePost: IPost | null;
   singlePostLoading: boolean;
   singlePostError: string | null;
@@ -48,6 +50,7 @@ const initialState: PostState = {
   error: null,
   commentLoading: {},
   likeLoading: {},
+  reshareLoading: {},
   singlePost: null,
   singlePostLoading: false,
   singlePostError: null,
@@ -69,6 +72,7 @@ const postSlice = createSlice({
       state.error = null;
       state.commentLoading = {};
       state.likeLoading = {};
+      state.reshareLoading = {};
       state.isAppending = false;
     },
     setAppending: (state, action) => {
@@ -200,6 +204,37 @@ const postSlice = createSlice({
       .addCase(toggleLike.rejected, (state, action) => {
         const postId = action.meta.arg.postId;
         state.likeLoading[postId] = false;
+      })
+      .addCase(toggleReshare.pending, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.reshareLoading[postId] = true;
+      })
+      .addCase(toggleReshare.fulfilled, (state, action) => {
+        const postId = action.payload.postId;
+        state.reshareLoading[postId] = false;
+        const post = state.posts.find((p) => p._id === postId);
+        if (post) {
+          if (post.isResharedByUser) {
+            post.isResharedByUser = false;
+            post.resharesCount = Math.max(0, post.resharesCount - 1);
+          } else {
+            post.isResharedByUser = true;
+            post.resharesCount = post.resharesCount + 1;
+          }
+        }
+        if (state.singlePost && state.singlePost._id === postId) {
+          if (state.singlePost.isResharedByUser) {
+            state.singlePost.isResharedByUser = false;
+            state.singlePost.resharesCount = Math.max(0, state.singlePost.resharesCount - 1);
+          } else {
+            state.singlePost.isResharedByUser = true;
+            state.singlePost.resharesCount = state.singlePost.resharesCount + 1;
+          }
+        }
+      })
+      .addCase(toggleReshare.rejected, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.reshareLoading[postId] = false;
       })
       .addCase(getPostById.pending, (state) => {
         state.singlePostLoading = true;

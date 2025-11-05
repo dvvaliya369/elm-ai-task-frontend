@@ -6,6 +6,7 @@ import PostActions from "../Post/PostActions";
 import CommentInput from "../Post/CommentInput";
 import CommentList from "./CommentList";
 import { useLike } from "../../hooks/useLike";
+import { useReshare } from "../../hooks/useReshare";
 import type { IPost } from "../../interface";
 import { postDetailCardStyles } from "./styles";
 
@@ -15,10 +16,15 @@ interface PostDetailCardProps {
 
 const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   const { handleLike } = useLike();
+  const { handleReshare } = useReshare();
 
   const onLike = useCallback(() => {
     handleLike(post._id);
   }, [handleLike, post._id]);
+
+  const onReshare = useCallback(() => {
+    handleReshare(post._id);
+  }, [handleReshare, post._id]);
 
   const handleViewComments = useCallback(() => {
     // Already on detail page, do nothing
@@ -45,10 +51,13 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
       <PostActions
         likesCount={post.likesCount}
         commentsCount={post.commentsCount}
+        resharesCount={post.resharesCount}
         isLiked={post.isLikedByUser}
         isCommented={post.isCommentedByUser}
+        isReshared={post.isResharedByUser}
         onLike={onLike}
         onComment={handleViewComments}
+        onReshare={onReshare}
       />
 
       {post.caption && (
