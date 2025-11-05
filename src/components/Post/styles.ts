@@ -128,6 +128,14 @@ export const postActionsStyles = {
   shareIcon: {
     fontSize: 24,
   },
+  viewIcon: {
+    fontSize: 20,
+    color: 'text.secondary',
+  },
+  viewsCount: {
+    color: 'text.secondary',
+    fontSize: '0.875rem',
+  },
   likesCount: {
     fontWeight: 600,
     mb: 0.5,

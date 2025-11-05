@@ -54,6 +54,7 @@ export interface IPost {
   likesCount: number;
   commentsCount: number;
   repostsCount: number;
+  viewsCount: number;
   isLikedByUser: boolean;
   isCommentedByUser: boolean;
   isRepostedByUser: boolean;

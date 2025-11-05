@@ -79,6 +79,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         likesCount={post.likesCount}
         commentsCount={post.commentsCount}
         repostsCount={post.repostsCount}
+        viewsCount={post.viewsCount}
         isLiked={post.isLikedByUser}
         isCommented={post.isCommentedByUser}
         isReposted={post.isRepostedByUser}

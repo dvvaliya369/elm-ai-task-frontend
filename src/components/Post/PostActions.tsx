@@ -7,6 +7,7 @@ import {
   ModeComment as CommentedIcon,
   Repeat as RepostIcon,
   Share as ShareIcon,
+  Visibility as ViewIcon,
 } from "@mui/icons-material";
 import { postActionsStyles } from "./styles";
 
@@ -14,6 +15,7 @@ interface PostActionsProps {
   likesCount: number;
   commentsCount: number;
   repostsCount: number;
+  viewsCount?: number;
   isLiked?: boolean;
   isCommented?: boolean;
   isReposted?: boolean;
@@ -26,6 +28,7 @@ interface PostActionsProps {
 const PostActions: React.FC<PostActionsProps> = ({
   likesCount,
   repostsCount,
+  viewsCount = 0,
   isLiked = false,
   isCommented = false,
   isReposted = false,
@@ -102,6 +105,13 @@ const PostActions: React.FC<PostActionsProps> = ({
         >
           <ShareIcon sx={postActionsStyles.shareIcon} />
         </IconButton>
+
+        <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <ViewIcon sx={postActionsStyles.viewIcon} />
+          <Typography variant="body2" sx={postActionsStyles.viewsCount}>
+            {viewsCount}
+          </Typography>
+        </Box>
       </Box>
 
       {likesCount > 0 && (
