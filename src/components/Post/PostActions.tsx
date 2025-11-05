@@ -6,6 +6,7 @@ import {
   ChatBubbleOutline as CommentIcon,
   ModeComment as CommentedIcon,
   Repeat as RepostIcon,
+  Share as ShareIcon,
 } from "@mui/icons-material";
 import { postActionsStyles } from "./styles";
 
@@ -19,6 +20,7 @@ interface PostActionsProps {
   onLike?: () => void;
   onComment?: () => void;
   onRepost?: () => void;
+  onShare?: () => void;
 }
 
 const PostActions: React.FC<PostActionsProps> = ({
@@ -30,6 +32,7 @@ const PostActions: React.FC<PostActionsProps> = ({
   onLike,
   onComment,
   onRepost,
+  onShare,
 }) => {
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -44,6 +47,11 @@ const PostActions: React.FC<PostActionsProps> = ({
   const handleRepostClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onRepost?.();
+  };
+
+  const handleShareClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onShare?.();
   };
 
   return (
@@ -85,6 +93,14 @@ const PostActions: React.FC<PostActionsProps> = ({
                 : postActionsStyles.repostIcon
             }
           />
+        </IconButton>
+
+        <IconButton
+          onClick={handleShareClick}
+          size="small"
+          sx={postActionsStyles.iconButton}
+        >
+          <ShareIcon sx={postActionsStyles.shareIcon} />
         </IconButton>
       </Box>
 

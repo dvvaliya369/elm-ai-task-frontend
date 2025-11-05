@@ -1,5 +1,5 @@
-import React, { memo, useCallback } from "react";
-import { Card, Box, Typography } from "@mui/material";
+import React, { memo, useCallback, useState } from "react";
+import { Card, Box, Typography, Snackbar, Alert } from "@mui/material";
 import PostHeader from "../Post/PostHeader";
 import PostMedia from "../Post/PostMedia";
 import PostActions from "../Post/PostActions";
@@ -17,6 +17,7 @@ interface PostDetailCardProps {
 const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   const { handleLike } = useLike();
   const { handleRepost } = useRepost();
+  const [showShareSuccess, setShowShareSuccess] = useState(false);
 
   const onLike = useCallback(() => {
     handleLike(post._id);
@@ -28,6 +29,32 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
 
   const handleViewComments = useCallback(() => {
     // Already on detail page, do nothing
+  }, []);
+
+  const handleShare = useCallback(async () => {
+    const postUrl = `${window.location.origin}/posts/${post._id}`;
+    
+    try {
+      // Try to use Web Share API if available (mobile devices)
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Check out this post',
+          text: post.caption || 'Check out this post',
+          url: postUrl,
+        });
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(postUrl);
+        setShowShareSuccess(true);
+      }
+    } catch (error) {
+      // User cancelled share or clipboard failed
+      console.error('Error sharing:', error);
+    }
+  }, [post._id, post.caption]);
+
+  const handleCloseSnackbar = useCallback(() => {
+    setShowShareSuccess(false);
   }, []);
 
   const getUserDisplayName = (user: {
@@ -58,6 +85,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         onLike={onLike}
         onComment={handleViewComments}
         onRepost={onRepost}
+        onShare={handleShare}
       />
 
       {post.caption && (
@@ -79,6 +107,17 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
       {post.comments && post.comments.length > 0 && (
         <CommentList comments={post.comments} postId={post._id} />
       )}
+
+      <Snackbar
+        open={showShareSuccess}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Link copied to clipboard!
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };

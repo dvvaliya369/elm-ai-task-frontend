@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-import { Card } from "@mui/material";
+import React, { memo, useState } from "react";
+import { Card, Snackbar, Alert } from "@mui/material";
 import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
 import PostActions from "./PostActions";
@@ -23,6 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
 }) => {
   const { handleLike } = useLike();
   const { handleRepost } = useRepost();
+  const [showShareSuccess, setShowShareSuccess] = useState(false);
   
   const onLike = () => {
     handleLike?.(post._id);
@@ -38,6 +39,32 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const handleCardClick = () => {
     onCardClick?.(post._id);
+  };
+
+  const handleShare = async () => {
+    const postUrl = `${window.location.origin}/posts/${post._id}`;
+    
+    try {
+      // Try to use Web Share API if available (mobile devices)
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Check out this post',
+          text: post.caption || 'Check out this post',
+          url: postUrl,
+        });
+      } else {
+        // Fallback to clipboard
+        await navigator.clipboard.writeText(postUrl);
+        setShowShareSuccess(true);
+      }
+    } catch (error) {
+      // User cancelled share or clipboard failed
+      console.error('Error sharing:', error);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowShareSuccess(false);
   };
 
   return (
@@ -65,6 +92,7 @@ const PostCard: React.FC<PostCardProps> = ({
           onLike={onLike}
           onComment={handleViewComments}
           onRepost={onRepost}
+          onShare={handleShare}
         />
       )}
 
@@ -90,10 +118,22 @@ const PostCard: React.FC<PostCardProps> = ({
           onLike={onLike}
           onComment={handleViewComments}
           onRepost={onRepost}
+          onShare={handleShare}
         />
       )}
 
       <CommentInput postId={post._id} />
+
+      <Snackbar
+        open={showShareSuccess}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Link copied to clipboard!
+        </Alert>
+      </Snackbar>
     </Card>
   );
 };

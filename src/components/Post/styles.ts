@@ -125,6 +125,9 @@ export const postActionsStyles = {
   repostIcon: {
     fontSize: 24,
   },
+  shareIcon: {
+    fontSize: 24,
+  },
   likesCount: {
     fontWeight: 600,
     mb: 0.5,
