@@ -73,6 +73,9 @@ export const postMediaStyles = {
     maxHeight: '600px',
     objectFit: 'cover' as const,
     borderRadius: 0,
+    '@media (max-width: 768px)': {
+      maxHeight: '100vh',
+    },
   },
   video: {
     width: '100%',
@@ -80,6 +83,9 @@ export const postMediaStyles = {
     maxHeight: '600px',
     objectFit: 'cover' as const,
     borderRadius: 0,
+    '@media (max-width: 768px)': {
+      maxHeight: '100vh',
+    },
   },
   mediaHidden: {
     display: 'none',

@@ -32,6 +32,9 @@ export const myPostsStyles = {
     justifyContent: "center",
     alignItems: "center",
     minHeight: "400px",
+    '@media (max-width: 768px)': {
+      minHeight: "200px",
+    },
   },
 
   errorContainer: {
