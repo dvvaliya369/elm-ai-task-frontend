@@ -118,7 +118,18 @@ export const postActionsStyles = {
   commentIcon: {
     fontSize: 24,
   },
+  repostedIcon: {
+    color: 'success.main',
+    fontSize: 24,
+  },
+  repostIcon: {
+    fontSize: 24,
+  },
   likesCount: {
+    fontWeight: 600,
+    mb: 0.5,
+  },
+  repostsCount: {
     fontWeight: 600,
     mb: 0.5,
   },

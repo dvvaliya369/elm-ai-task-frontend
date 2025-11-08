@@ -230,6 +230,39 @@ export const toggleLike = createAsyncThunk(
   }
 );
 
+export interface IToggleRepostParams {
+  postId: string;
+}
+
+interface ToggleRepostResponse {
+  success: boolean;
+  message: string;
+}
+
+export const toggleRepost = createAsyncThunk(
+  "posts/toggleRepost",
+  async (params: IToggleRepostParams, { rejectWithValue }) => {
+    try {
+      const res = await api.put<ToggleRepostResponse>(
+        `/post/repost/${params.postId}`
+      );
+
+      if (!res.data.success) {
+        return rejectWithValue(res.data.message || "Failed to toggle repost");
+      }
+
+      return { postId: params.postId, message: res.data.message };
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message =
+        axiosError.response?.data?.message || "Failed to toggle repost";
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export interface IGetPostByIdParams {
   postId: string;
 }

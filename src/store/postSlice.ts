@@ -4,6 +4,7 @@ import {
   getPosts,
   addComment,
   toggleLike,
+  toggleRepost,
   getPostById,
   deleteComment,
   createPost,
@@ -28,6 +29,7 @@ interface PostState {
   error: string | null;
   commentLoading: Record<string, boolean>;
   likeLoading: Record<string, boolean>;
+  repostLoading: Record<string, boolean>;
   singlePost: IPost | null;
   singlePostLoading: boolean;
   singlePostError: string | null;
@@ -48,6 +50,7 @@ const initialState: PostState = {
   error: null,
   commentLoading: {},
   likeLoading: {},
+  repostLoading: {},
   singlePost: null,
   singlePostLoading: false,
   singlePostError: null,
@@ -69,6 +72,7 @@ const postSlice = createSlice({
       state.error = null;
       state.commentLoading = {};
       state.likeLoading = {};
+      state.repostLoading = {};
       state.isAppending = false;
     },
     setAppending: (state, action) => {
@@ -200,6 +204,37 @@ const postSlice = createSlice({
       .addCase(toggleLike.rejected, (state, action) => {
         const postId = action.meta.arg.postId;
         state.likeLoading[postId] = false;
+      })
+      .addCase(toggleRepost.pending, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.repostLoading[postId] = true;
+      })
+      .addCase(toggleRepost.fulfilled, (state, action) => {
+        const postId = action.payload.postId;
+        state.repostLoading[postId] = false;
+        const post = state.posts.find((p) => p._id === postId);
+        if (post) {
+          if (post.isRepostedByUser) {
+            post.isRepostedByUser = false;
+            post.repostsCount = Math.max(0, post.repostsCount - 1);
+          } else {
+            post.isRepostedByUser = true;
+            post.repostsCount = post.repostsCount + 1;
+          }
+        }
+        if (state.singlePost && state.singlePost._id === postId) {
+          if (state.singlePost.isRepostedByUser) {
+            state.singlePost.isRepostedByUser = false;
+            state.singlePost.repostsCount = Math.max(0, state.singlePost.repostsCount - 1);
+          } else {
+            state.singlePost.isRepostedByUser = true;
+            state.singlePost.repostsCount = state.singlePost.repostsCount + 1;
+          }
+        }
+      })
+      .addCase(toggleRepost.rejected, (state, action) => {
+        const postId = action.meta.arg.postId;
+        state.repostLoading[postId] = false;
       })
       .addCase(getPostById.pending, (state) => {
         state.singlePostLoading = true;

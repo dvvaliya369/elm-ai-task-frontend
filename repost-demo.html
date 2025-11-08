@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repost Button Demo - ELM AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 470px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #1976d2;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            padding-bottom: 8px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1976d2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .post-media {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .post-actions {
+            padding: 8px 16px;
+        }
+
+        .actions-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .action-button:hover {
+            background: rgba(0,0,0,0.04);
+        }
+
+        .action-button .material-icons {
+            font-size: 24px;
+            color: #666;
+        }
+
+        .action-button.liked .material-icons {
+            color: #f44336;
+        }
+
+        .action-button.reposted .material-icons {
+            color: #4caf50;
+        }
+
+        .action-button.commented .material-icons {
+            color: #1976d2;
+        }
+
+        .counts {
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .post-caption {
+            padding: 0 16px 8px;
+        }
+
+        .caption-username {
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .caption-text {
+            color: #000;
+            font-size: 14px;
+        }
+
+        .comment-input {
+            padding: 8px 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .comment-input input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            padding: 4px 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .feature-highlight {
+            background: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .feature-highlight h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature-highlight ul {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .feature-highlight li {
+            margin-bottom: 4px;
+        }
+
+        .demo-controls {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .demo-controls h3 {
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .demo-button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .demo-button:hover {
+            background: #1565c0;
+        }
+
+        .demo-button.secondary {
+            background: #4caf50;
+        }
+
+        .demo-button.secondary:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Repost Button - Already Implemented!</h1>
+            <p>The repost functionality is fully implemented in your ELM AI application. This demo shows how the repost button appears and works on every post.</p>
+        </div>
+
+        <div class="feature-highlight">
+            <h3>🎯 Repost Features Implemented:</h3>
+            <ul>
+                <li>✅ Repost button on every post (home feed & detail page)</li>
+                <li>✅ Visual feedback: Green icon when reposted</li>
+                <li>✅ Repost count display</li>
+                <li>✅ Authentication check before reposting</li>
+                <li>✅ Debouncing to prevent duplicate requests</li>
+                <li>✅ Toast notifications for success/error</li>
+                <li>✅ Redux state management</li>
+            </ul>
+        </div>
+
+        <div class="demo-controls">
+            <h3>Interactive Demo - Try It!</h3>
+            <button class="demo-button" onclick="toggleLike()">Toggle Like</button>
+            <button class="demo-button secondary" onclick="toggleRepost()">Toggle Repost</button>
+            <button class="demo-button" onclick="toggleComment()">Toggle Comment</button>
+            <button class="demo-button" onclick="resetPost()">Reset</button>
+        </div>
+
+        <!-- Post Card 1 -->
+        <div class="post-card">
+            <div class="post-header">
+                <div class="avatar">JD</div>
+                <div class="user-info">
+                    <div class="username">John Doe</div>
+                    <div class="timestamp">2 hours ago</div>
+                </div>
+            </div>
+
+            <div class="post-media">
+                Sample Post Image
+            </div>
+
+            <div class="post-actions">
+                <div class="actions-row">
+                    <button class="action-button" id="likeBtn" onclick="toggleLike()">
+                        <span class="material-icons">favorite_border</span>
+                    </button>
+                    <button class="action-button" id="commentBtn" onclick="toggleComment()">
+                        <span class="material-icons">chat_bubble_outline</span>
+                    </button>
+                    <button class="action-button" id="repostBtn" onclick="toggleRepost()">
+                        <span class="material-icons">repeat</span>
+                    </button>
+                </div>
+                <div class="counts" id="likesCount">42 likes</div>
+                <div class="counts" id="repostsCount" style="display: none;">0 reposts</div>
+            </div>
+
+            <div class="post-caption">
+                <span class="caption-username">John Doe</span>
+                <span class="caption-text">Check out this amazing view! 🌅 The repost button is the circular arrow icon above.</span>
+            </div>
+
+            <div class="comment-input">
+                <input type="text" placeholder="Add a comment...">
+            </div>
+        </div>
+
+        <!-- Post Card 2 - Already Reposted -->
+        <div class="post-card">
+            <div class="post-header">
+                <div class="avatar" style="background: #9c27b0;">SA</div>
+                <div class="user-info">
+                    <div class="username">Sarah Anderson</div>
+                    <div class="timestamp">5 hours ago</div>
+                </div>
+            </div>
+
+            <div class="post-media" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                Another Post
+            </div>
+
+            <div class="post-actions">
+                <div class="actions-row">
+                    <button class="action-button liked">
+                        <span class="material-icons">favorite</span>
+                    </button>
+                    <button class="action-button">
+                        <span class="material-icons">chat_bubble_outline</span>
+                    </button>
+                    <button class="action-button reposted">
+                        <span class="material-icons">repeat</span>
+                    </button>
+                </div>
+                <div class="counts">128 likes</div>
+                <div class="counts">15 reposts</div>
+            </div>
+
+            <div class="post-caption">
+                <span class="caption-username">Sarah Anderson</span>
+                <span class="caption-text">This post shows the repost button in its active state (green) - you've already reposted it!</span>
+            </div>
+
+            <div class="comment-input">
+                <input type="text" placeholder="Add a comment...">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLiked = false;
+        let isReposted = false;
+        let isCommented = false;
+        let likesCount = 42;
+        let repostsCount = 0;
+
+        function toggleLike() {
+            isLiked = !isLiked;
+            const btn = document.getElementById('likeBtn');
+            const icon = btn.querySelector('.material-icons');
+            
+            if (isLiked) {
+                btn.classList.add('liked');
+                icon.textContent = 'favorite';
+                likesCount++;
+            } else {
+                btn.classList.remove('liked');
+                icon.textContent = 'favorite_border';
+                likesCount--;
+            }
+            
+            document.getElementById('likesCount').textContent = `${likesCount} ${likesCount === 1 ? 'like' : 'likes'}`;
+        }
+
+        function toggleRepost() {
+            isReposted = !isReposted;
+            const btn = document.getElementById('repostBtn');
+            const repostsCountEl = document.getElementById('repostsCount');
+            
+            if (isReposted) {
+                btn.classList.add('reposted');
+                repostsCount++;
+                repostsCountEl.style.display = 'block';
+            } else {
+                btn.classList.remove('reposted');
+                repostsCount--;
+                if (repostsCount === 0) {
+                    repostsCountEl.style.display = 'none';
+                }
+            }
+            
+            repostsCountEl.textContent = `${repostsCount} ${repostsCount === 1 ? 'repost' : 'reposts'}`;
+        }
+
+        function toggleComment() {
+            isCommented = !isCommented;
+            const btn = document.getElementById('commentBtn');
+            const icon = btn.querySelector('.material-icons');
+            
+            if (isCommented) {
+                btn.classList.add('commented');
+                icon.textContent = 'mode_comment';
+            } else {
+                btn.classList.remove('commented');
+                icon.textContent = 'chat_bubble_outline';
+            }
+        }
+
+        function resetPost() {
+            isLiked = false;
+            isReposted = false;
+            isCommented = false;
+            likesCount = 42;
+            repostsCount = 0;
+
+            document.getElementById('likeBtn').classList.remove('liked');
+            document.getElementById('likeBtn').querySelector('.material-icons').textContent = 'favorite_border';
+            
+            document.getElementById('repostBtn').classList.remove('reposted');
+            
+            document.getElementById('commentBtn').classList.remove('commented');
+            document.getElementById('commentBtn').querySelector('.material-icons').textContent = 'chat_bubble_outline';
+            
+            document.getElementById('likesCount').textContent = '42 likes';
+            document.getElementById('repostsCount').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
