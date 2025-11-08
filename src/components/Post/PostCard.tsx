@@ -7,20 +7,24 @@ import PostCaption from "./PostCaption";
 import CommentInput from "./CommentInput";
 import type { IPost } from "../../interface";
 import { useLike } from "../../hooks/useLike";
+import { useSharePost } from "../../hooks/useSharePost";
 import { postCardStyles } from "./styles";
 
 interface PostCardProps {
   post: IPost;
   onViewComments?: (postId: string) => void;
   onCardClick?: (postId: string) => void;
+  onShare?: (postId: string) => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
   post,
   onViewComments,
   onCardClick,
+  onShare,
 }) => {
   const { handleLike } = useLike();
+  const { sharePost } = useSharePost();
   const onLike = () => {
     handleLike?.(post._id);
   };
@@ -31,6 +35,23 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const handleCardClick = () => {
     onCardClick?.(post._id);
+  };
+
+  const handleShare = () => {
+    if (onShare) {
+      onShare(post._id);
+      return;
+    }
+
+    const authorName =
+      post.user.fullName ||
+      `${post.user.firstName || ""} ${post.user.lastName || ""}`.trim() ||
+      "Unknown User";
+    sharePost({
+      postId: post._id,
+      caption: post.caption,
+      authorName,
+    });
   };
 
   return (
@@ -45,7 +66,9 @@ const PostCard: React.FC<PostCardProps> = ({
     >
       <PostHeader user={post.user} createdAt={post.createdAt} post={post} />
 
-      {post.media && <PostMedia media={post.media} handleCardClick={handleCardClick} />}
+      {post.media && (
+        <PostMedia media={post.media} handleCardClick={handleCardClick} />
+      )}
 
       {post.media && (
         <PostActions
@@ -55,6 +78,7 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onShare={handleShare}
         />
       )}
 
@@ -77,6 +101,7 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onShare={handleShare}
         />
       )}
 

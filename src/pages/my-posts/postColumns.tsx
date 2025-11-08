@@ -11,18 +11,21 @@ import {
   Delete as DeleteIcon,
   Favorite as FavoriteIcon,
   ChatBubbleOutline as CommentIcon,
+  IosShare as ShareIcon,
 } from "@mui/icons-material";
 
 interface PostColumnsProps {
   handleView: (postId: string) => void;
   handleEdit: (postId: string) => void;
   handleDelete: (postId: string) => void;
+  handleShare: (postId: string) => void;
 }
 
 export const createPostColumns = ({
   handleView,
   handleEdit,
   handleDelete,
+  handleShare,
 }: PostColumnsProps): GridColDef[] => [
   {
     field: "media",
@@ -159,6 +162,13 @@ export const createPostColumns = ({
           color="secondary"
         >
           <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton
+          size="small"
+          onClick={() => handleShare(params.row.id)}
+          color="primary"
+        >
+          <ShareIcon fontSize="small" />
         </IconButton>
         <IconButton
           size="small"

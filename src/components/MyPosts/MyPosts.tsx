@@ -16,6 +16,7 @@ import { useToast } from "../../hooks/useToast";
 import { myPostsStyles } from "./styles";
 import { createPostColumns } from "../../pages/my-posts/postColumns";
 import { debounce } from "../../utils";
+import { useSharePost } from "../../hooks/useSharePost";
 import DeleteConfirmDialog from "../DeleteConfirmDialog";
 
 const MyPosts = () => {
@@ -278,10 +279,34 @@ const MyPosts = () => {
     setPostToDelete(null);
   }, []);
 
+  const { sharePost } = useSharePost();
+
+  const handleShare = useCallback(
+    (postId: string) => {
+      const post = userPosts?.find((item) => item._id === postId);
+      if (!post) {
+        return;
+      }
+
+      const authorName =
+        post.user.fullName ||
+        `${post.user.firstName || ""} ${post.user.lastName || ""}`.trim() ||
+        "Unknown User";
+
+      sharePost({
+        postId: post._id,
+        caption: post.caption,
+        authorName,
+      });
+    },
+    [sharePost, userPosts]
+  );
+
   const columns = createPostColumns({
     handleView,
     handleEdit,
     handleDelete,
+    handleShare,
   });
 
   const rows = Array.isArray(filteredPosts)
