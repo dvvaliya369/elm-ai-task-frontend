@@ -5,10 +5,11 @@ import { navbarComponentStyles } from "./styles";
 
 const Logo: React.FC = () => (
   <Box sx={navbarComponentStyles.logoContainer}>
-    <img
+    <Box
+      component="img"
       src={elmLogo}
       alt="Elm Logo"
-      style={navbarComponentStyles.logoContainerImage}
+      sx={navbarComponentStyles.logoContainerImage}
     />
   </Box>
 );

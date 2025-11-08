@@ -6,10 +6,10 @@ export const navbarComponentStyles = {
     justifyContent: "center",
   },
   logoContainerImage: {
-    height: "32px",
+    height: { xs: "28px", sm: "32px" },
     width: "auto",
     objectFit: "contain" as const,
-    maxWidth: "120px",
+    maxWidth: { xs: "100px", sm: "120px" },
   },
 
   // NavButton styles

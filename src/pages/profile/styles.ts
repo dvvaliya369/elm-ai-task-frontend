@@ -1,11 +1,11 @@
 export const profileStyles = {
   loadingContainer: {
-    py: 4,
+    py: { xs: 1.5, sm: 2, md: 4 },
   },
 
   loadingCard: {
-    p: 4,
-    borderRadius: 3,
+    p: { xs: 2, sm: 3, md: 4 },
+    borderRadius: { xs: 0, sm: 2, md: 3 },
   },
 
   loadingProfile: {
@@ -15,37 +15,38 @@ export const profileStyles = {
   },
 
   loadingSkeleton: {
-    mb: 2,
+    mb: { xs: 1.5, sm: 2 },
   },
 
   loadingSkeletonName: {
-    mb: 1,
+    mb: { xs: 0.75, sm: 1 },
   },
 
   notFoundContainer: {
-    py: 4,
+    py: { xs: 1.5, sm: 2, md: 4 },
   },
 
   notFoundCard: {
-    p: 4,
-    borderRadius: 3,
+    p: { xs: 2, sm: 3, md: 4 },
+    borderRadius: { xs: 0, sm: 2, md: 3 },
     textAlign: "center",
   },
 
   mainBackground: {
-    bgcolor: "grey.50",
-    minHeight: "calc(100vh - 64px)",
+    bgcolor: { xs: "white", sm: "grey.50" },
+    minHeight: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 60px)", md: "calc(100vh - 64px)" },
   },
 
   mainContainer: {
-    py: 4,
+    py: { xs: 0, sm: 2, md: 4 },
+    px: { xs: 0, sm: 2 },
   },
 
   mainCard: {
-    p: 4,
-    borderRadius: 3,
-    boxShadow: "0 2px 12px rgba(0, 0, 0, 0.08)",
-    border: "1px solid",
+    p: { xs: 2, sm: 2.5, md: 3, lg: 4 },
+    borderRadius: { xs: 0, sm: 2, md: 3 },
+    boxShadow: { xs: "none", sm: "0 2px 12px rgba(0, 0, 0, 0.08)" },
+    border: { xs: "none", sm: "1px solid" },
     borderColor: "divider",
   },
 
@@ -53,84 +54,105 @@ export const profileStyles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    width: "100%",
   },
 
   avatarContainer: {
     position: "relative",
-    mb: 3,
+    mb: { xs: 1.5, sm: 2, md: 3 },
   },
 
   avatar: {
-    width: 120,
-    height: 120,
+    width: { xs: 90, sm: 110, md: 120 },
+    height: { xs: 90, sm: 110, md: 120 },
     bgcolor: "primary.main",
-    fontSize: "2rem",
+    fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
     fontWeight: 600,
   },
 
   cameraButton: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: { xs: -2, sm: 0 },
+    right: { xs: -2, sm: 0 },
     bgcolor: "primary.main",
     color: "white",
-    width: 36,
-    height: 36,
+    width: { xs: 34, sm: 36, md: 40 },
+    height: { xs: 34, sm: 36, md: 40 },
     "&:hover": {
       bgcolor: "primary.dark",
     },
   },
 
   cameraIcon: {
-    fontSize: 18,
+    fontSize: { xs: 18, sm: 20, md: 22 },
   },
 
   editFormContainer: {
     width: "100%",
-    maxWidth: 400,
+    maxWidth: { xs: "100%", sm: 400 },
   },
 
   firstNameField: {
-    mb: 2,
+    mb: { xs: 1.25, sm: 1.5, md: 2 },
+    '& .MuiInputBase-input': {
+      fontSize: { xs: '16px', sm: '0.9375rem', md: '1rem' },
+    },
   },
 
   lastNameField: {
-    mb: 3,
+    mb: { xs: 1.5, sm: 2, md: 3 },
+    '& .MuiInputBase-input': {
+      fontSize: { xs: '16px', sm: '0.9375rem', md: '1rem' },
+    },
   },
 
   buttonContainer: {
     display: "flex",
-    gap: 2,
+    gap: { xs: 1.25, sm: 1.5, md: 2 },
     justifyContent: "center",
+    flexDirection: { xs: "column", sm: "row" },
   },
 
   cancelButton: {
-    minWidth: 100,
+    minWidth: { xs: "100%", sm: 120 },
+    minHeight: { xs: "44px", sm: "40px" },
+    fontSize: { xs: "0.9375rem", sm: "0.875rem", md: "0.95rem" },
   },
 
   saveButton: {
-    minWidth: 100,
+    minWidth: { xs: "100%", sm: 120 },
+    minHeight: { xs: "44px", sm: "40px" },
+    fontSize: { xs: "0.9375rem", sm: "0.875rem", md: "0.95rem" },
   },
 
   profileName: {
-    mb: 1,
+    mb: { xs: 0.75, sm: 1 },
     textAlign: "center",
+    fontSize: { xs: "1.125rem", sm: "1.375rem", md: "1.5rem" },
+    fontWeight: 600,
+    wordBreak: "break-word",
   },
 
   profileEmail: {
-    mb: 3,
+    mb: { xs: 1.5, sm: 2, md: 3 },
+    fontSize: { xs: "0.8125rem", sm: "0.9375rem", md: "1rem" },
+    textAlign: "center",
+    wordBreak: "break-word",
   },
 
   editButton: {
-    borderRadius: 2,
+    borderRadius: { xs: 1, sm: 1.5, md: 2 },
     textTransform: "none",
     fontWeight: 500,
-    px: 3,
+    px: { xs: 2, sm: 2.5, md: 3 },
+    py: { xs: 1, sm: 0.75 },
+    fontSize: { xs: "0.9375rem", sm: "0.875rem", md: "0.95rem" },
+    minHeight: { xs: "44px", sm: "40px" },
   },
 
   postsSection: {
-    mt: 4,
-    pt: 3,
+    mt: { xs: 2, sm: 3, md: 4 },
+    pt: { xs: 1.5, sm: 2, md: 3 },
     borderTop: "1px solid",
     borderColor: "divider",
   },

@@ -1,52 +1,58 @@
 export const createPostStyles = {
   container: {
-    minHeight: 'calc(100vh - 64px)',
+    minHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 60px)', md: 'calc(100vh - 64px)' },
     display: 'flex',
-    alignItems: 'center',
+    alignItems: { xs: 'flex-start', sm: 'center' },
     justifyContent: 'center',
-    bgcolor: 'grey.50',
-    py: 4,
+    bgcolor: { xs: 'white', sm: 'grey.50' },
+    py: { xs: 0, sm: 2, md: 4 },
   },
   
   containerWrapper: {
-    py: 4,
+    py: { xs: 0, sm: 2, md: 4 },
+    width: '100%',
   },
   
   card: {
-    p: 3,
-    borderRadius: 2,
-    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
-    border: '1px solid',
+    p: { xs: 1.5, sm: 2.5, md: 3 },
+    borderRadius: { xs: 0, sm: 2 },
+    boxShadow: { xs: 'none', sm: '0 2px 12px rgba(0, 0, 0, 0.06)' },
+    border: { xs: 'none', sm: '1px solid' },
     borderColor: 'divider',
     bgcolor: 'white',
   },
   
   title: {
-    mb: 2.5,
+    mb: { xs: 1.5, sm: 2, md: 2.5 },
     color: 'text.primary',
+    fontSize: { xs: '1.125rem', sm: '1.25rem', md: '1.5rem' },
+    fontWeight: 600,
   },
   
   userProfile: {
     display: 'flex',
     alignItems: 'center',
-    mb: 2.5,
+    mb: { xs: 1.5, sm: 2, md: 2.5 },
   },
   
   avatar: {
-    width: 40,
-    height: 40,
-    mr: 1.5,
+    width: { xs: 34, sm: 38, md: 40 },
+    height: { xs: 34, sm: 38, md: 40 },
+    mr: { xs: 1, sm: 1.25, md: 1.5 },
+    fontSize: { xs: '0.875rem', sm: '1rem' },
   },
   
   userInfo: {
     flex: 1,
+    minWidth: 0,
+    overflow: 'hidden',
   },
   
   textField: {
-    mb: 1.5,
+    mb: { xs: 1, sm: 1.25, md: 1.5 },
     '& .MuiOutlinedInput-root': {
-      borderRadius: 1.5,
-      fontSize: '0.95rem',
+      borderRadius: { xs: 1, sm: 1.5 },
+      fontSize: { xs: '16px', sm: '0.9375rem', md: '0.95rem' }, // 16px on mobile prevents zoom on iOS
       '& fieldset': {
         borderColor: 'divider',
       },
@@ -56,91 +62,107 @@ export const createPostStyles = {
       '&.Mui-focused fieldset': {
         borderColor: 'primary.main',
       },
+      '& textarea': {
+        fontSize: { xs: '16px', sm: '0.9375rem', md: '0.95rem' },
+      },
     },
   },
   
   characterCounter: {
     display: 'flex',
     justifyContent: 'flex-end',
-    mb: 2,
+    mb: { xs: 1.25, sm: 1.5, md: 2 },
+    fontSize: { xs: '0.6875rem', sm: '0.75rem', md: '0.8125rem' },
   },
   
   previewContainer: {
     position: 'relative',
-    mb: 2.5,
+    mb: { xs: 1.5, sm: 2, md: 2.5 },
+    borderRadius: { xs: 1, sm: 2 },
+    overflow: 'hidden',
   },
   
   closeButton: {
     position: 'absolute',
-    top: 6,
-    right: 6,
+    top: { xs: 6, sm: 8 },
+    right: { xs: 6, sm: 8 },
     bgcolor: 'rgba(0, 0, 0, 0.6)',
     color: 'white',
     zIndex: 1,
-    width: 32,
-    height: 32,
+    width: { xs: 32, sm: 36 },
+    height: { xs: 32, sm: 36 },
     '&:hover': {
       bgcolor: 'rgba(0, 0, 0, 0.8)',
     },
   },
   
   closeIcon: {
-    fontSize: 18,
+    fontSize: { xs: 18, sm: 20 },
   },
   
   mediaPreview: {
     width: '100%',
-    maxHeight: '250px',
+    maxHeight: { xs: '250px', sm: '300px', md: '350px' },
+    minHeight: { xs: '150px', sm: '200px' },
     objectFit: 'cover' as const,
-    borderRadius: '8px',
+    borderRadius: { xs: '4px', sm: '8px' },
+    display: 'block',
   },
 
   videoPreview: {
     width: '100%',
-    maxHeight: '250px',
-    borderRadius: '8px',
+    maxHeight: { xs: '250px', sm: '300px', md: '350px' },
+    minHeight: { xs: '150px', sm: '200px' },
+    borderRadius: { xs: '4px', sm: '8px' },
+    display: 'block',
   },
   
   uploadArea: {
     border: '2px dashed',
     borderColor: 'divider',
-    borderRadius: 2,
-    p: 3,
+    borderRadius: { xs: 1, sm: 2 },
+    p: { xs: 2, sm: 2.5, md: 3 },
     textAlign: 'center',
-    mb: 2.5,
+    mb: { xs: 1.5, sm: 2, md: 2.5 },
     bgcolor: 'grey.50',
   },
   
   uploadIcon: {
-    fontSize: 40,
+    fontSize: { xs: 36, sm: 40, md: 48 },
     color: 'text.secondary',
-    mb: 1.5,
+    mb: { xs: 1, sm: 1.25, md: 1.5 },
   },
   
   uploadText: {
-    mb: 1.5,
+    mb: { xs: 1, sm: 1.25, md: 1.5 },
+    fontSize: { xs: '0.8125rem', sm: '0.9375rem', md: '1rem' },
   },
   
   uploadButton: {
-    borderRadius: 1.5,
+    borderRadius: { xs: 1, sm: 1.5 },
     textTransform: 'none',
     fontWeight: 500,
-    px: 2.5,
-    py: 0.75,
+    px: { xs: 2, sm: 2.25, md: 2.5 },
+    py: { xs: 0.75, sm: 0.875, md: 1 },
+    fontSize: { xs: '0.875rem', sm: '0.9375rem', md: '0.95rem' },
+    minHeight: { xs: '40px', sm: '42px' },
   },
   
   buttonContainer: {
     display: 'flex',
-    gap: 2,
+    gap: { xs: 1.25, sm: 1.5, md: 2 },
+    flexDirection: { xs: 'column', sm: 'row' },
+    mt: { xs: 0.5, sm: 0 },
   },
   
   cancelButton: {
     flex: 1,
-    py: 1.2,
-    borderRadius: 1.5,
+    py: { xs: 1.25, sm: 1.25, md: 1.2 },
+    borderRadius: { xs: 1, sm: 1.5 },
     textTransform: 'none',
     fontWeight: 500,
-    fontSize: '0.95rem',
+    fontSize: { xs: '0.9375rem', sm: '0.9375rem', md: '0.95rem' },
+    minHeight: { xs: '44px', sm: '42px' },
     borderColor: 'divider',
     color: 'text.secondary',
     '&:hover': {
@@ -152,11 +174,12 @@ export const createPostStyles = {
   
   submitButton: {
     flex: 1,
-    py: 1.2,
-    borderRadius: 1.5,
+    py: { xs: 1.25, sm: 1.25, md: 1.2 },
+    borderRadius: { xs: 1, sm: 1.5 },
     textTransform: 'none',
     fontWeight: 500,
-    fontSize: '0.95rem',
+    fontSize: { xs: '0.9375rem', sm: '0.9375rem', md: '0.95rem' },
+    minHeight: { xs: '44px', sm: '42px' },
     bgcolor: 'primary.main',
     '&:hover': {
       bgcolor: 'primary.dark',

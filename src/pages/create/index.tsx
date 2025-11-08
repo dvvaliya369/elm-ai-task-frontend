@@ -271,16 +271,18 @@ const CreatePost: React.FC = () => {
                   <CloseIcon sx={createPostStyles.closeIcon} />
                 </IconButton>
                 {mediaType === "image" ? (
-                  <img
+                  <Box
+                    component="img"
                     src={previewUrl}
                     alt="Preview"
-                    style={createPostStyles.mediaPreview}
+                    sx={createPostStyles.mediaPreview}
                   />
                 ) : (
-                  <video
+                  <Box
+                    component="video"
                     src={previewUrl}
                     controls
-                    style={createPostStyles.videoPreview}
+                    sx={createPostStyles.videoPreview}
                   />
                 )}
               </Box>

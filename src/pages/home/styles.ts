@@ -4,22 +4,22 @@ export const homeStyles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 400,
-    px: 2,
+    minHeight: { xs: 250, sm: 350, md: 400 },
+    px: { xs: 1.5, sm: 2 },
   },
 
   mainContainer: {
-    maxWidth: 500,
+    maxWidth: { xs: "100%", sm: 500, md: 550 },
     width: '100%',
     mx: 'auto',
-    px: { xs: 1, sm: 2 },
-    py: 2,
+    px: { xs: 0, sm: 1.5, md: 2 },
+    py: { xs: 0.5, sm: 1.5, md: 2 },
   },
 
   loadMoreContainer: {
     display: 'flex',
     justifyContent: 'center',
-    py: 3,
+    py: { xs: 2, sm: 2.5, md: 3 },
   },
 
   emptyStateContainer: {
@@ -27,7 +27,8 @@ export const homeStyles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 300,
+    minHeight: { xs: 200, sm: 250, md: 300 },
     textAlign: 'center',
+    px: { xs: 2, sm: 2.5, md: 3 },
   },
 };

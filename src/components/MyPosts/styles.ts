@@ -1,29 +1,53 @@
 export const myPostsStyles = {
   container: {
-    maxWidth: 1000,
+    maxWidth: { xs: "100%", sm: "100%", md: 1000, lg: 1200 },
     mx: "auto",
-    px: 2,
-    py: 3,
+    px: { xs: 0.5, sm: 1.5, md: 2 },
+    py: { xs: 1.5, sm: 2, md: 3 },
   },
 
   title: {
     fontWeight: "bold",
-    mb: 3,
+    mb: { xs: 1.5, sm: 2, md: 3 },
     textAlign: "center",
+    fontSize: { xs: "1.125rem", sm: "1.375rem", md: "1.5rem" },
   },
 
   dataGridContainer: {
-    height: 600,
+    height: { xs: 450, sm: 550, md: 600 },
     width: '100%',
+    overflowX: 'auto',
+    '& .MuiDataGrid-root': {
+      border: { xs: 'none', sm: '1px solid rgba(224, 224, 224, 1)' },
+    },
     '& .MuiDataGrid-cell': {
       display: 'flex',
       alignItems: 'center',
+      fontSize: { xs: '0.75rem', sm: '0.8125rem', md: '0.875rem' },
+      padding: { xs: '4px 8px', sm: '8px 16px' },
     },
     '& .MuiDataGrid-row:hover': {
       backgroundColor: 'action.hover',
     },
     '& .MuiDataGrid-columnHeader': {
       fontWeight: 'bold',
+      fontSize: { xs: '0.75rem', sm: '0.8125rem', md: '0.875rem' },
+      padding: { xs: '4px 8px', sm: '8px 16px' },
+    },
+    '& .MuiDataGrid-columnHeaderTitle': {
+      fontWeight: 'bold',
+    },
+    '& .MuiDataGrid-footerContainer': {
+      minHeight: { xs: '48px', sm: '52px' },
+    },
+    '& .MuiTablePagination-root': {
+      fontSize: { xs: '0.75rem', sm: '0.875rem' },
+    },
+    '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': {
+      fontSize: { xs: '0.75rem', sm: '0.875rem' },
+    },
+    '& .MuiIconButton-root': {
+      padding: { xs: '6px', sm: '8px' },
     },
   },
 

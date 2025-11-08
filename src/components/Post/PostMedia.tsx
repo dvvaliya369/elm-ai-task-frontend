@@ -65,12 +65,13 @@ const PostMedia: React.FC<PostMediaProps> = ({ media, handleCardClick }) => {
       )}
 
       {media.mediaType === "image" ? (
-        <img
+        <Box
+          component="img"
           src={media.url}
           alt="Post media"
           onLoad={handleLoad}
           onError={handleError}
-          style={{
+          sx={{
             ...postMediaStyles.image,
             ...(loading
               ? postMediaStyles.mediaHidden
@@ -78,12 +79,13 @@ const PostMedia: React.FC<PostMediaProps> = ({ media, handleCardClick }) => {
           }}
         />
       ) : (
-        <video
+        <Box
+          component="video"
           src={media.url}
           controls
           onLoadedMetadata={handleLoad}
           onError={handleError}
-          style={{
+          sx={{
             ...postMediaStyles.video,
             ...(loading
               ? postMediaStyles.mediaHidden
