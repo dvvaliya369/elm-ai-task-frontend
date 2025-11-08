@@ -5,8 +5,14 @@ import {
   Favorite as LikedIcon,
   ChatBubbleOutline as CommentIcon,
   ModeComment as CommentedIcon,
+  Share as ShareIcon,
 } from "@mui/icons-material";
 import { postActionsStyles } from "./styles";
+
+const handleShareClick = (postId: string) => {
+  console.log(`Share button clicked for post ${postId}`)
+  // TODO: Implement share functionality
+};
 
 interface PostActionsProps {
   likesCount: number;
@@ -15,10 +21,13 @@ interface PostActionsProps {
   isCommented?: boolean;
   onLike?: () => void;
   onComment?: () => void;
+  postId: string;
 }
 
 const PostActions: React.FC<PostActionsProps> = ({
   likesCount,
+  postId,
+
   isLiked = false,
   isCommented = false,
   onLike,
@@ -59,6 +68,13 @@ const PostActions: React.FC<PostActionsProps> = ({
           ) : (
             <CommentIcon sx={postActionsStyles.commentIcon} />
           )}
+        </IconButton>
+        <IconButton
+          onClick={() => handleShareClick(postId)}
+          size="small"
+          sx={postActionsStyles.iconButton}
+        >
+          <ShareIcon sx={postActionsStyles.shareIcon} />
         </IconButton>
       </Box>
 

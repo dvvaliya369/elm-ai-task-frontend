@@ -49,6 +49,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         isCommented={post.isCommentedByUser}
         onLike={onLike}
         onComment={handleViewComments}
+        postId={post._id}
       />
 
       {post.caption && (

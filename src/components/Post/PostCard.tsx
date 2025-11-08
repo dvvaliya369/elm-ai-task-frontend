@@ -55,6 +55,7 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          postId={post._id}
         />
       )}
 
@@ -77,9 +78,9 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          postId={post._id}
         />
       )}
-
       <CommentInput postId={post._id} />
     </Card>
   );
