@@ -1,10 +1,10 @@
 // PostCard styles
 export const postCardStyles = {
   card: {
-    maxWidth: 470,
     width: "100%",
-    mx: "auto",
-    mb: 3,
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     borderRadius: 2,
     boxShadow: "none",
     border: "1px solid",
@@ -51,7 +51,7 @@ export const postHeaderStyles = {
 export const postMediaStyles = {
   errorContainer: {
     width: '100%',
-    height: 300,
+    height: { xs: 220, sm: 300 },
     bgcolor: 'grey.100',
     display: 'flex',
     alignItems: 'center',
@@ -70,14 +70,14 @@ export const postMediaStyles = {
   image: {
     width: '100%',
     height: 'auto',
-    maxHeight: '600px',
+    maxHeight: { xs: '320px', sm: '600px' },
     objectFit: 'cover' as const,
     borderRadius: 0,
   },
   video: {
     width: '100%',
     height: 'auto',
-    maxHeight: '600px',
+    maxHeight: { xs: '320px', sm: '600px' },
     objectFit: 'cover' as const,
     borderRadius: 0,
   },
@@ -214,10 +214,11 @@ export const postMenuStyles = {
 // PostSkeleton styles
 export const postSkeletonStyles = {
   card: {
-    maxWidth: 470,
     width: '100%',
-    mx: 'auto',
-    mb: 3,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    gap: { xs: 1, sm: 1.25 },
     borderRadius: 2,
     boxShadow: 'none',
     border: '1px solid',

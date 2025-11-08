@@ -318,7 +318,7 @@ const CreatePost: React.FC = () => {
             <Box
               sx={{
                 ...createPostStyles.buttonContainer,
-                flexDirection: isMobile ? "column" : "row",
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <Button

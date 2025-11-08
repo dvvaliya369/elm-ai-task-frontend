@@ -6,9 +6,10 @@ export const postDetailCardStyles = {
     boxShadow: "none",
     border: "1px solid",
     borderColor: "divider",
+    mb: { xs: 2, sm: 0 },
   },
   captionContainer: {
-    px: 2,
+    px: { xs: 1.5, sm: 2 },
     pb: 1,
   },
   captionUsername: {
@@ -20,7 +21,7 @@ export const postDetailCardStyles = {
 // CommentList styles
 export const commentListStyles = {
   container: {
-    px: 2,
+    px: { xs: 1.5, sm: 2 },
     py: 1,
   },
   commentSeparator: {

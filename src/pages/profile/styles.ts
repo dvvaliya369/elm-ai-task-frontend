@@ -1,10 +1,11 @@
 export const profileStyles = {
   loadingContainer: {
-    py: 4,
+    py: { xs: 3, sm: 4 },
+    px: { xs: 2, sm: 0 },
   },
 
   loadingCard: {
-    p: 4,
+    p: { xs: 3, sm: 4 },
     borderRadius: 3,
   },
 
@@ -23,11 +24,12 @@ export const profileStyles = {
   },
 
   notFoundContainer: {
-    py: 4,
+    py: { xs: 3, sm: 4 },
+    px: { xs: 2, sm: 0 },
   },
 
   notFoundCard: {
-    p: 4,
+    p: { xs: 3, sm: 4 },
     borderRadius: 3,
     textAlign: "center",
   },
@@ -38,11 +40,12 @@ export const profileStyles = {
   },
 
   mainContainer: {
-    py: 4,
+    py: { xs: 3, sm: 4 },
+    px: { xs: 2, sm: 0 },
   },
 
   mainCard: {
-    p: 4,
+    p: { xs: 3, sm: 4 },
     borderRadius: 3,
     boxShadow: "0 2px 12px rgba(0, 0, 0, 0.08)",
     border: "1px solid",
@@ -53,11 +56,12 @@ export const profileStyles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    textAlign: { xs: "center", sm: "left" },
   },
 
   avatarContainer: {
     position: "relative",
-    mb: 3,
+    mb: { xs: 2, sm: 3 },
   },
 
   avatar: {
@@ -88,20 +92,22 @@ export const profileStyles = {
   editFormContainer: {
     width: "100%",
     maxWidth: 400,
+    mt: { xs: 2, sm: 0 },
   },
 
   firstNameField: {
-    mb: 2,
+    mb: { xs: 1.5, sm: 2 },
   },
 
   lastNameField: {
-    mb: 3,
+    mb: { xs: 2, sm: 3 },
   },
 
   buttonContainer: {
     display: "flex",
-    gap: 2,
+    gap: { xs: 1.5, sm: 2 },
     justifyContent: "center",
+    flexWrap: { xs: "wrap", sm: "nowrap" },
   },
 
   cancelButton: {
@@ -113,12 +119,12 @@ export const profileStyles = {
   },
 
   profileName: {
-    mb: 1,
+    mb: { xs: 0.75, sm: 1 },
     textAlign: "center",
   },
 
   profileEmail: {
-    mb: 3,
+    mb: { xs: 2, sm: 3 },
   },
 
   editButton: {
@@ -126,11 +132,12 @@ export const profileStyles = {
     textTransform: "none",
     fontWeight: 500,
     px: 3,
+    width: { xs: "100%", sm: "auto" },
   },
 
   postsSection: {
-    mt: 4,
-    pt: 3,
+    mt: { xs: 3, sm: 4 },
+    pt: { xs: 2, sm: 3 },
     borderTop: "1px solid",
     borderColor: "divider",
   },

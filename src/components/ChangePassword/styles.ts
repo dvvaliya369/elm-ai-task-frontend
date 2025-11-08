@@ -1,13 +1,16 @@
 export const changePasswordStyles = {
   card: {
-    p: 3,
+    p: { xs: 2.5, sm: 3 },
     mt: 2,
   },
   header: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: { xs: "flex-start", sm: "center" },
+    flexDirection: { xs: "column", sm: "row" },
+    justifyContent: { xs: "flex-start", sm: "space-between" },
+    gap: { xs: 1.5, sm: 0 },
     mb: 2,
+    textAlign: { xs: "center", sm: "left" },
   },
   title: {
     fontWeight: 600,
@@ -15,12 +18,13 @@ export const changePasswordStyles = {
   formContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: 2,
+    gap: { xs: 1.5, sm: 2 },
   },
   buttonContainer: {
     display: "flex",
-    gap: 1,
-    justifyContent: "flex-end",
+    gap: { xs: 1, sm: 1.5 },
+    justifyContent: { xs: "center", sm: "flex-end" },
+    flexWrap: { xs: "wrap", sm: "nowrap" },
     mt: 1,
   },
   description: {

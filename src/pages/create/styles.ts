@@ -2,46 +2,54 @@ export const createPostStyles = {
   container: {
     minHeight: 'calc(100vh - 64px)',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: { xs: 'flex-start', sm: 'center' },
     bgcolor: 'grey.50',
-    py: 4,
+    py: { xs: 3, sm: 4 },
+    px: { xs: 1.5, sm: 0 },
   },
-  
+
   containerWrapper: {
-    py: 4,
+    py: { xs: 2, sm: 4 },
   },
-  
+
   card: {
-    p: 3,
+    p: { xs: 2.5, sm: 3 },
     borderRadius: 2,
     boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
     border: '1px solid',
     borderColor: 'divider',
     bgcolor: 'white',
+    width: '100%',
   },
-  
+
   title: {
-    mb: 2.5,
+    mb: { xs: 2, sm: 2.5 },
     color: 'text.primary',
   },
-  
+
   userProfile: {
     display: 'flex',
-    alignItems: 'center',
-    mb: 2.5,
+    alignItems: { xs: 'flex-start', sm: 'center' },
+    flexDirection: { xs: 'column', sm: 'row' },
+    mb: { xs: 2, sm: 2.5 },
+    gap: { xs: 1.5, sm: 0 },
   },
-  
+
   avatar: {
     width: 40,
     height: 40,
-    mr: 1.5,
+    mr: { xs: 0, sm: 1.5 },
+    mb: { xs: 1, sm: 0 },
   },
-  
+
   userInfo: {
     flex: 1,
+    textAlign: { xs: 'center', sm: 'left' },
+    width: '100%',
   },
-  
+
   textField: {
     mb: 1.5,
     '& .MuiOutlinedInput-root': {
@@ -58,18 +66,18 @@ export const createPostStyles = {
       },
     },
   },
-  
+
   characterCounter: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    mb: 2,
+    justifyContent: { xs: 'center', sm: 'flex-end' },
+    mb: { xs: 1.5, sm: 2 },
   },
-  
+
   previewContainer: {
     position: 'relative',
-    mb: 2.5,
+    mb: { xs: 2, sm: 2.5 },
   },
-  
+
   closeButton: {
     position: 'absolute',
     top: 6,
@@ -90,37 +98,37 @@ export const createPostStyles = {
   
   mediaPreview: {
     width: '100%',
-    maxHeight: '250px',
+    maxHeight: { xs: '200px', sm: '250px' },
     objectFit: 'cover' as const,
     borderRadius: '8px',
   },
 
   videoPreview: {
     width: '100%',
-    maxHeight: '250px',
+    maxHeight: { xs: '200px', sm: '250px' },
     borderRadius: '8px',
   },
-  
+
   uploadArea: {
     border: '2px dashed',
     borderColor: 'divider',
     borderRadius: 2,
-    p: 3,
+    p: { xs: 2, sm: 3 },
     textAlign: 'center',
-    mb: 2.5,
+    mb: { xs: 2, sm: 2.5 },
     bgcolor: 'grey.50',
   },
-  
+
   uploadIcon: {
-    fontSize: 40,
+    fontSize: { xs: 32, sm: 40 },
     color: 'text.secondary',
-    mb: 1.5,
+    mb: { xs: 1, sm: 1.5 },
   },
-  
+
   uploadText: {
-    mb: 1.5,
+    mb: { xs: 1, sm: 1.5 },
   },
-  
+
   uploadButton: {
     borderRadius: 1.5,
     textTransform: 'none',
@@ -131,12 +139,14 @@ export const createPostStyles = {
   
   buttonContainer: {
     display: 'flex',
-    gap: 2,
+    gap: { xs: 1.5, sm: 2 },
+    width: '100%',
   },
-  
+
   cancelButton: {
     flex: 1,
     py: 1.2,
+    width: { xs: '100%', sm: 'auto' },
     borderRadius: 1.5,
     textTransform: 'none',
     fontWeight: 500,
@@ -153,6 +163,7 @@ export const createPostStyles = {
   submitButton: {
     flex: 1,
     py: 1.2,
+    width: { xs: '100%', sm: 'auto' },
     borderRadius: 1.5,
     textTransform: 'none',
     fontWeight: 500,

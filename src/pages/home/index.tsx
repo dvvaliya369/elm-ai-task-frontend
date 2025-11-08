@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, CircularProgress, Grid } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { Navbar } from "../../layouts";
 import { PostCard, PostSkeleton } from "../../components/Post";
 import { usePosts } from "../../hooks/usePosts";
@@ -89,17 +90,29 @@ const Home = () => {
     <Box>
       <Navbar />
       <Box sx={homeStyles.mainContainer}>
-        <Grid container spacing={0} justifyContent="center">
+        <Grid
+          container
+          spacing={{ xs: 2, sm: 2.5, md: 3 }}
+          justifyContent="center"
+          alignItems="stretch"
+        >
           {loading && posts.length === 0 ? (
             Array.from({ length: 3 }).map((_, index) => (
-              <Grid size={12} key={index}>
+              <Grid xs={12} sm={6} md={4} lg={3} key={index}>
                 <PostSkeleton />
               </Grid>
             ))
           ) : (
             <>
               {posts.map((post) => (
-                <Grid size={12} key={post._id}>
+                <Grid
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={post._id}
+                  sx={homeStyles.postWrapper}
+                >
                   <PostCard
                     post={post}
                     onViewComments={handleViewComments}
@@ -109,7 +122,7 @@ const Home = () => {
               ))}
 
               {pagination?.hasNextPage && (
-                <Grid size={12}>
+                <Grid xs={12}>
                   <Box
                     ref={loadMoreTriggerRef}
                     sx={homeStyles.loadMoreContainer}
@@ -122,7 +135,7 @@ const Home = () => {
               )}
 
               {posts.length === 0 && !loading && (
-                <Grid size={12}>
+                <Grid xs={12}>
                   <Box sx={homeStyles.emptyStateContainer}>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                       No posts found

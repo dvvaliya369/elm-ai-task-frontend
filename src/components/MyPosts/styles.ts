@@ -2,19 +2,26 @@ export const myPostsStyles = {
   container: {
     maxWidth: 1000,
     mx: "auto",
-    px: 2,
-    py: 3,
+    px: { xs: 1.5, sm: 2 },
+    py: { xs: 2, sm: 3 },
   },
 
   title: {
     fontWeight: "bold",
-    mb: 3,
+    mb: { xs: 2, sm: 3 },
     textAlign: "center",
   },
 
   dataGridContainer: {
-    height: 600,
+    height: { xs: 500, sm: 600 },
     width: '100%',
+    overflowX: 'auto',
+    bgcolor: 'background.paper',
+    borderRadius: 2,
+    border: '1px solid',
+    borderColor: 'divider',
+    p: { xs: 1, sm: 1.5 },
+    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
     '& .MuiDataGrid-cell': {
       display: 'flex',
       alignItems: 'center',
@@ -25,6 +32,9 @@ export const myPostsStyles = {
     '& .MuiDataGrid-columnHeader': {
       fontWeight: 'bold',
     },
+    '& .MuiDataGrid-virtualScroller': {
+      minWidth: { xs: 600, md: 'unset' },
+    },
   },
 
   loadingContainer: {
@@ -32,16 +42,19 @@ export const myPostsStyles = {
     justifyContent: "center",
     alignItems: "center",
     minHeight: "400px",
+    px: { xs: 2, sm: 0 },
   },
 
   errorContainer: {
     textAlign: "center",
-    py: 4,
+    py: { xs: 3, sm: 4 },
+    px: { xs: 2, sm: 0 },
   },
 
   emptyStateContainer: {
     textAlign: "center",
-    py: 8,
+    py: { xs: 6, sm: 8 },
+    px: { xs: 2, sm: 0 },
   },
 
   emptyStateSubtitle: {

@@ -25,7 +25,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   isLoading = false,
 }) => {
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="sm" sx={{ px: { xs: 0, sm: 2 } }}>
       <Box sx={authFormStyles.container}>
         <Card sx={authFormStyles.card}>
           <CardContent sx={authFormStyles.cardContent}>

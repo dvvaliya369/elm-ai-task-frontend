@@ -5,21 +5,22 @@ export const postStyles = {
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 400,
-    px: 2,
+    px: { xs: 2, sm: 3 },
+    textAlign: 'center',
   },
 
   mainContainer: {
-    maxWidth: 600,
     width: '100%',
     mx: 'auto',
-    px: { xs: 1, sm: 2 },
-    py: 2,
+    px: { xs: 1.5, sm: 3, md: 4 },
+    py: { xs: 2, sm: 3, md: 4 },
+    maxWidth: { xs: '100%', sm: 720, md: 960 },
   },
 
   headerContainer: {
     display: 'flex',
     alignItems: 'center',
-    mb: 2,
+    mb: { xs: 1.5, sm: 2 },
   },
 
   backButton: {

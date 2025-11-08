@@ -8,8 +8,8 @@ export const navbarStyles = {
   toolbar: {
     justifyContent: "space-between",
     py: 1,
-    px: { xs: 2, sm: 3, md: 8, lg: 15 },
-    minHeight: "64px",
+    px: { xs: 1.5, sm: 3, md: 8, lg: 15 },
+    minHeight: { xs: "56px", sm: "64px" },
   },
 
   desktopNavContainer: {
@@ -127,5 +127,6 @@ export const navbarStyles = {
 
   mobilePersonIcon: {
     color: "text.secondary",
+    fontSize: 28,
   },
 };

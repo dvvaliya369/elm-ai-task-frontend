@@ -49,6 +49,8 @@ export const navbarComponentStyles = {
       bgcolor: "rgba(25, 118, 210, 0.08)",
       color: "primary.main",
     },
+    width: 44,
+    height: 44,
   }),
 
   // ProfileMenu styles
