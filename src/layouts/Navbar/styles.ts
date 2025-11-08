@@ -10,6 +10,9 @@ export const navbarStyles = {
     py: 1,
     px: { xs: 2, sm: 3, md: 8, lg: 15 },
     minHeight: "64px",
+    '@media (max-width: 600px)': {
+      px: 1,
+    },
   },
 
   desktopNavContainer: {
@@ -38,6 +41,9 @@ export const navbarStyles = {
     display: "flex",
     alignItems: "center",
     gap: 1,
+    '@media (max-width: 600px)': {
+      fontSize: "0.75rem",
+    },
   },
 
   loginButton: {

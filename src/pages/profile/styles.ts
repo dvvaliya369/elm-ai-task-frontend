@@ -66,6 +66,11 @@ export const profileStyles = {
     bgcolor: "primary.main",
     fontSize: "2rem",
     fontWeight: 600,
+    '@media (max-width: 480px)': {
+      width: 80,
+      height: 80,
+      fontSize: "1.5rem",
+    },
   },
 
   cameraButton: {
@@ -88,6 +93,9 @@ export const profileStyles = {
   editFormContainer: {
     width: "100%",
     maxWidth: 400,
+    '@media (min-width: 600px)': {
+      maxWidth: 500,
+    },
   },
 
   firstNameField: {

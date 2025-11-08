@@ -4,6 +4,9 @@ export const myPostsStyles = {
     mx: "auto",
     px: 2,
     py: 3,
+    '@media (min-width: 1200px)': {
+      maxWidth: 1200,
+    },
   },
 
   title: {

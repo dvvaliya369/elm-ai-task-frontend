@@ -54,12 +54,21 @@ export const commentItemStyles = {
     alignItems: 'center',
     gap: 1,
     mb: 0.5,
+    '@media (max-width: 480px)': {
+      mb: 0,
+    },
   },
   username: {
     fontWeight: 600,
+    '@media (max-width: 480px)': {
+      fontSize: '0.75rem',
+    },
   },
   timestamp: {
     color: 'text.secondary',
+    '@media (max-width: 480px)': {
+      fontSize: '0.75rem',
+    },
   },
   comment: {
     wordBreak: 'break-word',

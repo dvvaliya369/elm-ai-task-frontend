@@ -14,6 +14,12 @@ export const homeStyles = {
     mx: 'auto',
     px: { xs: 1, sm: 2 },
     py: 2,
+    '@media (min-width: 600px)': {
+      maxWidth: 700,
+    },
+    '@media (min-width: 960px)': {
+      maxWidth: 900,
+    },
   },
 
   loadMoreContainer: {

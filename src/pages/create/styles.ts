@@ -19,6 +19,9 @@ export const createPostStyles = {
     border: '1px solid',
     borderColor: 'divider',
     bgcolor: 'white',
+    '@media (max-width: 480px)': {
+      p: 2,
+    },
   },
   
   title: {
@@ -132,6 +135,10 @@ export const createPostStyles = {
   buttonContainer: {
     display: 'flex',
     gap: 2,
+    '@media (max-width: 480px)': {
+      flexDirection: 'column',
+      gap: 1,
+    },
   },
   
   cancelButton: {

@@ -9,6 +9,9 @@ export const postCardStyles = {
     boxShadow: "none",
     border: "1px solid",
     borderColor: "divider",
+    '@media (max-width: 480px)': {
+      maxWidth: '100%',
+    },
   },
   cardClickable: {
     cursor: "pointer",
