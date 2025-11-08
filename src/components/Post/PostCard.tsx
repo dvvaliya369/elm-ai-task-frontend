@@ -33,6 +33,28 @@ const PostCard: React.FC<PostCardProps> = ({
     onCardClick?.(post._id);
   };
 
+  const handleShare = async () => {
+    const postUrl = `${window.location.origin}/posts/${post._id}`;
+    const shareData = {
+      title: 'Check out this post',
+      text: post.caption || 'Check out this post',
+      url: postUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(postUrl);
+        alert('Link copied to clipboard!');
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Error sharing:', error);
+      }
+    }
+  };
+
   return (
     <Card
       onClick={handleCardClick}
@@ -55,6 +77,7 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onShare={handleShare}
         />
       )}
 
@@ -77,6 +100,7 @@ const PostCard: React.FC<PostCardProps> = ({
           isCommented={post.isCommentedByUser}
           onLike={onLike}
           onComment={handleViewComments}
+          onShare={handleShare}
         />
       )}
 

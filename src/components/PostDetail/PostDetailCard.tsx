@@ -24,6 +24,28 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
     // Already on detail page, do nothing
   }, []);
 
+  const handleShare = useCallback(async () => {
+    const postUrl = `${window.location.origin}/posts/${post._id}`;
+    const shareData = {
+      title: 'Check out this post',
+      text: post.caption || 'Check out this post',
+      url: postUrl,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(postUrl);
+        alert('Link copied to clipboard!');
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Error sharing:', error);
+      }
+    }
+  }, [post._id, post.caption]);
+
   const getUserDisplayName = (user: {
     fullName?: string;
     firstName?: string;
@@ -49,6 +71,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         isCommented={post.isCommentedByUser}
         onLike={onLike}
         onComment={handleViewComments}
+        onShare={handleShare}
       />
 
       {post.caption && (
