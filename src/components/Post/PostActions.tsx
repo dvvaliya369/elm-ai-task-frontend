@@ -5,6 +5,7 @@ import {
   Favorite as LikedIcon,
   ChatBubbleOutline as CommentIcon,
   ModeComment as CommentedIcon,
+  Share as ShareIcon,
 } from "@mui/icons-material";
 import { postActionsStyles } from "./styles";
 
@@ -59,6 +60,13 @@ const PostActions: React.FC<PostActionsProps> = ({
           ) : (
             <CommentIcon sx={postActionsStyles.commentIcon} />
           )}
+        </IconButton>
+
+        <IconButton
+          size="small"
+          sx={postActionsStyles.iconButton}
+        >
+          <ShareIcon sx={postActionsStyles.shareIcon} />
         </IconButton>
       </Box>
 
