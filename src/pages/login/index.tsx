@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthForm from "../../components/AuthForm";
 import { validateForm } from "../../utils/validation";
 import type { AuthFormField } from "../../components/AuthForm/authForm.interface";
-import { loginUser } from "../../service/auth.service";
+import { loginUser, googleLogin } from "../../service/auth.service";
 import { useSelector, useDispatch } from "../../store/index";
 import { useToast } from "../../hooks/useToast";
 
@@ -70,6 +70,17 @@ const Login = () => {
     navigate("/sign-up");
   }, [navigate]);
 
+  const handleGoogleSuccess = useCallback(
+    (tokenResponse: { access_token: string }) => {
+      dispatch(googleLogin({ accessToken: tokenResponse.access_token }));
+    },
+    [dispatch]
+  );
+
+  const handleGoogleError = useCallback(() => {
+    showError("Google login failed. Please try again.");
+  }, [showError]);
+
   const fields: AuthFormField[] = [
     {
       name: "email",
@@ -102,6 +113,8 @@ const Login = () => {
       footerLinkText="Sign up"
       onFooterLinkClick={handleSignupClick}
       isLoading={loading}
+      onGoogleSuccess={handleGoogleSuccess}
+      onGoogleError={handleGoogleError}
     />
   );
 };

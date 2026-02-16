@@ -8,8 +8,10 @@ import {
   Link,
   Container,
   Stack,
+  Divider,
 } from "@mui/material";
 import FormField from "../FormField";
+import { GoogleAuthButton } from "../index";
 import type { AuthFormProps } from "./authForm.interface";
 import { authFormStyles } from "./styles";
 
@@ -23,6 +25,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
   footerLinkText,
   onFooterLinkClick,
   isLoading = false,
+  onGoogleSuccess,
+  onGoogleError,
 }) => {
   return (
     <Container component="main" maxWidth="sm">
@@ -47,6 +51,21 @@ const AuthForm: React.FC<AuthFormProps> = ({
             </Box>
 
             <Box component="form" onSubmit={onSubmit} noValidate>
+              {onGoogleSuccess && (
+                <>
+                  <GoogleAuthButton
+                    onSuccess={onGoogleSuccess}
+                    onError={onGoogleError}
+                    disabled={isLoading}
+                  />
+                  <Divider sx={{ my: 3 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      OR
+                    </Typography>
+                  </Divider>
+                </>
+              )}
+
               <Stack spacing={2.5}>
                 {fields.length === 4 &&
                 fields[0].name === "firstName" &&

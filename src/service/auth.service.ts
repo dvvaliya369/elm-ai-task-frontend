@@ -19,6 +19,10 @@ export interface IChangePasswordPayload {
   newPassword: string;
 }
 
+export interface IGoogleLoginPayload {
+  accessToken: string;
+}
+
 interface AuthResponse {
   success: boolean;
   message: string;
@@ -94,6 +98,27 @@ export const changePassword = createAsyncThunk(
       };
       const message =
         axiosError.response?.data?.message || "Password change failed";
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (body: IGoogleLoginPayload, { rejectWithValue }) => {
+    try {
+      const res = await api.post<AuthResponse>("/auth/google-login", body);
+
+      if (!res.data.success || !res.data.data) {
+        return rejectWithValue(res.data.message || "Google login failed");
+      }
+
+      return res.data.data;
+    } catch (error: unknown) {
+      const axiosError = error as {
+        response?: { data?: { message?: string } };
+      };
+      const message = axiosError.response?.data?.message || "Google login failed";
       return rejectWithValue(message);
     }
   }

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, signupUser, changePassword } from "../service/auth.service";
+import { loginUser, signupUser, changePassword, googleLogin } from "../service/auth.service";
 import type { IUser } from "../interface";
 
 interface AuthState {
@@ -101,6 +101,26 @@ const authSlice = createSlice({
       .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string ?? "Password change failed";
+      });
+
+    builder
+      .addCase(googleLogin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
+        state.isInitialized = true;
+
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
+        localStorage.setItem("userData", JSON.stringify(action.payload.user));
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string ?? "Google login failed";
       });
   },
 });

@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import AuthForm from '../../components/AuthForm';
 import { validateForm } from '../../utils/validation';
 import type { AuthFormField } from '../../components/AuthForm/authForm.interface';
-import { signupUser } from '../../service/auth.service';
+import { signupUser, googleLogin } from '../../service/auth.service';
 import { useSelector, useDispatch } from '../../store/index';
 import { useToast } from '../../hooks/useToast';
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
   const { showSuccess, showError } = useToast();
 
   const [firstName, setFirstName] = useState('');
@@ -27,6 +27,13 @@ const Signup = () => {
       setSignupSuccess(false);
     }
   }, [signupSuccess, navigate, showSuccess]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      showSuccess('Account created successfully!');
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate, showSuccess]);
 
   useEffect(() => {
     if (error) {
@@ -86,6 +93,17 @@ const Signup = () => {
     navigate('/log-in');
   }, [navigate]);
 
+  const handleGoogleSuccess = useCallback(
+    (tokenResponse: { access_token: string }) => {
+      dispatch(googleLogin({ accessToken: tokenResponse.access_token }));
+    },
+    [dispatch]
+  );
+
+  const handleGoogleError = useCallback(() => {
+    showError('Google sign up failed. Please try again.');
+  }, [showError]);
+
   const fields: AuthFormField[] = [
     {
       name: 'firstName',
@@ -136,6 +154,8 @@ const Signup = () => {
       footerLinkText="Sign in"
       onFooterLinkClick={handleLoginClick}
       isLoading={loading}
+      onGoogleSuccess={handleGoogleSuccess}
+      onGoogleError={handleGoogleError}
     />
   );
 };

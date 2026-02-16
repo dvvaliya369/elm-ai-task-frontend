@@ -18,4 +18,6 @@ export interface AuthFormProps {
   footerLinkText: string;
   onFooterLinkClick: () => void;
   isLoading?: boolean;
+  onGoogleSuccess?: (tokenResponse: { access_token: string }) => void;
+  onGoogleError?: () => void;
 }
