@@ -1,9 +1,14 @@
 import { memo, useCallback } from "react";
 import { Box, Typography, IconButton } from "@mui/material";
-import { Favorite, ChatBubbleOutline } from "@mui/icons-material";
+import {
+  Favorite,
+  ChatBubbleOutline,
+  IosShare as ShareIcon,
+} from "@mui/icons-material";
 import type { IPost } from "../../interface";
 import { useNavigate } from "react-router-dom";
 import { postGridItemStyles } from "./styles";
+import { useSharePost } from "../../hooks/useSharePost";
 
 interface PostGridItemProps {
   post: IPost;
@@ -11,6 +16,7 @@ interface PostGridItemProps {
 
 const PostGridItem = ({ post }: PostGridItemProps) => {
   const navigate = useNavigate();
+  const { sharePost } = useSharePost();
 
   const handleClick = useCallback(() => {
     navigate(`/posts/${post._id}`);
@@ -61,6 +67,24 @@ const PostGridItem = ({ post }: PostGridItemProps) => {
     );
   }, [post.media, post.caption]);
 
+  const handleShareClick = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+
+      const authorName =
+        post.user.fullName ||
+        `${post.user.firstName || ""} ${post.user.lastName || ""}`.trim() ||
+        "Unknown User";
+
+      sharePost({
+        postId: post._id,
+        caption: post.caption,
+        authorName,
+      });
+    },
+    [post, sharePost]
+  );
+
   return (
     <Box sx={postGridItemStyles.container} onClick={handleClick}>
       {renderContent()}
@@ -82,6 +106,15 @@ const PostGridItem = ({ post }: PostGridItemProps) => {
             <Typography variant="body1" sx={postGridItemStyles.statText}>
               {Array.isArray(post.comments) ? post.comments.length : 0}
             </Typography>
+          </Box>
+          <Box sx={postGridItemStyles.statContainer}>
+            <IconButton
+              size="small"
+              sx={postGridItemStyles.statIcon}
+              onClick={handleShareClick}
+            >
+              <ShareIcon />
+            </IconButton>
           </Box>
         </Box>
       </Box>

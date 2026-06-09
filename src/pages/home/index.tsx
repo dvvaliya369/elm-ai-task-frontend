@@ -4,11 +4,14 @@ import { Box, Typography, CircularProgress, Grid } from "@mui/material";
 import { Navbar } from "../../layouts";
 import { PostCard, PostSkeleton } from "../../components/Post";
 import { usePosts } from "../../hooks/usePosts";
+import { useSharePost } from "../../hooks/useSharePost";
+import { getUserDisplayName } from "../../utils/user";
 import { homeStyles } from "./styles";
 
 const Home = () => {
   const navigate = useNavigate();
   const { posts, pagination, loading, error, fetchPosts } = usePosts();
+  const { sharePost } = useSharePost();
   const currentPageRef = useRef(1);
   const isLoadingMoreRef = useRef(false);
   const observerRef = useRef<IntersectionObserver | null>(null);

@@ -4,6 +4,7 @@ import PostHeader from "../Post/PostHeader";
 import PostMedia from "../Post/PostMedia";
 import PostActions from "../Post/PostActions";
 import CommentInput from "../Post/CommentInput";
+import { useSharePost } from "../../hooks/useSharePost";
 import CommentList from "./CommentList";
 import { useLike } from "../../hooks/useLike";
 import type { IPost } from "../../interface";
@@ -15,6 +16,7 @@ interface PostDetailCardProps {
 
 const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   const { handleLike } = useLike();
+  const { sharePost } = useSharePost();
 
   const onLike = useCallback(() => {
     handleLike(post._id);
@@ -23,6 +25,15 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
   const handleViewComments = useCallback(() => {
     // Already on detail page, do nothing
   }, []);
+
+  const handleShare = useCallback(() => {
+    const authorName = getUserDisplayName(post.user);
+    sharePost({
+      postId: post._id,
+      caption: post.caption,
+      authorName,
+    });
+  }, [post._id, post.caption, post.user, sharePost]);
 
   const getUserDisplayName = (user: {
     fullName?: string;
@@ -49,6 +60,7 @@ const PostDetailCard: React.FC<PostDetailCardProps> = ({ post }) => {
         isCommented={post.isCommentedByUser}
         onLike={onLike}
         onComment={handleViewComments}
+        onShare={handleShare}
       />
 
       {post.caption && (
